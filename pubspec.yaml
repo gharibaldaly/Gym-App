@@ -31,6 +31,7 @@ dependencies:
   collection: ^1.19.1
   connectivity_plus: ^7.3.2
   package_info_plus: ^10.2.2
+  file: ^7.0.1
 
   # Workout
   speech_to_text: ^7.5.0

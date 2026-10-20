@@ -1,6 +1,5 @@
 // `file` is a hard dependency of flutter_cache_manager (its FileSystem API returns
 // package:file types), so it is always available; add it to pubspec to drop this.
-// ignore_for_file: depend_on_referenced_packages
 import 'dart:async';
 import 'dart:io' as io;
 
