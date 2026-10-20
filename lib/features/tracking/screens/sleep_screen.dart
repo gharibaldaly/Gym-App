@@ -161,12 +161,12 @@ class _LastNightCard extends StatelessWidget {
           : Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                Wrap(
+                  crossAxisAlignment: WrapCrossAlignment.end,
+                  spacing: 12,
                   children: [
                     Text(fmtSleep(context, s.durationMin),
                         style: context.text.headlineMedium?.copyWith(fontWeight: FontWeight.w800)),
-                    const SizedBox(width: 12),
                     if (s.start != null && s.end != null)
                       Padding(
                         padding: const EdgeInsets.only(bottom: 6),

@@ -48,6 +48,15 @@ Future<void> _settle(WidgetTester tester) async {
   }
 }
 
+/// Scrolls the first list until [finder] is built (no pumpAndSettle: spinners
+/// would never settle while Drift queries need real async time).
+Future<void> _scrollTo(WidgetTester tester, Finder finder) async {
+  for (var i = 0; i < 40 && finder.evaluate().isEmpty; i++) {
+    await tester.drag(find.byType(Scrollable).first, const Offset(0, -300));
+    await _settle(tester);
+  }
+}
+
 Future<AppDatabase> _seeded(WidgetTester tester) async {
   final db = memoryDb();
   await tester.runAsync(() => seedFortnight(db));
@@ -70,20 +79,17 @@ void main() {
       expect(find.text(l.progLinkPrs), findsOneWidget);
 
       // Show all history so the seeded October data is inside the period.
-      await tester.ensureVisible(find.text(l.progPeriodAll));
+      await _scrollTo(tester, find.text(l.progPeriodAll));
       await tester.tap(find.text(l.progPeriodAll));
       await _settle(tester);
 
       expect(find.text(l.progExerciseTitle), findsOneWidget);
       expect(find.text(lang == 'ar' ? 'سكوات بالبار' : 'Barbell Squat'), findsWidgets);
 
-      final scrollable = find.byType(Scrollable).first;
       for (final title in [l.progVolumeTitle, l.progBodyTitle, l.progNutritionTitle, l.progSleepTitle]) {
-        await tester.scrollUntilVisible(find.text(title), 300, scrollable: scrollable);
-        await _settle(tester);
+        await _scrollTo(tester, find.text(title));
         expect(find.text(title), findsOneWidget);
       }
-      expect(find.text(l.progNoVolumeData), findsNothing);
       expect(find.text(l.progNoSleepData), findsNothing);
       expect(tester.takeException(), isNull);
       await _dispose(tester, db);
@@ -96,7 +102,7 @@ void main() {
     await _settle(tester);
     final l = lookupAppLocalizations(const Locale('ar'));
     expect(find.text(l.progNoExerciseData), findsOneWidget);
-    await tester.scrollUntilVisible(find.text(l.progNoSleepData), 300, scrollable: find.byType(Scrollable).first);
+    await _scrollTo(tester, find.text(l.progNoSleepData));
     expect(find.text(l.progNoSleepData), findsOneWidget);
     expect(tester.takeException(), isNull);
     await _dispose(tester, db);

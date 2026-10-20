@@ -461,9 +461,15 @@ class _PlanBuildScreenState extends ConsumerState<PlanBuildScreen> with SingleTi
     if (mounted && !_running) _pulse.stop();
   }
 
-  void _openReview() {
+  Future<void> _openReview() async {
     _reviewOpened = true;
-    push<void>(context, PlanReviewScreen(planId: _planId!, onApproved: _finish));
+    final id = _planId!;
+    final db = ref.read(databaseProvider);
+    await push<void>(context, PlanReviewScreen(planId: id, onApproved: _finish));
+    // An already-active plan is closed with "Done" (no onApproved) → finish too.
+    if (_finished || !mounted) return;
+    final plan = await (db.select(db.workoutPlans)..where((t) => t.id.equals(id))).getSingleOrNull();
+    if (plan?.isActive ?? false) _finish();
   }
 
   /// Deferred to the next frame so a review screen that pops itself right

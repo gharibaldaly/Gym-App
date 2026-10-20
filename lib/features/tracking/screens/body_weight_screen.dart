@@ -8,16 +8,22 @@ import '../../../core/theme/app_theme.dart';
 import '../../../core/utils/context_ext.dart';
 import '../../../core/widgets/common.dart';
 import '../../../data/repositories/profile_repository.dart';
+import '../tracking_logic.dart';
 import '../tracking_providers.dart';
 import '../widgets/tracking_widgets.dart';
 
 /// Quick weight dialog (used by the Today tab). Returns the saved weight or null.
 Future<double?> showWeightQuickLog(BuildContext context, WidgetRef ref, {DateTime? date, double? initial}) async {
-  final latest = ref.read(latestWeightProvider).value?.weight;
-  final start = initial ?? latest ?? ref.read(profileProvider).value?.weightKg ?? 70;
+  var start = initial;
+  if (start == null) {
+    final rows = await ref.read(trackingRepositoryProvider).watchBodyMetrics().first;
+    final series = weightSeries(rows);
+    start = series.isNotEmpty ? series.last.value : (await ref.read(profileRepositoryProvider).get())?.weightKg;
+  }
+  if (!context.mounted) return null;
   final result = await showDialog<(DateTime, double)>(
     context: context,
-    builder: (_) => _WeightDialog(initial: start, date: date ?? today()),
+    builder: (_) => _WeightDialog(initial: start ?? 70, date: date ?? today()),
   );
   if (result == null) return null;
   await ref.read(trackingRepositoryProvider).saveWeight(result.$1, result.$2);

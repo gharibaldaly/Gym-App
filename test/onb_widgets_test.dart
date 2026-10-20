@@ -237,8 +237,16 @@ void main() {
 
     expect(find.text(en.onbBuildNoKey), findsOneWidget);
     expect(find.text(en.onbDailyTargets), findsOneWidget);
-    await tester.tap(find.text(en.onbStartApp));
-    await tester.pumpAndSettle();
+    // A local template plan is built and goes through review/approval.
+    expect(find.text(en.onbReviewPlan), findsOneWidget);
+    await tester.tap(find.text(en.onbReviewPlan));
+    for (var i = 0; i < 5; i++) {
+      await tester.pump(const Duration(milliseconds: 300));
+    }
+    await tester.tap(find.text(en.woApprovePlan));
+    for (var i = 0; i < 5; i++) {
+      await tester.pump(const Duration(milliseconds: 300));
+    }
 
     final p = (await repo.get())!;
     expect(p.onboardingComplete, isTrue);
@@ -246,6 +254,8 @@ void main() {
     expect(p.proteinG, isNotNull);
     expect((await db.select(db.bodyMetrics).get()).single.weightKg, 82);
     expect(prefs.getInt(onboardingStepPrefKey), isNull);
+    expect((await (db.select(db.workoutPlans)..where((t) => t.isActive.equals(true))).get()).length, 1);
+    expect(await db.select(db.mealPlans).get(), isNotEmpty);
     await tester.pumpWidget(const SizedBox());
     await tester.pump(const Duration(seconds: 1));
   });

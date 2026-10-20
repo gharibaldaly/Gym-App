@@ -150,7 +150,10 @@ void main() {
     await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 30)));
     await tester.pump();
     await tester.tap(find.text('open'));
-    await tester.pumpAndSettle();
+    for (var i = 0; i < 5; i++) {
+      await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 30)));
+      await tester.pump(const Duration(milliseconds: 100));
+    }
     await tester.tap(find.byIcon(Icons.add));
     await tester.pump();
     await tester.tap(find.text('Save'));

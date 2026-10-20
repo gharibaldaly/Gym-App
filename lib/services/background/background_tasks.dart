@@ -60,7 +60,7 @@ Future<void> runBackgroundWork() async {
     registerAiQueueHandlers();
     final db = container.read(databaseProvider);
     await step('notifications', () => NotificationService.init(requestPermission: false));
-    await step('health', () => container.read(healthServiceProvider).sync());
+    await step('health', () => backgroundHealthSync(container));
     await step('coach', () => container.read(coachInitiativesProvider).runScheduledChecks());
     await step('ai queue', () => container.read(aiQueueProvider).process());
     await step('reminders', () => NotificationService.rescheduleAll(db, prefs));
