@@ -24,6 +24,14 @@ String chartDayLabel(BuildContext context, DateTime d) =>
 
 String shortDateLabel(DateTime d) => '${d.day}/${d.month}';
 
+/// Round axis step (1, 2, 2.5, 5 × 10ⁿ) close to [raw].
+double niceStep(double raw) {
+  if (raw <= 0 || raw.isNaN) return 1;
+  final mag = math.pow(10, (math.log(raw) / math.ln10).floor()).toDouble();
+  final n = raw / mag;
+  return (n <= 1 ? 1 : n <= 2 ? 2 : n <= 2.5 ? 2.5 : n <= 5 ? 5 : 10) * mag;
+}
+
 /// One line on a [DateLineChart].
 class ChartSeries {
   final String label;
@@ -70,7 +78,10 @@ class DateLineChart extends StatelessWidget {
     final minX = last == 0 ? -1.0 : 0.0, maxX = last == 0 ? 1.0 : last.toDouble();
     final lo = all.map((p) => p.value).reduce(math.min), hi = all.map((p) => p.value).reduce(math.max);
     final pad = math.max((hi - lo) * 0.12, hi.abs() * 0.02 + 0.5);
-    final y0 = minY ?? math.max(0, lo - pad).toDouble(), y1 = maxY ?? hi + pad;
+    final rawLo = minY ?? math.max(0, lo - pad).toDouble(), rawHi = maxY ?? hi + pad;
+    final yStep = niceStep((rawHi - rawLo) / 4);
+    final y0 = minY ?? (rawLo / yStep).floorToDouble() * yStep;
+    final y1 = maxY ?? (rawHi / yStep).ceilToDouble() * yStep;
     final interval = math.max(1.0, (maxX - minX) / 4).ceilToDouble();
 
     return Directionality(
@@ -86,6 +97,7 @@ class DateLineChart extends StatelessWidget {
             clipData: const FlClipData.all(),
             gridData: FlGridData(
               drawVerticalLine: false,
+              horizontalInterval: yStep,
               getDrawingHorizontalLine: (_) => const FlLine(color: AppColors.border, strokeWidth: 1),
             ),
             borderData: FlBorderData(show: false),
@@ -96,9 +108,8 @@ class DateLineChart extends StatelessWidget {
                 sideTitles: SideTitles(
                   showTitles: true,
                   reservedSize: 42,
-                  getTitlesWidget: (v, meta) => (v == meta.max || v == meta.min) && v != y0
-                      ? const SizedBox.shrink()
-                      : SideTitleWidget(meta: meta, child: Text(yFormat(v), style: _axisStyle)),
+                  interval: yStep,
+                  getTitlesWidget: (v, meta) => SideTitleWidget(meta: meta, child: Text(yFormat(v), style: _axisStyle)),
                 ),
               ),
               bottomTitles: AxisTitles(
@@ -107,7 +118,7 @@ class DateLineChart extends StatelessWidget {
                   reservedSize: 26,
                   interval: interval,
                   getTitlesWidget: (v, meta) {
-                    if (v < 0 || v != v.roundToDouble() || (v == meta.max && v % interval != 0)) {
+                    if (v < 0 || v > last || v != v.roundToDouble() || (v == meta.max && v % interval != 0)) {
                       return const SizedBox.shrink();
                     }
                     return SideTitleWidget(

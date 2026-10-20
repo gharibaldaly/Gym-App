@@ -83,11 +83,14 @@ class _QuickLinks extends StatelessWidget {
                 child: Column(children: [
                   Icon(links[i].$1, color: AppColors.primary, size: 26),
                   const SizedBox(height: 6),
-                  Text(
-                    links[i].$2,
-                    textAlign: TextAlign.center,
-                    maxLines: 2,
-                    style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+                  FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      links[i].$2,
+                      textAlign: TextAlign.center,
+                      maxLines: 1,
+                      style: const TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
+                    ),
                   ),
                 ]),
               ),
