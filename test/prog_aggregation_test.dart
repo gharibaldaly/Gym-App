@@ -145,10 +145,11 @@ void main() {
 
     test('PR events replay history like PrDetector (first log is not a PR)', () {
       final events = detectPrEvents(sets);
-      expect(events.map((e) => (e.set.date, e.set.weightKg, e.set.reps, e.types)).toList(), [
-        (d2, 82.5, 6, {PrType.weight}),
-        (d2, 80.0, 9, {PrType.reps, PrType.e1rm}),
-        (d3, 85.0, 3, {PrType.weight}),
+      String types(Set<PrType> t) => (t.map((e) => e.name).toList()..sort()).join(',');
+      expect(events.map((e) => (e.set.date, e.set.weightKg, e.set.reps, types(e.types))).toList(), [
+        (d2, 82.5, 6, 'weight'),
+        (d2, 80.0, 9, 'e1rm,reps'),
+        (d3, 85.0, 3, 'weight'),
       ]);
       // Cross-check every event against the shared detector.
       final sorted = sets.where((s) => !s.isWarmup).toList();
@@ -315,6 +316,16 @@ void main() {
       final c = ProviderContainer(overrides: [databaseProvider.overrideWithValue(db)]);
       addTearDown(c.dispose);
       c.read(progressPeriodProvider.notifier).set(ProgressPeriod.all);
+      // Riverpod 3 pauses providers nobody listens to; keep them active.
+      for (final p in [
+        prListProvider,
+        loggedExercisesProvider,
+        periodSetRowsProvider,
+        monthAdherenceProvider(DateTime(2026, 10)),
+        exerciseProgressProvider('bench'),
+      ]) {
+        c.listen(p, (_, _) {});
+      }
 
       final prs = await c.read(prListProvider.future);
       expect(prs.map((p) => p.prs.exerciseId), ['squat', 'bench', 'row']);
