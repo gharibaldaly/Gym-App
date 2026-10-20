@@ -7,6 +7,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_riverpod/misc.dart' show Override;
 import 'package:flutter_test/flutter_test.dart';
+import 'package:ironmind/ai/ai_service.dart';
 import 'package:ironmind/core/providers.dart';
 import 'package:ironmind/core/theme/app_theme.dart';
 import 'package:ironmind/data/repositories/profile_repository.dart';
@@ -26,7 +27,14 @@ Future<List<Override>> _overrides(AppDatabase db) async {
     databaseProvider.overrideWithValue(db),
     sharedPrefsProvider.overrideWithValue(prefs),
     isOnlineProvider.overrideWithValue(true),
+    apiKeyProvider.overrideWith(_NoKey.new),
   ];
+}
+
+/// Secure storage is a platform channel; tests run without a key.
+class _NoKey extends ApiKeyNotifier {
+  @override
+  Future<String?> build() async => null;
 }
 
 Widget _app(List<Override> overrides, Widget home, {String lang = 'en'}) => ProviderScope(
@@ -213,8 +221,8 @@ void main() {
     final db = AppDatabase(NativeDatabase.memory());
     addTearDown(db.close);
     final overrides = await _overrides(db);
-    final prefs = overrides.isEmpty ? null : await SharedPreferences.getInstance();
-    await prefs!.setInt(onboardingStepPrefKey, OnbStep.summary.index);
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setInt(onboardingStepPrefKey, OnbStep.summary.index);
     final repo = ProfileRepository(db);
     await repo.upsert(completeProfile().toCompanion(false));
     final en = lookupAppLocalizations(const Locale('en'));
