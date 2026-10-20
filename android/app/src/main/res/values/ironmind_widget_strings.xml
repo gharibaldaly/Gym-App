@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ironmind_widget_name">IronMind – Today</string>
+    <string name="ironmind_widget_description">Today\'s workout, remaining calories and water with a one-tap cup button.</string>
+    <string name="ironmind_widget_workout">Today\'s workout</string>
+    <string name="ironmind_widget_open_app">Open IronMind</string>
+    <string name="ironmind_widget_calories">Calories left</string>
+    <string name="ironmind_widget_water">Water</string>
+    <string name="ironmind_widget_add_cup">+ cup</string>
+</resources>

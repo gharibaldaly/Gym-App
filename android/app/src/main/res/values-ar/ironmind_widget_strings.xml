@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="ironmind_widget_name">IronMind – النهاردة</string>
+    <string name="ironmind_widget_description">تمرينة النهاردة، السعرات الباقية، والميه مع زرار كوباية بضغطة واحدة.</string>
+    <string name="ironmind_widget_workout">تمرينة النهاردة</string>
+    <string name="ironmind_widget_open_app">افتح IronMind</string>
+    <string name="ironmind_widget_calories">السعرات الباقية</string>
+    <string name="ironmind_widget_water">الميه</string>
+    <string name="ironmind_widget_add_cup">+ كوباية</string>
+</resources>

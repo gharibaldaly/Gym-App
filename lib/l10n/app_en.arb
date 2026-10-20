@@ -1,5 +1,189 @@
 {
   "@@locale": "en",
+  "coachTabChat": "Chat",
+  "coachTabReports": "Reports",
+  "coachTabSuggestions": "Suggestions",
+  "coachMemoryTitle": "Coach memory",
+  "coachMemoryHint": "Facts the coach saved from your chats. They're sent with every message so he remembers you.",
+  "coachMemoryEmpty": "The coach hasn't saved anything about you yet.",
+  "coachMemoryClearAll": "Clear all",
+  "coachMemoryClearConfirm": "Delete everything the coach remembers about you?",
+  "coachMemoryDeleted": "Deleted",
+  "coachInputHint": "Message your coach…",
+  "coachInputNoKey": "Add your API key to chat with the coach",
+  "coachSend": "Send",
+  "coachVoice": "Voice input",
+  "coachListening": "Listening…",
+  "coachVoiceUnavailable": "Voice input isn't available on this device",
+  "coachOfflineNotice": "No internet. Your message is saved — tap Resend when you're back online.",
+  "coachResend": "Resend",
+  "coachThinking": "Coach is typing…",
+  "coachEmptyChat": "Ask your coach anything: your plan, food, a pain — or tell him what you ate and he'll log it.",
+  "coachRefused": "The coach couldn't answer that. Try rephrasing.",
+  "coachProposalWaiting": "I made a proposal — check the card below.",
+  "coachKindMorning": "Morning",
+  "coachKindWorkoutSummary": "Workout summary",
+  "coachKindPlateau": "Plateau",
+  "coachKindWeekly": "Weekly report",
+  "coachKindRecovery": "Recovery",
+  "coachAccepted": "Accepted",
+  "coachRejected": "Rejected",
+  "coachPending": "Waiting for you",
+  "coachAppliedSnack": "Done — change applied.",
+  "coachRejectedSnack": "Proposal rejected.",
+  "coachApplyFailed": "Couldn't apply: {error}",
+  "@coachApplyFailed": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "coachNoPending": "No pending suggestions.",
+  "coachHistory": "History",
+  "coachReportsEmpty": "No reports yet. Weekly reports arrive every Friday evening and workout summaries after each workout.",
+  "coachGenerateWeekly": "Generate weekly report now",
+  "coachGenerating": "Generating…",
+  "coachWeeklyDone": "Weekly report is ready",
+  "coachShowMore": "Show more",
+  "coachShowLess": "Show less",
+  "coachCopy": "Copy",
+  "coachCopied": "Copied",
+  "coachPropPlanChangeTitle": "Plan change: {day}",
+  "@coachPropPlanChangeTitle": {
+    "placeholders": {
+      "day": {
+        "type": "String"
+      }
+    }
+  },
+  "coachPropSwapTitle": "Swap {from} → {to}",
+  "@coachPropSwapTitle": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "coachSwapScopeToday": "Today's workout only",
+  "coachSwapScopeAlways": "Permanently in the plan",
+  "coachPropLogMealTitle": "Log meal: {name} ({kcal} kcal)",
+  "@coachPropLogMealTitle": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      },
+      "kcal": {
+        "type": "int"
+      }
+    }
+  },
+  "coachPropLogSetTitle": "Log set: {exercise} {weight} kg × {reps}",
+  "@coachPropLogSetTitle": {
+    "placeholders": {
+      "exercise": {
+        "type": "String"
+      },
+      "weight": {
+        "type": "String"
+      },
+      "reps": {
+        "type": "int"
+      }
+    }
+  },
+  "coachPropMacrosTitle": "New daily target: {kcal} kcal",
+  "@coachPropMacrosTitle": {
+    "placeholders": {
+      "kcal": {
+        "type": "int"
+      }
+    }
+  },
+  "coachMacroLine": "Protein {protein} g · Carbs {carbs} g · Fat {fat} g",
+  "@coachMacroLine": {
+    "placeholders": {
+      "protein": {
+        "type": "int"
+      },
+      "carbs": {
+        "type": "int"
+      },
+      "fat": {
+        "type": "int"
+      }
+    }
+  },
+  "coachChangeAdd": "Add: {exercise} {detail}",
+  "@coachChangeAdd": {
+    "placeholders": {
+      "exercise": {
+        "type": "String"
+      },
+      "detail": {
+        "type": "String"
+      }
+    }
+  },
+  "coachChangeRemove": "Remove: {exercise}",
+  "@coachChangeRemove": {
+    "placeholders": {
+      "exercise": {
+        "type": "String"
+      }
+    }
+  },
+  "coachChangeModify": "Change: {exercise} → {detail}",
+  "@coachChangeModify": {
+    "placeholders": {
+      "exercise": {
+        "type": "String"
+      },
+      "detail": {
+        "type": "String"
+      }
+    }
+  },
+  "coachRestSeconds": "rest {seconds}s",
+  "@coachRestSeconds": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "coachPropRecoveryTitle": "Lighter workout today (recovery {score})",
+  "@coachPropRecoveryTitle": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      }
+    }
+  },
+  "coachPropRecoveryDesc": "Weights −10% and one set less per exercise, today only.",
+  "coachRecoveryMessage": "Recovery today is **{score}/100** — low. I proposed a lighter session: −10% weight and one set less per exercise. Approve it from the card if you agree.",
+  "@coachRecoveryMessage": {
+    "placeholders": {
+      "score": {
+        "type": "int"
+      }
+    }
+  },
+  "coachNotifMorning": "Good morning — your coach",
+  "coachNotifWorkout": "Workout summary is ready",
+  "coachNotifPlateau": "Plateau: {exercise}",
+  "@coachNotifPlateau": {
+    "placeholders": {
+      "exercise": {
+        "type": "String"
+      }
+    }
+  },
+  "coachNotifWeekly": "Your weekly report is ready",
+  "coachNotifRecovery": "Low recovery today",
   "appName": "IronMind",
   "tabToday": "Today",
   "tabWorkout": "Workout",
@@ -60,5 +244,615 @@
   "weekdayFri": "Fri",
   "weekdaySat": "Sat",
   "weekdaySun": "Sun",
-  "comingSoon": "Coming soon"
+  "comingSoon": "Coming soon",
+  "onbStepOf": "Step {current} of {total}",
+  "@onbStepOf": {
+    "placeholders": {
+      "current": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "onbNext": "Next",
+  "onbBack": "Back",
+  "onbSkip": "Skip",
+  "onbBackToSummary": "Back to summary",
+  "onbBuildPlan": "Build my plan",
+  "onbNotSet": "Not set",
+  "onbNone": "None",
+  "onbOptional": "Optional",
+  "onbErrRange": "Enter a value between {min} and {max}",
+  "@onbErrRange": {
+    "placeholders": {
+      "min": {
+        "type": "String"
+      },
+      "max": {
+        "type": "String"
+      }
+    }
+  },
+  "onbSectionBasics": "About you",
+  "onbSectionGoals": "Goal & level",
+  "onbSectionTraining": "Training",
+  "onbSectionLifestyle": "Health & lifestyle",
+  "onbSectionNutrition": "Nutrition",
+  "onbSectionConnections": "Connections",
+  "onbLangTitle": "Choose your language",
+  "onbLangSubtitle": "You can change it anytime from Settings.",
+  "onbBodyTitle": "Tell us about yourself",
+  "onbBodySubtitle": "We use this to calculate your calories and macros.",
+  "onbSexMale": "Male",
+  "onbSexFemale": "Female",
+  "onbAge": "Age",
+  "onbYears": "years",
+  "onbHeight": "Height",
+  "onbWeight": "Current weight",
+  "onbBodyFatTitle": "Body fat percentage",
+  "onbBodyFatSubtitle": "A rough estimate is totally fine.",
+  "onbBfNumber": "I know the number",
+  "onbBfNumberSub": "From an InBody scan or calipers",
+  "onbBfShape": "Pick my body shape",
+  "onbBfShapeSub": "We'll estimate it from how you look",
+  "onbBfUnknown": "I don't know",
+  "onbBfUnknownSub": "No problem, we'll use your weight and height",
+  "onbBodyFatPct": "Body fat",
+  "onbShapeLean": "Very lean",
+  "onbShapeLeanSub": "Clear abs and visible veins",
+  "onbShapeAthletic": "Athletic",
+  "onbShapeAthleticSub": "Abs outline shows",
+  "onbShapeAverage": "Average",
+  "onbShapeAverageSub": "Flat-ish belly, no abs",
+  "onbShapeSoft": "A bit of a belly",
+  "onbShapeSoftSub": "Soft midsection",
+  "onbShapeHeavy": "Overweight",
+  "onbShapeHeavySub": "Belly clearly sticks out",
+  "onbShapeEstimate": "≈ {pct}% body fat",
+  "@onbShapeEstimate": {
+    "placeholders": {
+      "pct": {
+        "type": "String"
+      }
+    }
+  },
+  "onbMeasTitle": "Body measurements",
+  "onbMeasSubtitle": "Optional – they help track progress beyond the scale.",
+  "onbMeasHint": "Use a tape measure: waist at the navel, arm flexed at the widest point, thigh at the middle.",
+  "onbMeasWaist": "Waist",
+  "onbMeasChest": "Chest",
+  "onbMeasArm": "Arm",
+  "onbMeasThigh": "Thigh",
+  "onbMeasNeck": "Neck",
+  "onbMeasHips": "Hips",
+  "onbGoalTitle": "What's your main goal?",
+  "onbGoalSubtitle": "Pick one – the whole plan is built around it.",
+  "onbGoalBulk": "Bulk",
+  "onbGoalBulkSub": "Gain muscle and size",
+  "onbGoalCut": "Cut",
+  "onbGoalCutSub": "Lose fat, keep the muscle",
+  "onbGoalRecomp": "Recomp",
+  "onbGoalRecompSub": "Lose fat and build muscle together",
+  "onbGoalStrength": "Strength",
+  "onbGoalStrengthSub": "Lift heavier on the big lifts",
+  "onbGoalFitness": "General fitness",
+  "onbGoalFitnessSub": "Feel better, move better, stay healthy",
+  "onbTargetWeight": "Target weight (optional)",
+  "onbGoalWeeks": "In how many weeks? (optional)",
+  "onbWeeks": "weeks",
+  "onbGoalWeeksSuggest": "A realistic pace is about {weeks} weeks",
+  "@onbGoalWeeksSuggest": {
+    "placeholders": {
+      "weeks": {
+        "type": "String"
+      }
+    }
+  },
+  "onbWarnCutTarget": "For a cut, the target is usually below your current weight.",
+  "onbWarnBulkTarget": "For a bulk, the target is usually above your current weight.",
+  "onbLevelTitle": "Your training level",
+  "onbLevelSubtitle": "Be honest – it decides volume and exercise choice.",
+  "onbLevelBeginner": "Beginner",
+  "onbLevelBeginnerSub": "New or still learning the movements",
+  "onbLevelIntermediate": "Intermediate",
+  "onbLevelIntermediateSub": "Consistent training, solid technique",
+  "onbLevelAdvanced": "Advanced",
+  "onbLevelAdvancedSub": "Years of serious, structured training",
+  "onbExperienceTitle": "How long have you been training?",
+  "onbExpNone": "Just starting",
+  "onbExpLt6m": "Less than 6 months",
+  "onbExp6to12m": "6–12 months",
+  "onbExp1to3y": "1–3 years",
+  "onbExp3yPlus": "More than 3 years",
+  "onbDaysTitle": "Training days per week",
+  "onbDaysSubtitle": "Then pick the days themselves.",
+  "onbPickDays": "Which days?",
+  "onbDaysPicked": "{picked} of {total} days picked",
+  "@onbDaysPicked": {
+    "placeholders": {
+      "picked": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "onbSessionTitle": "How long is each workout?",
+  "onbSessionSubtitle": "Including warm-up and stretching.",
+  "onbMinutesValue": "{n} min",
+  "@onbMinutesValue": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "onbSession30": "Quick and focused",
+  "onbSession60": "The classic session",
+  "onbSession90": "Long sessions, more volume",
+  "onbSplitTitle": "Preferred training split",
+  "onbSplitSubtitle": "How should the week be divided?",
+  "onbSplitMuscleGroup": "Muscle groups per day",
+  "onbSplitMuscleGroupSub": "e.g. chest + triceps, back + biceps",
+  "onbSplitBro": "Bro split",
+  "onbSplitBroSub": "One muscle per day",
+  "onbSplitFullBody": "Full body",
+  "onbSplitFullBodySub": "Whole body every session",
+  "onbSplitPpl": "Push / Pull / Legs",
+  "onbSplitPplSub": "Pushing, pulling and leg days",
+  "onbSplitUpperLower": "Upper / Lower",
+  "onbSplitUpperLowerSub": "Alternate upper and lower body",
+  "onbSplitAi": "Let the AI choose",
+  "onbSplitAiSub": "Best split for your days and goal",
+  "onbFocusTitle": "Muscles to focus on",
+  "onbFocusSubtitle": "Pick any – or none for a balanced plan.",
+  "onbMuscleChest": "Chest",
+  "onbMuscleBack": "Back",
+  "onbMuscleShoulders": "Shoulders",
+  "onbMuscleBiceps": "Biceps",
+  "onbMuscleTriceps": "Triceps",
+  "onbMuscleForearms": "Forearms",
+  "onbMuscleAbs": "Abs",
+  "onbMuscleQuads": "Quads",
+  "onbMuscleHamstrings": "Hamstrings",
+  "onbMuscleGlutes": "Glutes",
+  "onbMuscleCalves": "Calves",
+  "onbMuscleTraps": "Traps",
+  "onbLocationTitle": "Where do you train?",
+  "onbLocationSubtitle": "So we only pick exercises you can actually do.",
+  "onbLocFullGym": "Full gym",
+  "onbLocFullGymSub": "Machines, cables, barbells, dumbbells",
+  "onbLocLimitedGym": "Limited gym",
+  "onbLocLimitedGymSub": "Basic equipment, few machines",
+  "onbLocHome": "Home",
+  "onbLocHomeSub": "Bodyweight, dumbbells or bands",
+  "onbInjuriesTitle": "Injuries & health conditions",
+  "onbInjuriesSubtitle": "The plan will avoid what could hurt you.",
+  "onbInjNoneLabel": "No injuries or conditions",
+  "onbInjGroupJoints": "Injuries / pain",
+  "onbInjGroupHealth": "Health conditions",
+  "onbInjShoulder": "Shoulder",
+  "onbInjKnee": "Knee",
+  "onbInjLowerBack": "Lower back",
+  "onbInjElbow": "Elbow",
+  "onbInjWrist": "Wrist",
+  "onbInjNeck": "Neck",
+  "onbInjHip": "Hip",
+  "onbInjAnkle": "Ankle",
+  "onbInjHypertension": "High blood pressure",
+  "onbInjDiabetes": "Diabetes",
+  "onbInjHeart": "Heart condition",
+  "onbInjAsthma": "Asthma",
+  "onbInjHernia": "Hernia",
+  "onbInjuriesNote": "Anything else? (e.g. left shoulder hurts on overhead press)",
+  "onbInjuriesDoctor": "With a heart condition or uncontrolled blood pressure, check with your doctor before intense training.",
+  "onbJobTitle": "What's your job like?",
+  "onbJobSubtitle": "Daily activity changes how many calories you burn.",
+  "onbJobDesk": "Desk job",
+  "onbJobDeskSub": "Sitting most of the day",
+  "onbJobMobile": "On my feet",
+  "onbJobMobileSub": "Walking and standing a lot",
+  "onbJobPhysical": "Physical labor",
+  "onbJobPhysicalSub": "Carrying, lifting, hard work",
+  "onbJobNone": "Not working / student",
+  "onbJobNoneSub": "Flexible daily schedule",
+  "onbJobHours": "Working hours (optional)",
+  "onbJobFrom": "From",
+  "onbJobTo": "To",
+  "onbClear": "Clear",
+  "onbSleepTitle": "Your usual sleep",
+  "onbSleepSubtitle": "Sleep is half the gains – we schedule around it.",
+  "onbSleepTime": "Bedtime",
+  "onbWakeTime": "Wake-up time",
+  "onbSleepDuration": "≈ {hours} h of sleep",
+  "@onbSleepDuration": {
+    "placeholders": {
+      "hours": {
+        "type": "String"
+      }
+    }
+  },
+  "onbSleepShort": "Less than 7 hours – try to sleep more for better recovery.",
+  "onbTrainTimeTitle": "When do you usually train?",
+  "onbTrainTimeSubtitle": "We'll remind you and time your meals around it.",
+  "onbTimeMorning": "Morning",
+  "onbTimeAfterWork": "After work",
+  "onbTimeNight": "Night",
+  "onbExactTime": "Exact time",
+  "onbCardioTitle": "Cardio",
+  "onbCardioSubtitle": "What do you do and how often?",
+  "onbCardioNone": "No cardio",
+  "onbCardioWalking": "Walking",
+  "onbCardioRunning": "Running",
+  "onbCardioCycling": "Cycling",
+  "onbCardioElliptical": "Elliptical",
+  "onbCardioSwimming": "Swimming",
+  "onbCardioHiit": "HIIT",
+  "onbCardioStairs": "Stair climber",
+  "onbCardioJumpRope": "Jump rope",
+  "onbCardioFootball": "Football",
+  "onbCardioPerWeek": "Times per week",
+  "onbMealsTitle": "Meals per day",
+  "onbMealsSubtitle": "And their usual times – tap a time to change it.",
+  "onbMealN": "Meal {n}",
+  "@onbMealN": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "onbMealsReset": "Suggest times",
+  "onbFoodsTitle": "Food preferences",
+  "onbFoodsSubtitle": "The meal plan will use what you like and skip what you don't.",
+  "onbFoodsLiked": "Foods you like",
+  "onbFoodsDisliked": "Foods you don't like",
+  "onbAllergies": "Allergies",
+  "onbFoodsOther": "Other (separate with commas)",
+  "onbFoodFul": "Ful",
+  "onbFoodEggs": "Eggs",
+  "onbFoodChicken": "Chicken",
+  "onbFoodTuna": "Tuna",
+  "onbFoodRice": "Rice",
+  "onbFoodBaladiBread": "Baladi bread",
+  "onbFoodYogurt": "Yogurt",
+  "onbFoodCottageCheese": "Cottage cheese (areesh)",
+  "onbFoodWhiteCheese": "White cheese",
+  "onbFoodKoshari": "Koshari",
+  "onbFoodMincedBeef": "Minced beef",
+  "onbFoodFish": "Fish",
+  "onbFoodLentils": "Lentils",
+  "onbFoodTaameya": "Taameya",
+  "onbFoodOats": "Oats",
+  "onbFoodPasta": "Pasta",
+  "onbFoodPotatoes": "Potatoes",
+  "onbFoodSweetPotato": "Sweet potato",
+  "onbFoodMilk": "Milk",
+  "onbFoodPeanutButter": "Peanut butter",
+  "onbFoodBananas": "Bananas",
+  "onbFoodDates": "Dates",
+  "onbFoodLiver": "Liver",
+  "onbFoodMolokhia": "Molokhia",
+  "onbAllergyLactose": "Lactose",
+  "onbAllergyGluten": "Gluten",
+  "onbAllergyNuts": "Nuts",
+  "onbAllergyPeanuts": "Peanuts",
+  "onbAllergyEggs": "Eggs",
+  "onbAllergySeafood": "Seafood",
+  "onbBudgetTitle": "Monthly food budget",
+  "onbBudgetSubtitle": "In Egyptian pounds – the meal plan will respect it.",
+  "onbBudgetLow": "Low",
+  "onbBudgetLowSub": "Basics: eggs, ful, rice, chicken, areesh",
+  "onbBudgetMedium": "Medium",
+  "onbBudgetMediumSub": "Adds meat, fish, oats and some extras",
+  "onbBudgetOpen": "Open",
+  "onbBudgetOpenSub": "Whatever fits the plan best",
+  "onbBudgetCustom": "A specific amount",
+  "onbBudgetCustomSub": "Enter it in EGP",
+  "onbBudgetAmount": "Amount per month",
+  "onbEgp": "EGP",
+  "onbSuppTitle": "Current supplements",
+  "onbSuppSubtitle": "Tap to add, then set the dose. Protein and calories count toward your day.",
+  "onbSuppEmpty": "No supplements – totally fine.",
+  "onbSuppWhey": "Whey protein",
+  "onbSuppCreatine": "Creatine",
+  "onbSuppMassGainer": "Mass gainer",
+  "onbSuppCasein": "Casein",
+  "onbSuppMultivitamin": "Multivitamin",
+  "onbSuppOmega3": "Omega-3",
+  "onbSuppVitaminD": "Vitamin D",
+  "onbSuppZma": "ZMA",
+  "onbSuppBcaa": "BCAA",
+  "onbSuppPreWorkout": "Pre-workout",
+  "onbSuppCaffeine": "Caffeine",
+  "onbSuppOther": "Other",
+  "onbSuppName": "Name",
+  "onbSuppDose": "Dose",
+  "onbSuppTiming": "When? (optional)",
+  "onbSuppPerServing": "Per serving",
+  "onbSuppProtein": "Protein (g)",
+  "onbSuppCalories": "Calories",
+  "onbSuppCarbs": "Carbs (g)",
+  "onbSuppFat": "Fat (g)",
+  "onbSuppAddMacros": "Counts toward calories?",
+  "onbSuppRemove": "Remove",
+  "onbDoseScoop": "1 scoop (30 g)",
+  "onbDoseScoopPlain": "1 scoop",
+  "onbDoseGainer": "1 serving (100 g)",
+  "onbDoseGrams": "{g} g",
+  "@onbDoseGrams": {
+    "placeholders": {
+      "g": {
+        "type": "String"
+      }
+    }
+  },
+  "onbDoseTablet": "1 tablet",
+  "onbDoseCapsule": "1 capsule",
+  "onbDoseServing": "1 serving",
+  "onbDoseMg": "{mg} mg",
+  "@onbDoseMg": {
+    "placeholders": {
+      "mg": {
+        "type": "String"
+      }
+    }
+  },
+  "onbSuppMacrosValue": "{protein} g protein · {calories} kcal",
+  "@onbSuppMacrosValue": {
+    "placeholders": {
+      "protein": {
+        "type": "String"
+      },
+      "calories": {
+        "type": "String"
+      }
+    }
+  },
+  "onbWaterTitle": "Daily water goal",
+  "onbWaterSubtitle": "Suggested from your weight – adjust if you want.",
+  "onbWaterSuggested": "Suggested: {ml} ml",
+  "@onbWaterSuggested": {
+    "placeholders": {
+      "ml": {
+        "type": "String"
+      }
+    }
+  },
+  "onbWaterLiters": "≈ {liters} liters",
+  "@onbWaterLiters": {
+    "placeholders": {
+      "liters": {
+        "type": "String"
+      }
+    }
+  },
+  "onbWaterUseSuggestion": "Use suggestion",
+  "onbWaterGlasses": "About {glasses} glasses of 250 ml",
+  "@onbWaterGlasses": {
+    "placeholders": {
+      "glasses": {
+        "type": "String"
+      }
+    }
+  },
+  "onbHealthTitle": "Connect your smart ring",
+  "onbHealthSubtitle": "Through Health Connect we read sleep, heart rate, HRV and steps to calculate a daily recovery score.",
+  "onbHealthConnect": "Connect Health Connect",
+  "onbHealthConnected": "Health Connect is on",
+  "onbHealthConnectedSub": "We'll sync when you open the app and every few hours.",
+  "onbHealthDisconnect": "Turn off",
+  "onbHealthNote": "If your ring's app doesn't write to Health Connect, you can log sleep manually – nothing breaks. You can check the last synced data in Settings.",
+  "onbHealthItemSleep": "Sleep & stages",
+  "onbHealthItemHeart": "Heart rate, resting HR & HRV",
+  "onbHealthItemSteps": "Steps & active calories",
+  "onbKeyTitle": "Claude API key",
+  "onbKeySubtitle": "Powers the AI coach, plans and food-photo analysis. Everything else works without it – you can add it later from Settings.",
+  "onbKeyField": "API key (sk-ant-…)",
+  "onbKeyWhere": "Get one from console.anthropic.com → API Keys. It's stored encrypted on this device only.",
+  "onbKeyTest": "Test key",
+  "onbKeySave": "Save key",
+  "onbKeyValid": "The key works",
+  "onbKeyInvalid": "The key didn't work: {error}",
+  "@onbKeyInvalid": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "onbKeySaved": "Key saved securely on this device",
+  "onbKeyReplace": "Replace key",
+  "onbKeyEmpty": "Paste the key first",
+  "onbSummaryTitle": "Review your answers",
+  "onbSummarySubtitle": "Tap any answer to change it, then build your plan.",
+  "onbSumLanguage": "Language",
+  "onbSumBody": "Body",
+  "onbSumBodyFat": "Body fat",
+  "onbSumMeasurements": "Measurements",
+  "onbSumGoal": "Goal",
+  "onbSumLevel": "Level",
+  "onbSumDays": "Training days",
+  "onbSumSession": "Session length",
+  "onbSumSplit": "Split",
+  "onbSumFocus": "Focus muscles",
+  "onbSumLocation": "Where",
+  "onbSumInjuries": "Injuries & health",
+  "onbSumJob": "Job",
+  "onbSumSleep": "Sleep",
+  "onbSumTrainingTime": "Training time",
+  "onbSumCardio": "Cardio",
+  "onbSumMeals": "Meals",
+  "onbSumFoods": "Food preferences",
+  "onbSumBudget": "Food budget",
+  "onbSumSupplements": "Supplements",
+  "onbSumWater": "Water goal",
+  "onbSumHealth": "Health Connect",
+  "onbSumApiKey": "Claude API key",
+  "onbYearsValue": "{age} y",
+  "@onbYearsValue": {
+    "placeholders": {
+      "age": {
+        "type": "String"
+      }
+    }
+  },
+  "onbPerWeekValue": "{n}×/week",
+  "@onbPerWeekValue": {
+    "placeholders": {
+      "n": {
+        "type": "String"
+      }
+    }
+  },
+  "onbWeeksValue": "{weeks} weeks",
+  "@onbWeeksValue": {
+    "placeholders": {
+      "weeks": {
+        "type": "String"
+      }
+    }
+  },
+  "onbLikesValue": "Likes: {list}",
+  "@onbLikesValue": {
+    "placeholders": {
+      "list": {
+        "type": "String"
+      }
+    }
+  },
+  "onbDislikesValue": "Dislikes: {list}",
+  "@onbDislikesValue": {
+    "placeholders": {
+      "list": {
+        "type": "String"
+      }
+    }
+  },
+  "onbAllergiesValue": "Allergies: {list}",
+  "@onbAllergiesValue": {
+    "placeholders": {
+      "list": {
+        "type": "String"
+      }
+    }
+  },
+  "onbBodyFatShapeValue": "≈ {pct}% (from body shape)",
+  "@onbBodyFatShapeValue": {
+    "placeholders": {
+      "pct": {
+        "type": "String"
+      }
+    }
+  },
+  "onbConnected": "Connected",
+  "onbNotConnected": "Not connected",
+  "onbKeySet": "Added",
+  "onbKeyNotSet": "Not added – add later",
+  "onbBuildingTitle": "Building your plan",
+  "onbBuildReadyTitle": "Your plan is ready",
+  "onbBuildHint": "This can take a minute or two – the AI is thinking it through.",
+  "onbBuildTargets": "Calories & macros",
+  "onbBuildWorkout": "Workout plan",
+  "onbBuildMeals": "Meal plan",
+  "onbBuildWorkoutLater": "You can generate it later from the Workout tab.",
+  "onbBuildMealsLater": "You can generate it later from the Food tab.",
+  "onbBuildNoKey": "AI plans need a Claude API key. Your calories and macros are ready; add the key later from Settings and generate the plans from the Workout and Food tabs.",
+  "onbBuildOffline": "No internet right now. Your calories and macros are ready; generate the AI plans from the Workout and Food tabs when you're back online.",
+  "onbDailyTargets": "Your daily targets",
+  "onbTdee": "Maintenance",
+  "onbTrainingDayCarbs": "Training-day carbs",
+  "onbRestDayCarbs": "Rest-day carbs",
+  "onbReviewPlan": "Review my workout plan",
+  "onbSkipReview": "Skip review for now",
+  "onbStartApp": "Let's go",
+  "onbGenericError": "Couldn't do it right now.",
+  "onbStatusWaiting": "Waiting…",
+  "onbStatusWorking": "Working on it…",
+  "onbStatusDone": "Ready",
+  "onbStatusFailed": "Not now",
+  "onbProfileTitle": "My profile",
+  "onbProfileSubtitle": "Tap any answer to change it. Targets update automatically.",
+  "onbProfileTargets": "Current targets",
+  "onbSavedTargets": "Saved – targets updated",
+  "onbSaved": "Saved",
+  "onbRegenTitle": "Update your plans?",
+  "onbRegenBody": "Your answers changed. Regenerate with AI so your plans match?",
+  "onbRegenWorkout": "Workout plan",
+  "onbRegenMeals": "Meal plan",
+  "onbRegenNow": "Regenerate",
+  "onbRegenSkip": "Not now",
+  "onbRegenRunning": "Regenerating your plans…",
+  "onbRegenMealDone": "Your new meal plan is ready.",
+  "onbRegenWorkoutDone": "Your new workout plan is ready for review.",
+  "onbRegenNoKey": "Add your Claude API key in Settings to regenerate plans with AI.",
+  "onbRegenOffline": "No internet right now – try again when you're online.",
+  "onbRegenResultTitle": "Plan update",
+  "onbPlanActivated": "Plan activated",
+  "onbErrSex": "Pick male or female",
+  "onbErrAge": "Age must be between 12 and 90",
+  "onbErrHeight": "Height must be between 120 and 230 cm",
+  "onbErrWeight": "Weight must be between 30 and 300 kg",
+  "onbErrBodyFatChoice": "Choose one of the options",
+  "onbErrBodyFat": "Body fat must be between 3% and 60%",
+  "onbErrMeasurement": "Measurements must be between 10 and 250 cm",
+  "onbErrGoal": "Pick a goal",
+  "onbErrTargetWeight": "Target weight must be between 30 and 300 kg",
+  "onbErrWeeks": "Weeks must be between 1 and 104",
+  "onbErrLevel": "Pick your level and how long you've trained",
+  "onbErrDaysCount": "Pick how many days per week",
+  "onbErrDaysMismatch": "Pick exactly {count} days",
+  "@onbErrDaysMismatch": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "onbErrChoose": "Pick one option to continue",
+  "onbErrSleep": "Set your bedtime and wake-up time",
+  "onbErrCardioPerWeek": "How many times per week?",
+  "onbErrMealTimes": "Set a time for every meal",
+  "onbErrBudget": "Enter an amount between 100 and 1,000,000 EGP",
+  "onbErrSuppName": "Every supplement needs a name",
+  "onbErrWater": "Water goal must be between 1,000 and 8,000 ml",
+  "todayCoachTitle": "Coach",
+  "todayCoachEmpty": "Your coach's morning message will appear here.",
+  "todayRecoveryTitle": "Recovery",
+  "todayRecoveryEmpty": "Log your sleep or connect Health Connect to get a recovery score.",
+  "todayRecoveryHigh": "Well recovered — push hard today.",
+  "todayRecoveryModerate": "Moderate recovery — train normally, listen to your body.",
+  "todayRecoveryLow": "Low recovery — consider a lighter session today.",
+  "todayWorkoutTitle": "Today's workout",
+  "todayNoPlan": "No active plan yet. Build one from the Workout tab.",
+  "todayRestDay": "Rest day. Recover, eat well and hit your water goal.",
+  "todayExerciseCount": "{count, plural, =1{1 exercise} other{{count} exercises}}",
+  "@todayExerciseCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "todayStartWorkout": "Start today's workout",
+  "todayResumeWorkout": "Resume workout",
+  "todayWorkoutDone": "Done for today 💪",
+  "todayKcalLeft": "kcal left",
+  "todayKcalOver": "kcal over",
+  "todayAddCup": "+ Cup of water",
+  "todaySupplementsTitle": "Supplements",
+  "todaySupplementsEmpty": "No supplements added.",
+  "todayWeightTitle": "Body weight",
+  "todayWeightEmpty": "Tap to log today's weight.",
+  "todayWeightAvg": "7-day avg {avg}",
+  "@todayWeightAvg": {
+    "placeholders": {
+      "avg": {
+        "type": "String"
+      }
+    }
+  }
 }
