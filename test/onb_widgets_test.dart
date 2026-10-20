@@ -185,9 +185,8 @@ void main() {
     await tester.pumpWidget(_app(overrides, const ProfileEditScreen()));
     await tester.pumpAndSettle();
     expect(find.text(en.onbProfileTitle), findsOneWidget);
-    expect(find.text(en.onbSumLocation), findsOneWidget);
-
     await tester.scrollUntilVisible(find.text(en.onbSumLocation), 200);
+    expect(find.text(en.onbSumLocation), findsOneWidget);
     await tester.tap(find.text(en.onbSumLocation));
     await tester.pumpAndSettle();
     await tester.tap(find.text(en.onbLocHome));

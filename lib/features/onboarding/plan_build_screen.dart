@@ -281,9 +281,15 @@ class TargetsCard extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Text(cal == null ? '—' : '$cal',
-                    style: context.text.displaySmall
-                        ?.copyWith(fontWeight: FontWeight.w900, color: AppColors.primary)),
+                Flexible(
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    alignment: AlignmentDirectional.centerStart,
+                    child: Text(cal == null ? '—' : '$cal',
+                        style: context.text.displaySmall
+                            ?.copyWith(fontWeight: FontWeight.w900, color: AppColors.primary)),
+                  ),
+                ),
                 const SizedBox(width: 6),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 6),
