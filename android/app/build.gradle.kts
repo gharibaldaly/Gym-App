@@ -69,6 +69,8 @@ kotlin {
 
 dependencies {
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.1.5")
+    // AppCompat launch theme (required by local_auth on older Android versions).
+    implementation("androidx.appcompat:appcompat:1.7.0")
 }
 
 flutter {

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 // package_info_plus comes with share_plus/workmanager; it only reads the app version.
-// ignore: depend_on_referenced_packages
 import 'package:package_info_plus/package_info_plus.dart';
 
 import '../../core/theme/app_theme.dart';

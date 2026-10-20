@@ -2687,8 +2687,8 @@ class AppLocalizationsAr extends AppLocalizations {
   String get progVolumeTitle => 'حجم التمرين الأسبوعي لكل عضلة';
 
   @override
-  String progAvgPerWeek(String weeks) {
-    return 'متوسط الأسبوع على مدار $weeks أسابيع (الوزن × العدات)';
+  String progAvgPerWeek(String days) {
+    return 'متوسط الأسبوع على مدار $days يوم · الحجم = الوزن × العدات';
   }
 
   @override
@@ -2959,6 +2959,55 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get progPdfEaten => 'اللي اتاكل';
+
+  @override
+  String get progOpenExercise => 'تفاصيل التمرين';
+
+  @override
+  String get progChangeExercise => 'غيّر';
+
+  @override
+  String get progSessionsLabel => 'الجلسات';
+
+  @override
+  String get progLegendOnTarget => 'مظبوط (±10%)';
+
+  @override
+  String get progLegendUnder => 'أقل من الهدف';
+
+  @override
+  String get progLegendOver => 'أكتر من الهدف';
+
+  @override
+  String get progWeeklyBarsNote =>
+      'فترة طويلة: كل عمود = متوسط اليوم في أسبوع.';
+
+  @override
+  String get progCardioTreadmill => 'مشاية';
+
+  @override
+  String get progCardioBike => 'عجلة';
+
+  @override
+  String get progCardioElliptical => 'أوبتيكال';
+
+  @override
+  String get progCardioRowing => 'تجديف';
+
+  @override
+  String get progCardioWalk => 'مشي';
+
+  @override
+  String get progCardioRun => 'جري';
+
+  @override
+  String get progCardioStairs => 'سلالم';
+
+  @override
+  String get progCardioJumpRope => 'نط حبل';
+
+  @override
+  String get progCardioSwim => 'سباحة';
 
   @override
   String progPdfFromTo(String from, String to) {

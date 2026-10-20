@@ -2712,8 +2712,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get progVolumeTitle => 'Weekly volume per muscle';
 
   @override
-  String progAvgPerWeek(String weeks) {
-    return 'Weekly average over $weeks weeks (weight × reps)';
+  String progAvgPerWeek(String days) {
+    return 'Average per week over $days days · volume = weight × reps';
   }
 
   @override
@@ -2984,6 +2984,55 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get progPdfEaten => 'Eaten';
+
+  @override
+  String get progOpenExercise => 'Exercise details';
+
+  @override
+  String get progChangeExercise => 'Change';
+
+  @override
+  String get progSessionsLabel => 'Sessions';
+
+  @override
+  String get progLegendOnTarget => 'On target (±10%)';
+
+  @override
+  String get progLegendUnder => 'Under';
+
+  @override
+  String get progLegendOver => 'Over';
+
+  @override
+  String get progWeeklyBarsNote =>
+      'Long period: each bar is the daily average of one week.';
+
+  @override
+  String get progCardioTreadmill => 'Treadmill';
+
+  @override
+  String get progCardioBike => 'Bike';
+
+  @override
+  String get progCardioElliptical => 'Elliptical';
+
+  @override
+  String get progCardioRowing => 'Rowing';
+
+  @override
+  String get progCardioWalk => 'Walk';
+
+  @override
+  String get progCardioRun => 'Run';
+
+  @override
+  String get progCardioStairs => 'Stairs';
+
+  @override
+  String get progCardioJumpRope => 'Jump rope';
+
+  @override
+  String get progCardioSwim => 'Swim';
 
   @override
   String progPdfFromTo(String from, String to) {

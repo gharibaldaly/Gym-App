@@ -5033,8 +5033,8 @@ abstract class AppLocalizations {
   /// No description provided for @progAvgPerWeek.
   ///
   /// In en, this message translates to:
-  /// **'Weekly average over {weeks} weeks (weight × reps)'**
-  String progAvgPerWeek(String weeks);
+  /// **'Average per week over {days} days · volume = weight × reps'**
+  String progAvgPerWeek(String days);
 
   /// No description provided for @progEffectiveSets.
   ///
@@ -5539,6 +5539,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Eaten'**
   String get progPdfEaten;
+
+  /// No description provided for @progOpenExercise.
+  ///
+  /// In en, this message translates to:
+  /// **'Exercise details'**
+  String get progOpenExercise;
+
+  /// No description provided for @progChangeExercise.
+  ///
+  /// In en, this message translates to:
+  /// **'Change'**
+  String get progChangeExercise;
+
+  /// No description provided for @progSessionsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Sessions'**
+  String get progSessionsLabel;
+
+  /// No description provided for @progLegendOnTarget.
+  ///
+  /// In en, this message translates to:
+  /// **'On target (±10%)'**
+  String get progLegendOnTarget;
+
+  /// No description provided for @progLegendUnder.
+  ///
+  /// In en, this message translates to:
+  /// **'Under'**
+  String get progLegendUnder;
+
+  /// No description provided for @progLegendOver.
+  ///
+  /// In en, this message translates to:
+  /// **'Over'**
+  String get progLegendOver;
+
+  /// No description provided for @progWeeklyBarsNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Long period: each bar is the daily average of one week.'**
+  String get progWeeklyBarsNote;
+
+  /// No description provided for @progCardioTreadmill.
+  ///
+  /// In en, this message translates to:
+  /// **'Treadmill'**
+  String get progCardioTreadmill;
+
+  /// No description provided for @progCardioBike.
+  ///
+  /// In en, this message translates to:
+  /// **'Bike'**
+  String get progCardioBike;
+
+  /// No description provided for @progCardioElliptical.
+  ///
+  /// In en, this message translates to:
+  /// **'Elliptical'**
+  String get progCardioElliptical;
+
+  /// No description provided for @progCardioRowing.
+  ///
+  /// In en, this message translates to:
+  /// **'Rowing'**
+  String get progCardioRowing;
+
+  /// No description provided for @progCardioWalk.
+  ///
+  /// In en, this message translates to:
+  /// **'Walk'**
+  String get progCardioWalk;
+
+  /// No description provided for @progCardioRun.
+  ///
+  /// In en, this message translates to:
+  /// **'Run'**
+  String get progCardioRun;
+
+  /// No description provided for @progCardioStairs.
+  ///
+  /// In en, this message translates to:
+  /// **'Stairs'**
+  String get progCardioStairs;
+
+  /// No description provided for @progCardioJumpRope.
+  ///
+  /// In en, this message translates to:
+  /// **'Jump rope'**
+  String get progCardioJumpRope;
+
+  /// No description provided for @progCardioSwim.
+  ///
+  /// In en, this message translates to:
+  /// **'Swim'**
+  String get progCardioSwim;
 
   /// No description provided for @progPdfFromTo.
   ///

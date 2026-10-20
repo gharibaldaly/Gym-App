@@ -1413,10 +1413,10 @@
   },
   "progNoMatches": "No matches",
   "progVolumeTitle": "Weekly volume per muscle",
-  "progAvgPerWeek": "Weekly average over {weeks} weeks (weight × reps)",
+  "progAvgPerWeek": "Average per week over {days} days · volume = weight × reps",
   "@progAvgPerWeek": {
     "placeholders": {
-      "weeks": {
+      "days": {
         "type": "String"
       }
     }
@@ -1560,6 +1560,22 @@
     }
   },
   "progPdfEaten": "Eaten",
+  "progOpenExercise": "Exercise details",
+  "progChangeExercise": "Change",
+  "progSessionsLabel": "Sessions",
+  "progLegendOnTarget": "On target (±10%)",
+  "progLegendUnder": "Under",
+  "progLegendOver": "Over",
+  "progWeeklyBarsNote": "Long period: each bar is the daily average of one week.",
+  "progCardioTreadmill": "Treadmill",
+  "progCardioBike": "Bike",
+  "progCardioElliptical": "Elliptical",
+  "progCardioRowing": "Rowing",
+  "progCardioWalk": "Walk",
+  "progCardioRun": "Run",
+  "progCardioStairs": "Stairs",
+  "progCardioJumpRope": "Jump rope",
+  "progCardioSwim": "Swim",
   "progPdfFromTo": "{from} to {to}",
   "@progPdfFromTo": {
     "placeholders": {
