@@ -72,11 +72,34 @@ class NutritionRepository {
   NutritionRepository(this.db);
 
   /// Emits [fetch]'s result now and again whenever one of [tables] changes.
-  Stream<T> _watchTables<T>(List<TableInfo> tables, Future<T> Function() fetch) async* {
-    yield await fetch();
-    await for (final _ in db.tableUpdates(TableUpdateQuery.onAllTables(tables))) {
-      yield await fetch();
+  /// (Hand-rolled controller: cancelling never waits on drift's update stream,
+  /// and stale fetches are dropped so results stay in order.)
+  Stream<T> _watchTables<T>(List<TableInfo> tables, Future<T> Function() fetch) {
+    late final StreamController<T> controller;
+    StreamSubscription<Set<TableUpdate>>? updates;
+    var version = 0;
+    Future<void> run() async {
+      final v = ++version;
+      try {
+        final r = await fetch();
+        if (v == version && !controller.isClosed) controller.add(r);
+      } catch (e, st) {
+        if (!controller.isClosed) controller.addError(e, st);
+      }
     }
+
+    controller = StreamController<T>(
+      onListen: () {
+        run();
+        updates = db.tableUpdates(TableUpdateQuery.onAllTables(tables)).listen((_) => run());
+      },
+      onCancel: () {
+        final u = updates;
+        updates = null;
+        u?.cancel();
+      },
+    );
+    return controller.stream;
   }
 
   // ---------------------------------------------------------------- plans

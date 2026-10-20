@@ -473,6 +473,8 @@ class _ProgressChart extends StatelessWidget {
                     sideTitles: SideTitles(
                       showTitles: true,
                       reservedSize: 40,
+                      minIncluded: false,
+                      maxIncluded: false,
                       getTitlesWidget: (v, meta) => SideTitleWidget(
                         meta: meta,
                         child: Text(fmtNum(v), style: const TextStyle(fontSize: 10, color: AppColors.textMuted)),

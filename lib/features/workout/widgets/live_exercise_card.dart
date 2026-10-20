@@ -87,7 +87,7 @@ class _LiveExerciseCardState extends ConsumerState<LiveExerciseCard> {
   }
 
   Future<void> _loadTarget() async {
-    final ex = await ref.read(workoutExerciseProvider(widget.exerciseId).future);
+    final ex = await ref.read(exerciseRepositoryProvider).byId(widget.exerciseId);
     if (ex == null) return;
     final t = await computeExerciseTarget(
       repo: ref.read(workoutRepositoryProvider),

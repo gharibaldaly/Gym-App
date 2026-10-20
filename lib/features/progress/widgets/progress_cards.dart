@@ -232,7 +232,7 @@ class _ExerciseChart extends ConsumerWidget {
                         value: '${_signed(change.round())} ${l.kg}',
                         color: change > 0 ? AppColors.primary : (change < 0 ? AppColors.danger : null),
                       ),
-                    StatPill(label: l.progSessionsCount('').trim().replaceAll(':', ''), value: '${pts.length}'),
+                    StatPill(label: l.progSessionsLabel, value: '${pts.length}'),
                   ],
                 ),
                 const SizedBox(height: 16),

@@ -30,7 +30,6 @@ class _PlanDayEditorState extends ConsumerState<PlanDayEditor> {
   WorkoutRepository get _repo => ref.read(workoutRepositoryProvider);
 
   Future<void> _onReorder(List<PlanExerciseItem> items, int oldIndex, int newIndex) async {
-    if (newIndex > oldIndex) newIndex -= 1;
     final list = [...items];
     final moved = list.removeAt(oldIndex);
     list.insert(newIndex, moved);
@@ -93,7 +92,7 @@ class _PlanDayEditorState extends ConsumerState<PlanDayEditor> {
           physics: const NeverScrollableScrollPhysics(),
           buildDefaultDragHandles: false,
           itemCount: items.length,
-          onReorder: (o, n) => _onReorder(items, o, n),
+          onReorderItem: (o, n) => _onReorder(items, o, n),
           proxyDecorator: (child, _, _) => Material(color: Colors.transparent, elevation: 6, child: child),
           itemBuilder: (context, i) {
             final it = items[i];

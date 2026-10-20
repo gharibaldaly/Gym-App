@@ -195,7 +195,7 @@ class _TodayCard extends ConsumerWidget {
       );
     } else if (t.finished) {
       action = OutlinedButton.icon(
-        onPressed: () => push(context, SessionSummaryScreen(sessionId: s!.id)),
+        onPressed: () => push(context, SessionSummaryScreen(sessionId: s.id)),
         icon: Icon(sessionStatusIcon(s!.status)),
         label: Text(l.woViewSummary),
       );

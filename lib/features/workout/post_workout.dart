@@ -3,6 +3,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../core/calc/plateau.dart';
 import '../../core/calc/strength_calc.dart';
+import '../../core/providers.dart';
 import '../../core/utils/context_ext.dart' show dayOf, ymd;
 import '../coach/coach_initiatives.dart';
 import 'workout_logic.dart';

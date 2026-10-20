@@ -92,6 +92,10 @@ void main() {
       await repo.addLog(day: day, name: 'a', items: [_e('rice', 100)]);
       final container = ProviderContainer(overrides: [databaseProvider.overrideWithValue(db)]);
       addTearDown(container.dispose);
+      // Riverpod 3 pauses providers nobody listens to.
+      container.listen(nutritionForDayProvider(day), (_, _) {});
+      container.listen(nutritionForDayProvider(next), (_, _) {});
+      container.listen(nutritionRangeProvider((from: day, to: next)), (_, _) {});
 
       final mon = await container.read(nutritionForDayProvider(day).future); // Monday = training
       expect(mon.isTrainingDay, isTrue);

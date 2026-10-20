@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../core/providers.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/utils/context_ext.dart';
+import '../../core/widgets/common.dart';
 import 'widgets/plan_day_editor.dart';
 import 'widgets/workout_widgets.dart';
 import 'workout_logic.dart';

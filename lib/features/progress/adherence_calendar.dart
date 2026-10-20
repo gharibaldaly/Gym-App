@@ -3,9 +3,10 @@ library;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart' show DateFormat;
 
 import '../../core/navigation.dart';
+import '../../core/providers.dart';
 import '../../core/theme/app_theme.dart';
 import '../../core/utils/context_ext.dart';
 import '../../core/widgets/common.dart';
@@ -68,7 +69,7 @@ class _AdherenceCalendarCardState extends ConsumerState<AdherenceCalendarCard> {
           Row(children: [
             IconButton(
               tooltip: l.progPrevMonth,
-              icon: Icon(rtl ? Icons.chevron_right : Icons.chevron_left),
+              icon: const Icon(Icons.chevron_left), // mirrored automatically in RTL
               onPressed: () => _shift(-1),
             ),
             Expanded(
@@ -80,7 +81,7 @@ class _AdherenceCalendarCardState extends ConsumerState<AdherenceCalendarCard> {
             ),
             IconButton(
               tooltip: l.progNextMonth,
-              icon: Icon(rtl ? Icons.chevron_left : Icons.chevron_right),
+              icon: const Icon(Icons.chevron_right),
               onPressed: isCurrent ? null : () => _shift(1),
             ),
           ]),
