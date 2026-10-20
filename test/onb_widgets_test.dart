@@ -187,6 +187,8 @@ void main() {
     expect(find.text(en.onbProfileTitle), findsOneWidget);
     await tester.scrollUntilVisible(find.text(en.onbSumLocation), 200);
     expect(find.text(en.onbSumLocation), findsOneWidget);
+    await tester.ensureVisible(find.text(en.onbSumLocation));
+    await tester.pumpAndSettle();
     await tester.tap(find.text(en.onbSumLocation));
     await tester.pumpAndSettle();
     await tester.tap(find.text(en.onbLocHome));
@@ -200,6 +202,42 @@ void main() {
     await tester.tap(find.text(en.onbRegenSkip));
     await tester.pumpAndSettle();
     expect(find.text(en.onbRegenTitle), findsNothing);
+    await tester.pumpWidget(const SizedBox());
+    await tester.pump(const Duration(seconds: 1));
+  });
+
+  testWidgets('build my plan without a key: targets computed, onboarding completed', (tester) async {
+    tester.view.physicalSize = const Size(400, 900);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.reset);
+    final db = AppDatabase(NativeDatabase.memory());
+    addTearDown(db.close);
+    final overrides = await _overrides(db);
+    final prefs = overrides.isEmpty ? null : await SharedPreferences.getInstance();
+    await prefs!.setInt(onboardingStepPrefKey, OnbStep.summary.index);
+    final repo = ProfileRepository(db);
+    await repo.upsert(completeProfile().toCompanion(false));
+    final en = lookupAppLocalizations(const Locale('en'));
+
+    await tester.pumpWidget(_app(overrides, const OnboardingFlow()));
+    await tester.pumpAndSettle();
+    expect(find.text(en.onbSummaryTitle), findsOneWidget);
+    await tester.tap(find.text(en.onbBuildPlan));
+    for (var i = 0; i < 10; i++) {
+      await tester.pump(const Duration(milliseconds: 300));
+    }
+
+    expect(find.text(en.onbBuildNoKey), findsOneWidget);
+    expect(find.text(en.onbDailyTargets), findsOneWidget);
+    await tester.tap(find.text(en.onbStartApp));
+    await tester.pumpAndSettle();
+
+    final p = (await repo.get())!;
+    expect(p.onboardingComplete, isTrue);
+    expect(p.calorieTarget, isNotNull);
+    expect(p.proteinG, isNotNull);
+    expect((await db.select(db.bodyMetrics).get()).single.weightKg, 82);
+    expect(prefs.getInt(onboardingStepPrefKey), isNull);
     await tester.pumpWidget(const SizedBox());
     await tester.pump(const Duration(seconds: 1));
   });

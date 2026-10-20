@@ -88,11 +88,13 @@ class _LiveWorkoutScreenState extends ConsumerState<LiveWorkoutScreen> {
   String? _prBanner;
   Timer? _prTimer;
 
-  WorkoutRepository get _repo => ref.read(workoutRepositoryProvider);
+  /// Cached in initState: Riverpod forbids `ref` in dispose().
+  late final WorkoutRepository _repo;
 
   @override
   void initState() {
     super.initState();
+    _repo = ref.read(workoutRepositoryProvider);
     unawaited(_safe(WakelockPlus.enable));
     _resolve();
   }
@@ -192,10 +194,12 @@ class _LiveWorkoutScreenState extends ConsumerState<LiveWorkoutScreen> {
     final sid = await _ensureSession();
     final r = await _repo.addSet(sessionId: sid, exerciseId: ex.id, weightKg: weight, reps: reps, rpe: rpe, setType: type);
     HapticFeedback.mediumImpact();
+    if (!mounted) return;
     if (r.prs.isNotEmpty) _celebrate(ex, r.prs);
     // Auto-advance to the next unfinished exercise when this one is done.
     if (isWorkingSet(type)) {
       final sets = await _repo.sessionSets(sid);
+      if (!mounted) return;
       final recovery = _recovery();
       int planned(LiveEntry e) => e.pe == null ? 0 : (recovery?.applySets(e.pe!.sets) ?? e.pe!.sets);
       int done(LiveEntry e) => sets.where((s) => s.exerciseId == e.exerciseId && isWorkingSet(s.setType)).length;
@@ -274,14 +278,14 @@ class _LiveWorkoutScreenState extends ConsumerState<LiveWorkoutScreen> {
       ),
     );
     c.dispose();
-    if (r == null) return;
+    if (r == null || !mounted) return;
     final sid = await _ensureSession();
     await _repo.setExerciseNote(sid, ex.id, r);
   }
 
   Future<void> _voice(Exercise ex, List<LiveEntry> entries) async {
     final v = await captureVoiceSet(context, ref);
-    if (v == null) return;
+    if (v == null || !mounted) return;
     await _saveSet(ex, v.weightKg, v.reps, v.rpe, v.setType, entries);
   }
 
@@ -294,7 +298,7 @@ class _LiveWorkoutScreenState extends ConsumerState<LiveWorkoutScreen> {
 
   Future<void> _addExercise() async {
     final id = await push<String>(context, const ExerciseLibraryScreen(pickMode: true));
-    if (id == null) return;
+    if (id == null || !mounted) return;
     final sid = await _ensureSession();
     if (!_extras.contains(id)) _extras.add(id);
     await ref.read(sharedPrefsProvider).setString(_extrasKey(sid), jsonEncode(_extras));

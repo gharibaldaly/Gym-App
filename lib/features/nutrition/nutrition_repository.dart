@@ -242,13 +242,16 @@ class NutritionRepository {
   Future<MealLog?> deleteLog(int id, {bool deletePhoto = true}) async {
     final log = await getLog(id);
     await (db.delete(db.mealLogs)..where((t) => t.id.equals(id))).go();
-    if (deletePhoto && log?.photoPath != null) {
-      try {
-        final f = File(await resolveAppPath(log!.photoPath!));
-        if (await f.exists()) await f.delete();
-      } catch (_) {}
-    }
+    if (deletePhoto && log?.photoPath != null) await deletePhotoFile(log!.photoPath!);
     return log;
+  }
+
+  /// Best-effort removal of a stored meal photo.
+  static Future<void> deletePhotoFile(String stored) async {
+    try {
+      final f = File(await resolveAppPath(stored));
+      if (await f.exists()) await f.delete();
+    } catch (_) {}
   }
 
   /// Restores a deleted log (undo).

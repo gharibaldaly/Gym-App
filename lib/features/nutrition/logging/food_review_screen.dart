@@ -247,10 +247,12 @@ class _FoodReviewScreenState extends ConsumerState<FoodReviewScreen> {
           DropdownButtonFormField<int>(
             key: ValueKey('meal-$_mealIndex-${mealOptions.length}'),
             initialValue: _mealIndex,
+            isExpanded: true,
             decoration: InputDecoration(labelText: l.nutWhichMeal),
             items: [
-              DropdownMenuItem(value: _noMeal, child: Text(l.nutOtherMeal)),
-              for (final e in mealOptions.entries) DropdownMenuItem(value: e.key, child: Text(e.value)),
+              DropdownMenuItem(value: _noMeal, child: Text(l.nutOtherMeal, overflow: TextOverflow.ellipsis)),
+              for (final e in mealOptions.entries)
+                DropdownMenuItem(value: e.key, child: Text(e.value, overflow: TextOverflow.ellipsis)),
             ],
             onChanged: (v) => setState(() => _mealIndex = v ?? _noMeal),
           ),

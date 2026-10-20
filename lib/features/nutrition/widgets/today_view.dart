@@ -402,12 +402,17 @@ class MealLogTile extends ConsumerWidget {
             case 'delete':
               final deleted = await repo.deleteLog(log.id, deletePhoto: false);
               if (!context.mounted || deleted == null) return;
-              ScaffoldMessenger.of(context)
-                ..hideCurrentSnackBar()
-                ..showSnackBar(SnackBar(
-                  content: Text(l.nutDeleted),
-                  action: SnackBarAction(label: l.nutUndo, onPressed: () => repo.restoreLog(deleted)),
-                ));
+              final messenger = ScaffoldMessenger.of(context)..hideCurrentSnackBar();
+              final bar = messenger.showSnackBar(SnackBar(
+                content: Text(l.nutDeleted),
+                action: SnackBarAction(label: l.nutUndo, onPressed: () => repo.restoreLog(deleted)),
+              ));
+              final photo = deleted.photoPath;
+              if (photo != null) {
+                bar.closed.then((r) {
+                  if (r != SnackBarClosedReason.action) NutritionRepository.deletePhotoFile(photo);
+                });
+              }
           }
         },
         itemBuilder: (_) => [
