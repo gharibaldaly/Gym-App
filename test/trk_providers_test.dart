@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:drift/drift.dart' hide isNull, isNotNull;
 import 'package:drift/native.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart' show ProviderListenable;
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ironmind/core/providers.dart';
 import 'package:ironmind/data/repositories/profile_repository.dart';

@@ -1,0 +1,279 @@
+{
+  "progTitle": "Progress",
+  "progPeriodWeek": "Week",
+  "progPeriodMonth": "Month",
+  "progPeriod3Months": "3 months",
+  "progPeriodYear": "Year",
+  "progPeriodAll": "All",
+  "progLinkPrs": "Records",
+  "progLinkPhotos": "Photos",
+  "progLinkMeasurements": "Measurements",
+  "progLinkWeight": "Body weight",
+  "progExportPdf": "Export PDF report",
+  "progCalendarTitle": "Adherence calendar",
+  "progLegendCompleted": "Completed",
+  "progLegendPartial": "Partial",
+  "progLegendMissed": "Missed",
+  "progLegendRest": "Rest",
+  "progAdherencePct": "{pct}% adherence",
+  "@progAdherencePct": {
+    "placeholders": {
+      "pct": {
+        "type": "String"
+      }
+    }
+  },
+  "progAdherenceNone": "No training days due yet this month",
+  "progAdherenceCounts": "{completed} completed · {partial} partial · {missed} missed",
+  "@progAdherenceCounts": {
+    "placeholders": {
+      "completed": {
+        "type": "String"
+      },
+      "partial": {
+        "type": "String"
+      },
+      "missed": {
+        "type": "String"
+      }
+    }
+  },
+  "progPrevMonth": "Previous month",
+  "progNextMonth": "Next month",
+  "progStatusInProgress": "In progress",
+  "progStatusRestDay": "Rest day",
+  "progStatusToday": "Today – not trained yet",
+  "progStatusFuture": "Upcoming",
+  "progStatusNone": "Before you started tracking",
+  "progDayNothing": "Nothing logged on this day.",
+  "progDayWorkout": "Workout",
+  "progDayNutrition": "Food",
+  "progDayWater": "Water",
+  "progDaySleep": "Sleep",
+  "progDayWeight": "Weight",
+  "progDayRecovery": "Recovery",
+  "progDayCardio": "Cardio",
+  "progSetTypeWarmup": "Warm-up",
+  "progSetTypeDrop": "Drop set",
+  "progSetTypeFailure": "To failure",
+  "progVolumeValue": "Volume {value} kg",
+  "@progVolumeValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "progSetsCount": "Sets: {count}",
+  "@progSetsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "progPrsCount": "PRs: {count}",
+  "@progPrsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "progPrBadge": "PR",
+  "progDurationMin": "{minutes} min",
+  "@progDurationMin": {
+    "placeholders": {
+      "minutes": {
+        "type": "String"
+      }
+    }
+  },
+  "progMealsCount": "Meals: {count}",
+  "@progMealsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "progUnknownExercise": "Unknown exercise",
+  "progExerciseTitle": "Exercise progress",
+  "progPickExercise": "Pick an exercise",
+  "progSearchExercise": "Search your exercises",
+  "progTopSet": "Top set",
+  "progE1rm": "Est. 1RM",
+  "progNoExerciseData": "Log a workout and your strength progress shows up here.",
+  "progNoDataInPeriod": "No data in this period.",
+  "progBest": "Best",
+  "progChange": "Change",
+  "progLatest": "Latest",
+  "progSessionsCount": "Sessions: {count}",
+  "@progSessionsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "progNoMatches": "No matches",
+  "progVolumeTitle": "Weekly volume per muscle",
+  "progAvgPerWeek": "Weekly average over {weeks} weeks (weight × reps)",
+  "@progAvgPerWeek": {
+    "placeholders": {
+      "weeks": {
+        "type": "String"
+      }
+    }
+  },
+  "progEffectiveSets": "Effective sets / week",
+  "progEffectiveSetsHint": "Effective set = working set at RPE 7+ (or no RPE logged). Around 10–20 per muscle per week is a solid range for growth.",
+  "progWeeklyTotal": "Total volume per week",
+  "progNoVolumeData": "No working sets in this period yet.",
+  "progMuscleCol": "Muscle",
+  "progVolumeCol": "Volume/wk",
+  "progSetsCol": "Eff. sets",
+  "progBodyTitle": "Body weight",
+  "progDaily": "Daily",
+  "progMovingAvg": "7-day average",
+  "progMeasurementsTitle": "Measurements",
+  "progNoWeightData": "No weight logged in this period.",
+  "progNoMeasurementData": "No measurements in this period.",
+  "progLogWeight": "Log weight",
+  "progLogMeasurements": "Add measurements",
+  "progMeasureWaist": "Waist",
+  "progMeasureChest": "Chest",
+  "progMeasureArm": "Arm",
+  "progMeasureThigh": "Thigh",
+  "progMeasureNeck": "Neck",
+  "progMeasureHips": "Hips",
+  "progMeasureBodyFat": "Body fat %",
+  "progNutritionTitle": "Calories & macros vs target",
+  "progTarget": "Target",
+  "progAvgPerDay": "Daily average ({days} days logged)",
+  "@progAvgPerDay": {
+    "placeholders": {
+      "days": {
+        "type": "String"
+      }
+    }
+  },
+  "progNoNutritionData": "No meals logged in this period.",
+  "progDaysOnTarget": "Days within ±10% of your calorie target: {count}/{total}",
+  "@progDaysOnTarget": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "progSleepTitle": "Sleep & recovery",
+  "progSleepHours": "Sleep (h)",
+  "progRecoveryScore": "Recovery score",
+  "progAvgSleep": "Avg sleep",
+  "progAvgRecovery": "Avg recovery",
+  "progNoSleepData": "No sleep or recovery data in this period. Log sleep manually or connect Health Connect.",
+  "progPrsTitle": "Personal records",
+  "progPrHeaviest": "Heaviest",
+  "progPrBestE1rm": "Best est. 1RM",
+  "progPrRepsAtWeight": "Most reps at each weight",
+  "progNoPrs": "No records yet – log a few workouts first.",
+  "progSetsLogged": "{count} working sets",
+  "@progSetsLogged": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "progLastTrained": "Last: {date}",
+  "@progLastTrained": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "progReportChoose": "Export progress report",
+  "progReportThisWeek": "This week",
+  "progReportLastWeek": "Last week",
+  "progReportThisMonth": "This month",
+  "progReportLastMonth": "Last month",
+  "progReportGenerating": "Preparing your report…",
+  "progReportFailed": "Couldn't create the report",
+  "progReportShareSubject": "IronMind progress report",
+  "progPdfWeeklyTitle": "Weekly progress report",
+  "progPdfMonthlyTitle": "Monthly progress report",
+  "progPdfGenerated": "Generated {date}",
+  "@progPdfGenerated": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "progPdfSummary": "Summary",
+  "progPdfSessionsDone": "Sessions done",
+  "progPdfSessionsMissed": "Missed days",
+  "progPdfAdherence": "Adherence",
+  "progPdfVolume": "Total volume",
+  "progPdfPrs": "Personal records",
+  "progPdfAvgCalories": "Avg calories",
+  "progPdfAvgProtein": "Avg protein",
+  "progPdfWeightChange": "Weight change",
+  "progPdfAvgSleep": "Avg sleep",
+  "progPdfAvgRecovery": "Avg recovery",
+  "progPdfTarget": "target {value}",
+  "@progPdfTarget": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "progPdfCoachSummary": "Coach summary",
+  "progPdfNoCoachSummary": "No weekly coach report in this period. You can ask the coach for one from the Coach tab.",
+  "progPdfSessionsTable": "Sessions",
+  "progPdfDate": "Date",
+  "progPdfName": "Workout",
+  "progPdfStatus": "Status",
+  "progPdfDuration": "Duration",
+  "progPdfSets": "Sets",
+  "progPdfExercise": "Exercise",
+  "progPdfType": "Record",
+  "progPdfSet": "Set",
+  "progPdfTypeWeight": "Heaviest",
+  "progPdfTypeReps": "Reps",
+  "progPdfTypeE1rm": "e1RM",
+  "progPdfBodyTable": "Body metrics",
+  "progPdfMuscleChart": "Volume per muscle (kg)",
+  "progPdfCaloriesChart": "Daily calories vs target",
+  "progPdfWeightChart": "Body weight (kg)",
+  "progPdfNone": "Nothing logged in this period.",
+  "progPdfPage": "Page {page} of {total}",
+  "@progPdfPage": {
+    "placeholders": {
+      "page": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "progPdfEaten": "Eaten",
+  "progPdfFromTo": "{from} to {to}",
+  "@progPdfFromTo": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  }
+}

@@ -6,6 +6,7 @@ import 'package:drift/drift.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_riverpod/misc.dart' show ProviderListenable;
 import 'package:home_widget/home_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -212,6 +213,8 @@ class HomeWidgetService {
       }
       int goal;
       try {
+        // waterGoalProvider derives from the profile: make sure it has loaded first.
+        await read(profileProvider.future).timeout(timeout);
         goal = read(waterGoalProvider);
       } catch (_) {
         goal = await q.waterGoal();
@@ -272,8 +275,6 @@ class HomeWidgetService {
       kcalText = l.setWidgetKcalOver((-rem).round());
     }
     final pct = s.waterGoalMl <= 0 ? 0 : ((s.waterMl / s.waterGoalMl) * 100).round().clamp(0, 100);
-    final cup = prefs.getInt(SettingsKeys.waterCupMl) ?? 250;
-
     final data = <String, Object>{
       'im_title': l.appName,
       'im_workout_label': l.setWidgetWorkoutLabel,
@@ -284,7 +285,7 @@ class HomeWidgetService {
       'im_water_label': l.setWidgetWaterLabel,
       'im_water_text': l.setWidgetWaterText(s.waterMl, s.waterGoalMl),
       'im_water_pct': pct,
-      'im_cup_label': l.setWidgetAddCup(cup),
+      'im_cup_label': l.setWidgetAddCup,
       'im_rtl': prefs.getString(SettingsKeys.language) != 'en',
     };
     for (final e in data.entries) {

@@ -1,0 +1,223 @@
+{
+  "woAddCardio": "Add cardio",
+  "woAddExercise": "Add exercise",
+  "woApprovePlan": "Approve plan",
+  "woAskCoach": "Ask the coach to review",
+  "woBuildTemplate": "Build a basic plan (no AI)",
+  "woCaloriesAuto": "Estimated automatically (MET) – you can edit it",
+  "woCardio": "Cardio",
+  "woCardioBike": "Bike",
+  "woCardioElliptical": "Elliptical",
+  "woCardioJumpRope": "Jump rope",
+  "woCardioOther": "Other",
+  "woCardioRowing": "Rowing",
+  "woCardioRun": "Run",
+  "woCardioStairs": "Stairs",
+  "woCardioSwim": "Swim",
+  "woCardioTreadmill": "Treadmill",
+  "woCardioWalk": "Walk",
+  "woCoachEvaluation": "Coach evaluation",
+  "woCoachNeedsKey": "Add your Claude API key to get the coach's evaluation of this workout.",
+  "woCoachQueued": "No internet – the coach will review this workout as soon as you're back online.",
+  "woCoachReviewing": "The coach is reviewing your workout…",
+  "woContinueWorkout": "Continue this workout",
+  "woCooldown": "Cool-down",
+  "woCopyLast": "Copy last",
+  "woDeleteSession": "Delete workout",
+  "woDeleteSessionBody": "All sets, cardio and notes of this workout will be deleted.",
+  "woDeleteSessionTitle": "Delete this workout?",
+  "woDeleteSetTitle": "Delete this set?",
+  "woDeloadActiveBody": "Lighter week: suggestions use 85% of your weights. Focus on technique and recovery.",
+  "woDeloadActiveShort": "Deload week – 85% weights",
+  "woDeloadActiveTitle": "Deload week – day {day} of 7",
+  "@woDeloadActiveTitle": {
+    "placeholders": {
+      "day": {
+        "type": "int"
+      }
+    }
+  },
+  "woDeloadBadge": "Deload",
+  "woDeloadDuePerformance": "Your estimated 1RMs dropped over the last 2 weeks – that's usually accumulated fatigue. A lighter week at 85% will bring you back stronger.",
+  "woDeloadDueSchedule": "You've trained hard for {weeks} weeks. A lighter week at 85% weights helps you recover and keep progressing.",
+  "@woDeloadDueSchedule": {
+    "placeholders": {
+      "weeks": {
+        "type": "int"
+      }
+    }
+  },
+  "woDeloadDueTitle": "Time for a deload week?",
+  "woDeloadEvery": "Deload every {weeks} weeks",
+  "@woDeloadEvery": {
+    "placeholders": {
+      "weeks": {
+        "type": "int"
+      }
+    }
+  },
+  "woDiscard": "Discard",
+  "woDuration": "Duration",
+  "woEditPlan": "Edit plan",
+  "woEndDeload": "End",
+  "woExerciseCount": "{count, plural, =0{no exercises} =1{1 exercise} other{{count} exercises}}",
+  "@woExerciseCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "woExerciseInfo": "Exercise details",
+  "woExerciseNote": "Exercise note",
+  "woExerciseNoteHint": "e.g. shoulder hurts on the way down",
+  "woExercises": "Exercises",
+  "woFinish": "Finish",
+  "woFinishPartialBody": "Not all planned sets are done. It will be saved as a partial workout.",
+  "woFinishPartialTitle": "Finish anyway?",
+  "woFinishWorkout": "Finish workout",
+  "woFirstTime": "First time – no comparison yet",
+  "woFreeWorkout": "Workout",
+  "woFreeWorkoutHint": "Add exercises from the library and log your sets.",
+  "woGenerateWithAi": "Build my plan with AI",
+  "woGeneratingPlan": "Building your plan… this can take a minute.",
+  "woHistory": "History",
+  "woIncline": "Incline",
+  "woKmh": "km/h",
+  "woLastTime": "Last time",
+  "woLevel": "Level",
+  "woLibrary": "Library",
+  "woMissedBody": "This training day was missed. The schedule doesn't shift – just show up next time.",
+  "woNewRecords": "New records",
+  "woNoExercises": "No exercises yet",
+  "woNoHistory": "No workouts yet. Your sessions will show up here.",
+  "woNoPlan": "You don't have an active workout plan yet. Build one with AI, or start with a basic plan that works offline.",
+  "woNotNow": "Not now",
+  "woNothingLoggedBody": "You haven't logged any set or cardio. Discard this workout?",
+  "woNothingLoggedTitle": "Nothing logged",
+  "woNothingToCopy": "No previous set to copy",
+  "woPendingPlan": "A new plan is waiting for your review",
+  "woPickFromLibrary": "Pick from the library",
+  "woPlanApproved": "Plan activated 💪",
+  "woPlanNotFound": "Plan not found",
+  "woPlanTools": "Plan",
+  "woPrBanner": "New PR! {exercise}: {types}",
+  "@woPrBanner": {
+    "placeholders": {
+      "exercise": {
+        "type": "String"
+      },
+      "types": {
+        "type": "String"
+      }
+    }
+  },
+  "woPrE1rm": "Best 1RM",
+  "woPrReps": "Most reps",
+  "woPrWeight": "Heaviest weight",
+  "woPrs": "PRs",
+  "woReasonAddReps": "Same weight – aim for one more rep.",
+  "woReasonDeload": "Deload: 85% of last time.",
+  "woReasonFirstTime": "First time – pick a weight you can do with good form.",
+  "woReasonIncrease": "You hit the top of the rep range last time – add weight.",
+  "woReasonReduce": "Two tough sessions in a row – drop the weight a bit.",
+  "woReasonRepeat": "Repeat last time's numbers with solid form.",
+  "woRecoveryAdjusted": "Recovery adjusted",
+  "woRecoveryPill": "Low recovery: −{pct}% weight, −{sets} set",
+  "@woRecoveryPill": {
+    "placeholders": {
+      "pct": {
+        "type": "int"
+      },
+      "sets": {
+        "type": "int"
+      }
+    }
+  },
+  "woRegenerate": "Rebuild plan with AI",
+  "woRegenerateBody": "The AI will build a new plan for you to review. Your current plan stays active until you approve the new one.",
+  "woRegenerateTitle": "Rebuild your plan?",
+  "woRemoveExerciseTitle": "Remove this exercise?",
+  "woRepMax": "Max reps",
+  "woRepMin": "Min reps",
+  "woReps": "Reps",
+  "woRest": "Rest",
+  "woRestDay": "Rest day",
+  "woRestDayBody": "Recover today: sleep well, eat your protein, maybe a light walk.",
+  "woRestDoneBody": "Rest is over – next set!",
+  "woRestDoneTitle": "Rest timer",
+  "woRestSeconds": "Rest (sec)",
+  "woRestTimer": "Rest",
+  "woResumeWorkout": "Resume workout",
+  "woReviewHint": "Edit anything you like (tap to edit, drag to reorder), then approve.",
+  "woReviewPlan": "Review your plan",
+  "woSaveSet": "Save set",
+  "woSessionNotFound": "Workout not found",
+  "woSessionNotes": "Workout notes",
+  "woSessionNotesHint": "How did it feel? Anything to remember?",
+  "woSetTypeDrop": "Drop set",
+  "woSetTypeFailure": "To failure",
+  "woSetTypeNormal": "Normal",
+  "woSetTypeWarmup": "Warm-up",
+  "woSets": "Sets",
+  "woSetsCount": "{count, plural, =1{1 set} other{{count} sets}}",
+  "@woSetsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "woSourceAi": "AI",
+  "woSourceTemplate": "Basic",
+  "woSpeed": "Speed",
+  "woStartDeload": "Start deload week",
+  "woStartEmpty": "Start an empty workout",
+  "woStartThisWorkout": "Do this workout now",
+  "woStartToday": "Start today's workout",
+  "woStatusCompleted": "Completed",
+  "woStatusInProgress": "In progress",
+  "woStatusMissed": "Missed",
+  "woStatusPartial": "Partial",
+  "woSubstitute": "Substitute",
+  "woSubstituteAi": "AI suggestions",
+  "woSubstituteAlways": "Always",
+  "woSubstituteLocal": "Similar exercises",
+  "woSubstituteNone": "No alternatives found",
+  "woSubstituteOnce": "Just this workout",
+  "woSubstituteTitle": "Substitute exercise",
+  "woSubstituted": "Substituted",
+  "woSummaryTitle": "Workout summary",
+  "woSwap": "Swap",
+  "woTargetRpe": "Target RPE",
+  "woTemplateBody": "A new basic plan will be built for you to review. Your current plan stays active until you approve it.",
+  "woTemplateTitle": "Build a basic plan?",
+  "woTodayTitle": "Today",
+  "woTotalVolume": "Total volume",
+  "woTry": "Try",
+  "woViewSummary": "View summary",
+  "woVoiceConfirm": "Save this set?",
+  "woVoiceExample": "Say e.g. \"80 kilo 10 reps\"",
+  "woVoiceHint": "Try saying the weight then the reps, e.g. \"80 kilo 10 reps\".",
+  "woVoiceNotUnderstood": "Didn't catch that",
+  "woVoiceParsing": "Understanding…",
+  "woVoiceTitle": "Listening…",
+  "woVoiceUnavailable": "Speech recognition isn't available on this device.",
+  "woVolume": "Volume",
+  "woVsLastTime": "Last time: best {best} · volume {volume} kg",
+  "@woVsLastTime": {
+    "placeholders": {
+      "best": {
+        "type": "String"
+      },
+      "volume": {
+        "type": "String"
+      }
+    }
+  },
+  "woWarmup": "Warm-up",
+  "woWeeklyPlan": "Plan",
+  "woWeightKg": "Weight (kg)",
+  "woWorkingSets": "Working sets",
+  "woWorkout": "Workout"
+}

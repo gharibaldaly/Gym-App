@@ -8,6 +8,8 @@ import 'dart:math' as math;
 
 import 'egyptian_foods.dart';
 
+export 'egyptian_foods.dart' show FoodMacros;
+
 // ---------------------------------------------------------------------------
 // Food entries
 // ---------------------------------------------------------------------------
@@ -434,9 +436,19 @@ Set<String> excludedFoodIds({String? dislikes, String? allergies}) {
   return out;
 }
 
-EgyptianFood? _pick(List<String> ids, Set<String> excluded, bool lowBudget) {
-  final opts = ids.where((id) => !excluded.contains(id)).map(food).toList();
+EgyptianFood? _pick(List<String> ids, Set<String> excluded,
+    {bool lowBudget = false, bool lean = false, bool pureFat = false}) {
+  var opts = ids.where((id) => !excluded.contains(id)).map(food).toList();
   if (opts.isEmpty) return null;
+  if (pureFat) {
+    final oils = opts.where((f) => f.carbs == 0 && f.protein == 0).toList();
+    if (oils.isNotEmpty) opts = oils;
+  }
+  if (lean) {
+    double ratio(EgyptianFood f) => f.protein <= 0 ? 99 : f.fat / f.protein;
+    final sorted = [...opts]..sort((a, b) => ratio(a).compareTo(ratio(b)));
+    return sorted.first;
+  }
   if (lowBudget) {
     final sorted = [...opts]..sort((a, b) => a.priceTier.compareTo(b.priceTier));
     return sorted.first;
@@ -450,9 +462,9 @@ double roundGrams(EgyptianFood f, double g) {
   final u = f.unitGrams;
   if (f.countable && u != null) {
     final step = f.category == FoodCategory.carb ? u / 2 : u;
-    return math.max(step, (g / step).round() * step);
+    return (g / step).round() * step;
   }
-  return math.max(5, (g / 5).round() * 5).toDouble();
+  return (g / 5).round() * 5.0;
 }
 
 class _MealSolve {
@@ -507,6 +519,56 @@ class _MealSolve {
   }
 }
 
+/// Sum of relative deviations from the day targets (0 = perfect).
+double _planError(FoodMacros t, MacroTargets d) {
+  double r(double a, double b) => b <= 0 ? 0 : (a - b).abs() / b;
+  return r(t.calories, d.calories) + r(t.protein, d.protein) + r(t.carbs, d.carbs) + r(t.fat, d.fat);
+}
+
+List<_MealSolve> _solveDay(
+  MacroTargets day,
+  List<_Slot> slots,
+  Set<String> excluded, {
+  required bool lowBudget,
+  required bool lean,
+  required double fixedFactor,
+}) {
+  final shareSum = slots.fold(0.0, (a, s) => a + s.share);
+  final solves = <_MealSolve>[];
+  for (final s in slots) {
+    final fixed = <EgyptianFood, double>{
+      for (final e in s.fixed.entries)
+        if (!excluded.contains(e.key) && fixedFactor > 0) food(e.key): (e.value * fixedFactor / 10).round() * 10.0,
+    }..removeWhere((_, g) => g <= 0);
+    final m = _MealSolve(
+      _pick(s.protein, excluded, lowBudget: lowBudget, lean: lean),
+      _pick(s.carb, excluded, lowBudget: lowBudget),
+      _pick(s.fat, excluded, lowBudget: lowBudget, pureFat: lean),
+      fixed,
+    );
+    m.solve(day.scale(s.share / shareSum));
+    m.round();
+    solves.add(m);
+  }
+  // Correct rounding drift / overshoot: biggest meals absorb the remaining difference.
+  final order = [for (var i = 0; i < slots.length; i++) i]..sort((a, b) => slots[b].share.compareTo(slots[a].share));
+  for (var pass = 0; pass < 3; pass++) {
+    for (final i in order) {
+      final m = solves[i];
+      final dayTotal = solves.fold(const FoodMacros(), (a, s) => a + s.total());
+      final mt = m.total();
+      m.solve(MacroTargets(
+        calories: mt.calories + day.calories - dayTotal.calories,
+        protein: math.max(0, mt.protein + day.protein - dayTotal.protein),
+        carbs: math.max(0, mt.carbs + day.carbs - dayTotal.carbs),
+        fat: math.max(0, mt.fat + day.fat - dayTotal.fat),
+      ));
+      m.round();
+    }
+  }
+  return solves;
+}
+
 List<PlanMealDraft> _buildDay(
   MacroTargets day,
   List<_Slot> slots,
@@ -514,33 +576,25 @@ List<PlanMealDraft> _buildDay(
   Set<String> excluded,
   bool lowBudget,
 ) {
-  final shareSum = slots.fold(0.0, (a, s) => a + s.share);
-  final solves = <_MealSolve>[];
-  for (final s in slots) {
-    final fixed = <EgyptianFood, double>{
-      for (final e in s.fixed.entries)
-        if (!excluded.contains(e.key)) food(e.key): e.value,
-    };
-    final m = _MealSolve(_pick(s.protein, excluded, lowBudget), _pick(s.carb, excluded, lowBudget),
-        _pick(s.fat, excluded, lowBudget), fixed);
-    m.solve(day.scale(s.share / shareSum));
-    m.round();
-    solves.add(m);
+  List<_MealSolve>? best;
+  var bestErr = double.infinity;
+  // Try the preferred foods first; fall back to leaner proteins / fewer fixed sides.
+  for (final (lean, fixedFactor) in [(false, 1.0), (true, 1.0), (false, 0.5), (true, 0.5), (true, 0.0)]) {
+    final solves = _solveDay(day, slots, excluded, lowBudget: lowBudget, lean: lean, fixedFactor: fixedFactor);
+    final totals = solves.fold(const FoodMacros(), (a, s) => a + s.total());
+    final err = _planError(totals, day);
+    if (err < bestErr) {
+      best = solves;
+      bestErr = err;
+    }
+    if (validateDayTotals('day', totals, day, tolerance: 0.08).isEmpty) {
+      best = solves;
+      break;
+    }
   }
-  // Correct the rounding drift on the biggest meal (weights in 5 g steps).
-  final adjIdx = slots.indexOf(slots.reduce((a, b) => a.share >= b.share ? a : b));
-  final adj = solves[adjIdx];
-  final others = solves.where((s) => s != adj).fold(const FoodMacros(), (a, s) => a + s.total());
-  adj.solve(MacroTargets(
-    calories: day.calories - others.calories,
-    protein: math.max(0, day.protein - others.protein),
-    carbs: math.max(0, day.carbs - others.carbs),
-    fat: math.max(0, day.fat - others.fat),
-  ));
-  adj.round();
   return [
     for (final (i, s) in slots.indexed)
-      PlanMealDraft(nameAr: s.nameAr, nameEn: s.nameEn, time: times[i], items: solves[i].items()),
+      PlanMealDraft(nameAr: s.nameAr, nameEn: s.nameEn, time: times[i], items: best![i].items()),
   ];
 }
 

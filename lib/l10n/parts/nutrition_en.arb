@@ -1,0 +1,303 @@
+{
+  "nutTitle": "Nutrition",
+  "nutTabToday": "Today",
+  "nutTabPlan": "Meal plan",
+  "nutTabShopping": "Shopping",
+  "nutTodayTitle": "Today's calories",
+  "nutTrainingDay": "Training day",
+  "nutRestDay": "Rest day",
+  "nutNoTargets": "No calorie targets yet. Finish your profile to get your daily numbers.",
+  "nutKcalLeft": "kcal left",
+  "nutKcalOver": "kcal over",
+  "nutRemainingMacros": "Left: protein {protein} g · carbs {carbs} g · fat {fat} g",
+  "@nutRemainingMacros": {
+    "placeholders": {
+      "protein": {
+        "type": "String"
+      },
+      "carbs": {
+        "type": "String"
+      },
+      "fat": {
+        "type": "String"
+      }
+    }
+  },
+  "nutFromSupplements": "Incl. supplements: {protein} g protein · {kcal} kcal",
+  "@nutFromSupplements": {
+    "placeholders": {
+      "protein": {
+        "type": "String"
+      },
+      "kcal": {
+        "type": "String"
+      }
+    }
+  },
+  "nutMacroLine": "{kcal} kcal · P {protein} · C {carbs} · F {fat}",
+  "@nutMacroLine": {
+    "placeholders": {
+      "kcal": {
+        "type": "String"
+      },
+      "protein": {
+        "type": "String"
+      },
+      "carbs": {
+        "type": "String"
+      },
+      "fat": {
+        "type": "String"
+      }
+    }
+  },
+  "nutProteinShort": "P",
+  "nutCarbsShort": "C",
+  "nutFatShort": "F",
+  "nutPendingCount": "{count, plural, =1{1 meal waiting for AI analysis} other{{count} meals waiting for AI analysis}}",
+  "@nutPendingCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "nutPendingNoKey": "Add your Claude API key and they will be analyzed automatically.",
+  "nutPendingOffline": "They'll be analyzed when you're back online.",
+  "nutPendingWorking": "Analyzing in the background…",
+  "nutMealsTitle": "Meals: planned vs eaten",
+  "nutNoPlanToday": "You don't have a meal plan yet. Create one to see your meals here.",
+  "nutOpenPlan": "Open meal plan",
+  "nutPlannedLine": "Planned: {macros}",
+  "@nutPlannedLine": {
+    "placeholders": {
+      "macros": {
+        "type": "String"
+      }
+    }
+  },
+  "nutEatenLine": "Eaten: {macros}",
+  "@nutEatenLine": {
+    "placeholders": {
+      "macros": {
+        "type": "String"
+      }
+    }
+  },
+  "nutAteAsPlanned": "Ate it as planned",
+  "nutAteHalf": "Ate half of it",
+  "nutAteDifferent": "Ate something different",
+  "nutLoggedMeal": "Logged: {name}",
+  "@nutLoggedMeal": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "nutUndo": "Undo",
+  "nutLoggedTitle": "Logged today",
+  "nutNothingLogged": "Nothing logged yet. Tap + to log a meal.",
+  "nutWaitingForAi": "Waiting for AI analysis",
+  "nutConfidence": "AI confidence {percent}%",
+  "@nutConfidence": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "nutSavedToMyFoods": "Saved to My foods",
+  "nutAnalyzeNow": "Analyze now",
+  "nutDeleted": "Meal deleted",
+  "nutSaved": "Saved",
+  "nutSupplementsTitle": "Supplements today",
+  "nutNoSupplementsToday": "No supplements ticked today. Mark them in the Today tab and their protein/calories count here.",
+  "nutSupplementMacros": "{protein} g protein · {kcal} kcal",
+  "@nutSupplementMacros": {
+    "placeholders": {
+      "protein": {
+        "type": "String"
+      },
+      "kcal": {
+        "type": "String"
+      }
+    }
+  },
+  "nutNoMacros": "no calories",
+  "nutLogFood": "Log food",
+  "nutLogPhoto": "Photo",
+  "nutLogPhotoHint": "Snap your plate, the AI estimates it",
+  "nutLogText": "Type or say it",
+  "nutLogTextHint": "e.g. \"a medium koshary and two eggs\"",
+  "nutMyFoods": "My foods",
+  "nutMyFoodsHint": "One tap, no AI, works offline",
+  "nutLogManual": "Manual",
+  "nutLogManualHint": "Pick from Egyptian foods + grams",
+  "nutLogged": "Meal logged",
+  "nutTakePhoto": "Take a photo",
+  "nutFromGallery": "Choose from gallery",
+  "nutPhotoError": "Couldn't open the camera or gallery.",
+  "nutPhotoMealName": "Meal photo",
+  "nutQueuedNoKey": "Saved with the photo. Add your API key in Settings and it will be analyzed.",
+  "nutAnalyzingPhoto": "Analyzing your plate…",
+  "nutAnalysisFailed": "Couldn't analyze it",
+  "nutLogManually": "Log manually",
+  "nutAnalyzeLater": "Save & analyze later",
+  "nutReviewTitle": "Review meal",
+  "nutEditMeal": "Edit meal",
+  "nutReviewHint": "Check the amounts — changing grams updates the macros.",
+  "nutMealName": "Meal name",
+  "nutWhichMeal": "Which meal?",
+  "nutOtherMeal": "Snack / outside the plan",
+  "nutMealNumber": "Meal {number}",
+  "@nutMealNumber": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "nutItems": "Items",
+  "nutAddFood": "Add food",
+  "nutNoItemsDetected": "The AI found no food. Add the items yourself.",
+  "nutNoItemsYet": "No items yet. Add a food from the list.",
+  "nutItemName": "Item name",
+  "nutGrams": "Grams",
+  "nutTotal": "Total",
+  "nutSaveToMyFoods": "Save to My foods",
+  "nutSaveToMyFoodsHint": "Log it again later with one tap, without AI",
+  "nutSaveMeal": "Save meal",
+  "nutAddAtLeastOne": "Add at least one item.",
+  "nutSearchFoods": "Search foods (فول، rice…)",
+  "nutNoFoodsFound": "No foods found",
+  "nutPer100g": "Per 100 g: {macros}",
+  "@nutPer100g": {
+    "placeholders": {
+      "macros": {
+        "type": "String"
+      }
+    }
+  },
+  "nutTextPrompt": "What did you eat?",
+  "nutTextHintExample": "a medium koshary plate and two eggs",
+  "nutSpeak": "Speak",
+  "nutStopListening": "Stop",
+  "nutListening": "Listening…",
+  "nutTapToSpeak": "Tap the mic and say what you ate",
+  "nutSpeechUnavailable": "Voice input is not available on this device.",
+  "nutAnalyze": "Analyze with AI",
+  "nutAnalyzing": "Analyzing…",
+  "nutMyFoodsEmpty": "Meals you log are saved here so you can log them again with one tap.",
+  "nutMyFoodsTapHint": "Tap to log · hold for portion & options",
+  "nutUsedTimes": "{count, plural, =1{Used once} other{Used {count} times}}",
+  "@nutUsedTimes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "nutMore": "More",
+  "nutHalfPortion": "Half portion",
+  "nutFullPortion": "Full portion",
+  "nutOneAndHalfPortion": "1.5 portions",
+  "nutDoublePortion": "Double portion",
+  "nutFavorite": "Add to favorites",
+  "nutUnfavorite": "Remove from favorites",
+  "nutNoPlan": "No meal plan yet. The AI builds one with Egyptian food that fits your macros, budget and taste.",
+  "nutGeneratePlan": "Build my meal plan",
+  "nutUseBasicPlan": "Use a basic offline plan",
+  "nutGeneratingPlan": "Building your meal plan… this can take a minute.",
+  "nutBuildingPlan": "Building a basic plan…",
+  "nutPlanReady": "Your new meal plan is ready",
+  "nutBasicPlanReady": "Basic plan ready",
+  "nutPlanFallback": "No AI right now, so we built a basic plan from Egyptian foods.",
+  "nutPlanFailed": "Couldn't build the plan",
+  "nutTemplatePlanNote": "Basic plan built offline from the built-in food table. Regenerate with AI for a personalized plan.",
+  "nutDayTotal": "Day total",
+  "nutTargetLine": "Target: {macros}",
+  "@nutTargetLine": {
+    "placeholders": {
+      "macros": {
+        "type": "String"
+      }
+    }
+  },
+  "nutNoMealsForDay": "No meals for this day type in the plan.",
+  "nutItemMacros": "{kcal} kcal · P {protein} · C {carbs} · F {fat}",
+  "@nutItemMacros": {
+    "placeholders": {
+      "kcal": {
+        "type": "String"
+      },
+      "protein": {
+        "type": "String"
+      },
+      "carbs": {
+        "type": "String"
+      },
+      "fat": {
+        "type": "String"
+      }
+    }
+  },
+  "nutSwapMeal": "Swap meal",
+  "nutSwapTitle": "Swap {meal}",
+  "@nutSwapTitle": {
+    "placeholders": {
+      "meal": {
+        "type": "String"
+      }
+    }
+  },
+  "nutSwapSubtitle": "Alternatives with about the same macros: {macros}",
+  "@nutSwapSubtitle": {
+    "placeholders": {
+      "macros": {
+        "type": "String"
+      }
+    }
+  },
+  "nutFindingAlternatives": "Finding alternatives…",
+  "nutNoAlternatives": "No alternatives found. Try again.",
+  "nutUseThis": "Use this meal",
+  "nutMoreAlternatives": "Other alternatives",
+  "nutMealSwapped": "Meal swapped in your plan",
+  "nutRegenerate": "Regenerate plan",
+  "nutRegenerateTitle": "Build a new meal plan?",
+  "nutRegenerateBody": "Your current plan (and any swaps) will be replaced. Your logged meals stay.",
+  "nutShoppingNoPlan": "Create a meal plan first and your weekly shopping list will appear here.",
+  "nutShoppingTitle": "Weekly shopping list",
+  "nutShoppingSubtitle": "For {training} training days and {rest} rest days",
+  "@nutShoppingSubtitle": {
+    "placeholders": {
+      "training": {
+        "type": "int"
+      },
+      "rest": {
+        "type": "int"
+      }
+    }
+  },
+  "nutShoppingShareTitle": "Shopping list – week of {date}",
+  "@nutShoppingShareTitle": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "nutShare": "Share",
+  "nutUncheckAll": "Uncheck all",
+  "nutLiter": "L",
+  "nutCatProtein": "Meat, poultry & eggs",
+  "nutCatCarb": "Bread, grains & legumes",
+  "nutCatDairy": "Dairy",
+  "nutCatFat": "Oils, nuts & spreads",
+  "nutCatFruit": "Fruit",
+  "nutCatVeg": "Vegetables",
+  "nutCatDish": "Ready dishes",
+  "nutCatSupplement": "Supplements",
+  "nutCatOther": "Other"
+}

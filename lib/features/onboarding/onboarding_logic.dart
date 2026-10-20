@@ -6,6 +6,9 @@ library;
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:drift/drift.dart' show Value;
+
+import '../../core/calc/nutrition_calc.dart';
 import '../../core/providers.dart';
 import '../../data/repositories/profile_repository.dart';
 
@@ -688,4 +691,31 @@ int? suggestGoalWeeks(double? currentKg, double? targetKg) {
   if (diff < 0.5) return null;
   final perWeek = targetKg < currentKg ? currentKg * 0.005 : currentKg * 0.0025;
   return max(1, min(OnbLimits.weeksMax, (diff / perWeek).ceil()));
+}
+
+// ---------------------------------------------------------------------------
+// Defaults applied when a step is shown with no answer yet
+// ---------------------------------------------------------------------------
+
+const defaultSleepTime = '23:00';
+const defaultWakeTime = '07:00';
+
+/// Sensible pre-filled answers for steps whose controls need a starting value
+/// (time pickers, water stepper). Returns null when nothing needs filling.
+UserProfilesCompanion? prefillPatch(OnbStep step, UserProfile p) {
+  switch (step) {
+    case OnbStep.sleep:
+      if (p.sleepTime != null && p.wakeTime != null) return null;
+      return UserProfilesCompanion(
+        sleepTime: Value(p.sleepTime ?? defaultSleepTime),
+        wakeTime: Value(p.wakeTime ?? defaultWakeTime),
+      );
+    case OnbStep.water:
+      if (p.waterGoalMl != null) return null;
+      return UserProfilesCompanion(
+        waterGoalMl: Value(p.weightKg == null ? 2500 : NutritionCalc.waterGoalMl(p.weightKg!)),
+      );
+    default:
+      return null;
+  }
 }

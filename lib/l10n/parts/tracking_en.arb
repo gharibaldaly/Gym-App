@@ -1,0 +1,352 @@
+{
+  "@@locale": "en",
+  "trkWaterTitle": "Water",
+  "trkSupplementsTitle": "Supplements",
+  "trkSleepTitle": "Sleep",
+  "trkWeightTitle": "Body weight",
+  "trkMeasurementsTitle": "Measurements",
+  "trkPhotosTitle": "Progress photos",
+  "trkHealthConnectTitle": "Health Connect & ring",
+  "trkDate": "Date",
+  "trkHistory": "History",
+  "trkLast7Days": "Last 7 days",
+  "trkInvalidNumber": "Enter a valid number",
+  "trkDeleteConfirm": "Delete \"{name}\"?",
+  "@trkDeleteConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "trkDeleted": "Deleted",
+  "trkHoursMinutes": "{h}h {m}m",
+  "@trkHoursMinutes": {
+    "placeholders": {
+      "h": {
+        "type": "int"
+      },
+      "m": {
+        "type": "int"
+      }
+    }
+  },
+  "trkSourceManual": "Manual",
+  "trkSourceHealthConnect": "Health Connect",
+  "trkSyncNow": "Sync now",
+  "trkSyncing": "Syncing…",
+  "trkSyncDone": "Synced",
+  "trkSyncFailed": "Couldn't sync — your manual entries still work",
+  "trkTypeValue": "Type a value",
+  "trkClear": "Clear",
+  "trkWaterProgress": "{drunk} / {goal} ml",
+  "@trkWaterProgress": {
+    "placeholders": {
+      "drunk": {
+        "type": "int"
+      },
+      "goal": {
+        "type": "int"
+      }
+    }
+  },
+  "trkWaterRemaining": "{ml} ml left today",
+  "@trkWaterRemaining": {
+    "placeholders": {
+      "ml": {
+        "type": "int"
+      }
+    }
+  },
+  "trkWaterGoalReached": "Daily goal reached. Nice!",
+  "trkAddCup": "Cup · {ml} ml",
+  "@trkAddCup": {
+    "placeholders": {
+      "ml": {
+        "type": "int"
+      }
+    }
+  },
+  "trkAddBottle": "Bottle · {ml} ml",
+  "@trkAddBottle": {
+    "placeholders": {
+      "ml": {
+        "type": "int"
+      }
+    }
+  },
+  "trkAddCustom": "Custom amount",
+  "trkUndoLast": "Undo last",
+  "trkUndone": "Removed {ml} ml",
+  "@trkUndone": {
+    "placeholders": {
+      "ml": {
+        "type": "int"
+      }
+    }
+  },
+  "trkWaterAdded": "+{ml} ml",
+  "@trkWaterAdded": {
+    "placeholders": {
+      "ml": {
+        "type": "int"
+      }
+    }
+  },
+  "trkWaterSizes": "Cup & bottle sizes",
+  "trkCupSize": "Cup size (ml)",
+  "trkBottleSize": "Bottle size (ml)",
+  "trkAmountMl": "Amount (ml)",
+  "trkTodayEntries": "Today's entries",
+  "trkNoWaterYet": "No water logged today yet",
+  "trkGoalLabel": "Goal {ml} ml",
+  "@trkGoalLabel": {
+    "placeholders": {
+      "ml": {
+        "type": "int"
+      }
+    }
+  },
+  "trkSuppToday": "Today",
+  "trkSuppTakenCount": "{taken} of {total} taken",
+  "@trkSuppTakenCount": {
+    "placeholders": {
+      "taken": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "trkSuppManage": "My supplements",
+  "trkSuppAdd": "Add supplement",
+  "trkSuppEdit": "Edit supplement",
+  "trkSuppName": "Name",
+  "trkSuppDose": "Dose (e.g. 5 g, 1 scoop)",
+  "trkSuppTiming": "Timing",
+  "trkTimingMorning": "Morning",
+  "trkTimingPreWorkout": "Pre-workout",
+  "trkTimingPostWorkout": "Post-workout",
+  "trkTimingWithMeal": "With a meal",
+  "trkTimingEvening": "Evening",
+  "trkTimingBedtime": "Before bed",
+  "trkSuppPerServing": "Per serving (added to your daily macros when ticked)",
+  "trkSuppProtein": "Protein (g)",
+  "trkSuppCalories": "Calories (kcal)",
+  "trkSuppCarbs": "Carbs (g)",
+  "trkSuppFat": "Fat (g)",
+  "trkSuppActive": "In use",
+  "trkSuppPaused": "Paused",
+  "trkSuppEmpty": "Add the supplements you take, then tick them off every day.",
+  "trkSuppImport": "Import from my profile",
+  "trkSuppImported": "{count} imported",
+  "@trkSuppImported": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "trkSuppNote": "Logging only — the app doesn't recommend supplements.",
+  "trkSuppNoneActive": "No supplements in use",
+  "trkNameRequired": "Name is required",
+  "trkSuppMacros": "{protein} g protein · {calories} kcal",
+  "@trkSuppMacros": {
+    "placeholders": {
+      "protein": {
+        "type": "String"
+      },
+      "calories": {
+        "type": "String"
+      }
+    }
+  },
+  "trkSleepLastNight": "Last night",
+  "trkSleepNoData": "No sleep logged for last night",
+  "trkSleepLog": "Log sleep",
+  "trkSleepEdit": "Edit sleep",
+  "trkSleepHours": "Hours slept",
+  "trkSleepQuality": "Quality",
+  "trkQuality1": "Very bad",
+  "trkQuality2": "Bad",
+  "trkQuality3": "OK",
+  "trkQuality4": "Good",
+  "trkQuality5": "Excellent",
+  "trkBedTime": "Bedtime",
+  "trkWakeTime": "Wake-up",
+  "trkSleepDate": "Woke up on",
+  "trkOptionalTimes": "Bed & wake times (optional)",
+  "trkStageDeep": "Deep",
+  "trkStageRem": "REM",
+  "trkStageLight": "Light",
+  "trkStageAwake": "Awake",
+  "trkSleepWeekAvg": "7-day average {value}",
+  "@trkSleepWeekAvg": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "trkSleepNeed": "Your need {value}",
+  "@trkSleepNeed": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "trkSleepConnectHint": "Connect your ring through Health Connect to fill sleep and stages automatically.",
+  "trkSleepManualOverrides": "A manual entry replaces the ring data for that night.",
+  "trkSleepEmpty": "No sleep logged yet.",
+  "trkRecoveryToday": "Recovery today",
+  "trkRecoveryLow": "Low",
+  "trkRecoveryModerate": "Moderate",
+  "trkRecoveryHigh": "High",
+  "trkRecoveryCalibrating": "Baseline still calibrating ({days}/14 days)",
+  "@trkRecoveryCalibrating": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "trkWeightLog": "Log weight",
+  "trkWeightLatest": "Latest",
+  "trkWeightAvg7": "7-day average",
+  "trkWeightChange7": "vs last week",
+  "trkWeightDaily": "Daily",
+  "trkRange1M": "1M",
+  "trkRange3M": "3M",
+  "trkRange1Y": "1Y",
+  "trkRangeAll": "All",
+  "trkWeightEmpty": "Weigh yourself every morning — the 7-day average smooths out daily swings.",
+  "trkWeightSaved": "Saved {kg} kg",
+  "@trkWeightSaved": {
+    "placeholders": {
+      "kg": {
+        "type": "String"
+      }
+    }
+  },
+  "trkWeightKg": "Weight (kg)",
+  "trkNeedTwoPoints": "Log a few days to see the chart",
+  "trkMeasureWaist": "Waist",
+  "trkMeasureChest": "Chest",
+  "trkMeasureArm": "Arm",
+  "trkMeasureThigh": "Thigh",
+  "trkMeasureNeck": "Neck",
+  "trkMeasureHips": "Hips",
+  "trkMeasureBodyFat": "Body fat %",
+  "trkMeasureNew": "New measurements",
+  "trkMeasureEdit": "Edit measurements",
+  "trkMeasureDue": "It's been over a week since your last measurements — measure today.",
+  "trkMeasureNone": "No measurements yet — take them once a week, same time of day.",
+  "trkMeasureTip": "Measure in the morning before eating; tape snug, not tight.",
+  "trkMeasureNeedOne": "Enter at least one value",
+  "trkLastMeasured": "Last: {date}",
+  "@trkLastMeasured": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "trkPhotosLocked": "Progress photos are locked",
+  "trkPhotosUnlock": "Unlock",
+  "trkPhotosAuthReason": "Unlock to view your progress photos",
+  "trkPhotosAdd": "Add photos",
+  "trkPhotosCompare": "Compare",
+  "trkAngleFront": "Front",
+  "trkAngleSide": "Side",
+  "trkAngleBack": "Back",
+  "trkCamera": "Camera",
+  "trkGallery": "Gallery",
+  "trkPhotosEmpty": "Take front, side and back photos every 2–4 weeks in the same light and pose.",
+  "trkPhotosPrivate": "Saved privately inside the app — never in your gallery and never sent to the AI.",
+  "trkPhotoDeleteConfirm": "Delete this photo?",
+  "trkBefore": "Before",
+  "trkAfter": "After",
+  "trkSideBySide": "Side by side",
+  "trkSlider": "Slider",
+  "trkNoPhotoForAngle": "No photo for this angle on this date",
+  "trkComparePickTwo": "Add photos on at least two dates to compare.",
+  "trkPhotoSaved": "Photo saved",
+  "trkPhotoFailed": "Couldn't save the photo",
+  "trkPhotoMissing": "Photo file missing",
+  "trkPhotosForDate": "Photos for {date}",
+  "@trkPhotosForDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "trkDragToCompare": "Drag to compare",
+  "trkHcEnable": "Use Health Connect",
+  "trkHcEnableSub": "Read sleep, heart rate, HRV, steps and calories written by your ring's app",
+  "trkHcStatus": "Status",
+  "trkHcAvailable": "Health Connect is installed",
+  "trkHcNotInstalled": "Health Connect isn't installed",
+  "trkHcNeedsUpdate": "Health Connect needs an update",
+  "trkHcUnsupported": "Health Connect isn't supported on this device",
+  "trkHcInstall": "Install Health Connect",
+  "trkHcInstallHint": "Android 14+ has it built in (Settings → Security & privacy → Health Connect). On older phones install it from the Play Store.",
+  "trkHcPermGranted": "Read permissions granted",
+  "trkHcPermMissing": "Read permissions not granted yet",
+  "trkHcGrant": "Grant permissions",
+  "trkHcBgGranted": "Background reading allowed",
+  "trkHcBgMissing": "Background reading not allowed (sync runs when you open the app)",
+  "trkHcBgAllow": "Allow background reading",
+  "trkHcLastSync": "Last sync: {time}",
+  "@trkHcLastSync": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "trkHcNeverSynced": "Never synced",
+  "trkHcOutcomeOk": "Last sync pulled {count} data points",
+  "@trkHcOutcomeOk": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "trkHcOutcomeNoPermission": "Last sync: no permission to read data",
+  "trkHcOutcomeUnavailable": "Last sync: Health Connect unavailable",
+  "trkHcOutcomeError": "Last sync failed",
+  "trkHcLastPulled": "Last data pulled",
+  "trkHcLastPulledSub": "Check the source app: if your ring's app shows up here with recent dates, it writes to Health Connect.",
+  "trkHcColType": "Data",
+  "trkHcColDate": "Date",
+  "trkHcColValue": "Value",
+  "trkHcColSource": "Source app",
+  "trkHcNothing": "Nothing yet",
+  "trkHcTypeSleep": "Sleep session",
+  "trkHcTypeAsleep": "Asleep (no stage)",
+  "trkHcTypeHr": "Heart rate",
+  "trkHcTypeRhr": "Resting heart rate",
+  "trkHcTypeHrv": "HRV (RMSSD)",
+  "trkHcTypeSteps": "Steps",
+  "trkHcTypeCalories": "Active calories",
+  "trkHcSources": "Apps writing data: {apps}",
+  "@trkHcSources": {
+    "placeholders": {
+      "apps": {
+        "type": "String"
+      }
+    }
+  },
+  "trkHcCardooTitle": "Is your ring's data arriving?",
+  "trkHcCardooBody": "It's not confirmed that the Cardoo app writes to Health Connect. Open the Cardoo app and enable syncing to Health Connect if it offers it, wear the ring for a night, then tap Sync now and check the table below.",
+  "trkHcManualFallback": "If nothing arrives, IronMind just uses what you log manually (sleep, weight…). Nothing breaks.",
+  "trkHcEnabledToast": "Health Connect enabled",
+  "trkHcDisabledToast": "Health Connect disabled — manual entry only",
+  "trkUnitBpm": "bpm",
+  "trkUnitMs": "ms",
+  "trkUnitSteps": "steps"
+}

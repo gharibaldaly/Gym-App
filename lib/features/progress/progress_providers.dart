@@ -217,7 +217,7 @@ class MuscleSummary {
   final double totalVolume;
   final int totalEffectiveSets;
   final int totalWorkingSets;
-  final int weeks;
+  final double weeks;
   const MuscleSummary({
     required this.muscle,
     required this.totalVolume,
@@ -229,9 +229,9 @@ class MuscleSummary {
   double get avgWeeklyEffectiveSets => totalEffectiveSets / weeks;
 }
 
-/// Totals per muscle averaged over [weeks] weeks, sorted by volume (desc).
-List<MuscleSummary> summarizeMuscles(Iterable<MuscleWeekStat> stats, {required int weeks}) {
-  final w = weeks < 1 ? 1 : weeks;
+/// Totals per muscle averaged over [weeks] weeks (min 1), sorted by volume (desc).
+List<MuscleSummary> summarizeMuscles(Iterable<MuscleWeekStat> stats, {required double weeks}) {
+  final w = weeks < 1 ? 1.0 : weeks;
   final acc = <String, (double, int, int)>{};
   for (final s in stats) {
     final a = acc[s.muscle] ?? (0.0, 0, 0);
@@ -272,22 +272,24 @@ List<DatedValue> weeklyTotalVolume(Iterable<SetRow> sets, {required DateTime fro
 class MuscleVolumeData {
   final List<MuscleSummary> muscles;
   final List<DatedValue> weeklyTotals;
-  final int weeks;
-  const MuscleVolumeData({required this.muscles, required this.weeklyTotals, required this.weeks});
+
+  /// Calendar days the averages are spread over.
+  final int days;
+  const MuscleVolumeData({required this.muscles, required this.weeklyTotals, required this.days});
   bool get isEmpty => muscles.isEmpty;
 }
 
-/// Builds the volume card data for a period. [from] null = since the first set.
+/// Builds the volume card data for a period. Averages are "per 7 days" over the
+/// period ([from] null = since the first logged set), never over less than a week.
 MuscleVolumeData buildMuscleVolume(List<SetRow> sets, {DateTime? from, required DateTime today}) {
-  if (sets.isEmpty) return const MuscleVolumeData(muscles: [], weeklyTotals: [], weeks: 1);
+  if (sets.isEmpty) return const MuscleVolumeData(muscles: [], weeklyTotals: [], days: 0);
   final first = sets.map((s) => s.date).reduce((a, b) => a.isBefore(b) ? a : b);
-  // Average over the weeks the user actually had the chance to train in.
-  final start = from == null || first.isAfter(from) ? first : from;
-  final weeks = weeksInRange(start, today);
+  final start = from ?? first;
+  final days = _daysBetween(start, today) + 1;
   return MuscleVolumeData(
-    muscles: summarizeMuscles(weeklyMuscleStats(sets), weeks: weeks),
-    weeklyTotals: weeklyTotalVolume(sets, from: start, to: today),
-    weeks: weeks,
+    muscles: summarizeMuscles(weeklyMuscleStats(sets), weeks: days / 7),
+    weeklyTotals: weeklyTotalVolume(sets, from: start.isAfter(first) ? start : first, to: today),
+    days: days,
   );
 }
 

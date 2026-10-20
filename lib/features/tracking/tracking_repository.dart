@@ -390,7 +390,9 @@ class TrackingRepository {
   }
 
   /// Upserts vitals by date; null values keep what is stored. Sources are merged.
-  Future<void> upsertDaily(DailyHealth h, {DateTime? syncedAt}) async {
+  Future<void> upsertDaily(DailyHealth h, {DateTime? syncedAt}) => db.transaction(() => _upsertDaily(h, syncedAt));
+
+  Future<void> _upsertDaily(DailyHealth h, DateTime? syncedAt) async {
     final d = _day(h.date);
     final existing = await healthFor(d);
     final sources = <String>{
@@ -427,8 +429,10 @@ class TrackingRepository {
 
   /// Computes the recovery score for [day] from sleep + HRV + resting HR vs the 30-day
   /// baseline and stores it in health_daily.recoveryScore (only writes when it changed).
-  Future<RecoveryBreakdown> computeAndStoreRecovery([DateTime? day]) async {
-    final d = _day(day ?? DateTime.now());
+  Future<RecoveryBreakdown> computeAndStoreRecovery([DateTime? day]) =>
+      db.transaction(() => _computeAndStoreRecovery(_day(day ?? DateTime.now())));
+
+  Future<RecoveryBreakdown> _computeAndStoreRecovery(DateTime d) async {
     final profile = await ProfileRepository(db).get();
     final sleep = await sleepFor(d);
     final from = d.subtract(const Duration(days: RecoveryBaseline.windowDays));

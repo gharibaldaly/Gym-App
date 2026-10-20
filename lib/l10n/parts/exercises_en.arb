@@ -1,0 +1,176 @@
+{
+  "exLibraryTitle": "Exercise library",
+  "exPickTitle": "Choose an exercise",
+  "exSearchHint": "Search in Arabic or English",
+  "exAllMuscles": "All muscles",
+  "exAllEquipment": "All equipment",
+  "exMuscleFilter": "Muscle",
+  "exEquipmentFilter": "Equipment",
+  "exFavoritesOnly": "Favorites",
+  "exMyCustom": "My exercises",
+  "exClearFilters": "Clear filters",
+  "exResultsCount": "{count, plural, =1{1 exercise} other{{count} exercises}}",
+  "@exResultsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "exNoResults": "No exercises match your search.",
+  "exAddWithAi": "Add with AI",
+  "exFavoriteAdd": "Add to favorites",
+  "exFavoriteRemove": "Remove from favorites",
+  "exCustomBadge": "Custom",
+  "exBodyFront": "Front",
+  "exBodyBack": "Back",
+  "exPrimaryMuscles": "Primary muscles",
+  "exSecondaryMuscles": "Secondary muscles",
+  "exMusclesWorked": "Muscles worked",
+  "exHowTo": "How to do it",
+  "exCommonMistakes": "Common mistakes",
+  "exNoInstructions": "No instructions yet.",
+  "exImageOffline": "Image not downloaded yet. Open it once with internet to keep it offline.",
+  "exStepOf": "{current}/{total}",
+  "@exStepOf": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "exYourHistory": "Your history",
+  "exNoHistory": "You haven't logged this exercise yet.",
+  "exLastPerformance": "Last time",
+  "exPersonalRecords": "Personal records",
+  "exHeaviest": "Heaviest weight",
+  "exBestE1rm": "Best est. 1RM",
+  "exRepRecords": "Most reps at each weight",
+  "exSetLine": "{weight} kg × {reps}",
+  "@exSetLine": {
+    "placeholders": {
+      "weight": {
+        "type": "String"
+      },
+      "reps": {
+        "type": "int"
+      }
+    }
+  },
+  "exKgValue": "{value} kg",
+  "@exKgValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "exSessionVolume": "Volume: {volume} kg",
+  "@exSessionVolume": {
+    "placeholders": {
+      "volume": {
+        "type": "String"
+      }
+    }
+  },
+  "exProgressChart": "Progress",
+  "exChartE1rm": "Est. 1RM",
+  "exChartTopWeight": "Top weight",
+  "exChartNeedMore": "Log this exercise in at least 2 sessions to see your progress chart.",
+  "exEdit": "Edit",
+  "exDelete": "Delete exercise",
+  "exDeleteConfirm": "Delete this custom exercise?",
+  "exDeleteInUse": "Can't delete: this exercise is used in your logs or plan.",
+  "exDeleted": "Exercise deleted",
+  "exNotFound": "Exercise not found",
+  "exAddTitle": "Add exercise",
+  "exEditTitle": "Edit exercise",
+  "exReviewTitle": "Review & edit",
+  "exDescribeTitle": "Describe the exercise",
+  "exDescribeHint": "In your own words, e.g. \"machine where I sit and push two handles forward for chest\"",
+  "exVoiceStart": "Speak",
+  "exVoiceListening": "Listening…",
+  "exVoiceUnavailable": "Voice input isn't available on this device.",
+  "exPhotoOptional": "Photo of the machine (optional)",
+  "exPhotoCamera": "Camera",
+  "exPhotoGallery": "Gallery",
+  "exPhotoRemove": "Remove photo",
+  "exPhotoError": "Couldn't load the photo.",
+  "exContinue": "Continue",
+  "exCreateWithAi": "Create with AI",
+  "exFillManually": "Fill in manually",
+  "exAiOffManual": "AI is off — you can still add the exercise manually.",
+  "exDescribeFirst": "Describe the exercise or add a photo first.",
+  "exDidYouMean": "Did you mean…?",
+  "exDidYouMeanBody": "These exercises are already in the library. Use one instead of creating a duplicate.",
+  "exUseExisting": "Use",
+  "exCreateNewAnyway": "No, create a new one",
+  "exAiWorking": "Claude is building the exercise…",
+  "exAiSimilarFound": "This looks like an exercise you already have:",
+  "exNameEn": "Name (English)",
+  "exNameAr": "Name (Arabic)",
+  "exFieldEquipment": "Equipment",
+  "exFieldForce": "Force",
+  "exFieldMechanic": "Compound / isolation",
+  "exFieldCategory": "Category",
+  "exNone": "—",
+  "exStepsEn": "Steps (English)",
+  "exStepsAr": "Steps (Arabic)",
+  "exMistakesEn": "Common mistakes (English)",
+  "exMistakesAr": "Common mistakes (Arabic)",
+  "exOnePerLine": "One per line",
+  "exNeedNameAndMuscle": "Add a name and at least one primary muscle.",
+  "exSave": "Save exercise",
+  "exSaved": "Exercise saved",
+  "exOfflineTitle": "Offline exercise images",
+  "exOfflineBody": "Download the step images of all exercises so they show without internet (about {mb} MB). Images you open are also kept automatically.",
+  "@exOfflineBody": {
+    "placeholders": {
+      "mb": {
+        "type": "int"
+      }
+    }
+  },
+  "exOfflineWifiTip": "Tip: use Wi-Fi — the pack is large.",
+  "exOfflineStart": "Download all",
+  "exOfflineCancel": "Stop",
+  "exOfflineClear": "Delete downloaded images",
+  "exOfflineClearConfirm": "Exercise images will need internet again until re-downloaded.",
+  "exOfflineCleared": "Downloaded images deleted",
+  "exOfflineProgress": "{done} / {total}",
+  "@exOfflineProgress": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "exOfflineCached": "{cached} of {total} images saved",
+  "@exOfflineCached": {
+    "placeholders": {
+      "cached": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "exOfflineFailed": "{count} failed — try again later",
+  "@exOfflineFailed": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "exOfflineDone": "All exercise images are available offline",
+  "exOfflineChecking": "Checking saved images…",
+  "exOfflineNeedsInternet": "Connect to the internet to download."
+}

@@ -98,3 +98,20 @@ class OnboardingData {
 }
 
 final onboardingDataProvider = Provider<OnboardingData>((ref) => OnboardingData(ref.watch(databaseProvider)));
+
+/// The profile's answers as a companion for a full write: computed targets,
+/// `onboardingComplete` and timestamps are left out so a stale local copy
+/// never overwrites them.
+UserProfilesCompanion answersCompanion(UserProfile p) => p.toCompanion(false).copyWith(
+      bmr: const Value.absent(),
+      tdee: const Value.absent(),
+      calorieTarget: const Value.absent(),
+      proteinG: const Value.absent(),
+      carbsG: const Value.absent(),
+      fatG: const Value.absent(),
+      trainingDayCarbsG: const Value.absent(),
+      restDayCarbsG: const Value.absent(),
+      onboardingComplete: const Value.absent(),
+      createdAt: const Value.absent(),
+      updatedAt: const Value.absent(),
+    );

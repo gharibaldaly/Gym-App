@@ -1,0 +1,320 @@
+{
+  "setProfile": "Profile",
+  "setProfileSub": "Edit your answers, goals and targets",
+  "setSectionAi": "AI coach (Claude)",
+  "setSectionApp": "App",
+  "setApiKey": "Claude API key",
+  "setApiKeyHelp": "Stored only on this phone in encrypted storage. Never included in backups.",
+  "setApiKeySaved": "API key saved",
+  "setApiKeyTest": "Test key",
+  "setApiKeyTesting": "Testing…",
+  "setApiKeyValid": "The key works",
+  "setApiKeyInvalid": "The key didn't work",
+  "setApiKeyChange": "Change",
+  "setApiKeyRemove": "Remove",
+  "setApiKeyRemoveTitle": "Remove API key?",
+  "setApiKeyRemoveBody": "AI features will stop working until you add a key again.",
+  "setModels": "AI models",
+  "setModelFast": "Fast model (Haiku tier)",
+  "setModelFastHelp": "Voice/text parsing, exercise alternatives, memory",
+  "setModelBalanced": "Balanced model (Sonnet tier)",
+  "setModelBalancedHelp": "Chat, workout summaries, food photos, morning message",
+  "setModelSmart": "Smartest model (Opus tier)",
+  "setModelSmartHelp": "First plan, meal plan, weekly report",
+  "setModelsSaved": "Models saved",
+  "setModelsReset": "Reset to defaults",
+  "setModelsResetDone": "Default models restored",
+  "setRefusalFallback": "Server-side fallback on refusals",
+  "setRefusalFallbackSub": "If a model refuses a request, Claude retries it on a fallback model automatically.",
+  "setCost": "AI costs",
+  "setCostToday": "Today",
+  "setCostMonth": "This month",
+  "setCostAllTime": "All time",
+  "setCostByFeature": "By feature",
+  "setCostEmpty": "No AI requests in this period",
+  "setCostTokens": "{tokens} tokens",
+  "@setCostTokens": {
+    "placeholders": {
+      "tokens": {
+        "type": "String"
+      }
+    }
+  },
+  "setCostFeatureDetail": "{requests} requests · in {input} · out {output} · cache {cache}",
+  "@setCostFeatureDetail": {
+    "placeholders": {
+      "requests": {
+        "type": "int"
+      },
+      "input": {
+        "type": "String"
+      },
+      "output": {
+        "type": "String"
+      },
+      "cache": {
+        "type": "String"
+      }
+    }
+  },
+  "setCostNote": "Estimated from public prices. No spending limit is applied.",
+  "setFeatVoiceParse": "Voice → set",
+  "setFeatExerciseAlternatives": "Exercise alternatives",
+  "setFeatMemoryExtract": "Coach memory",
+  "setFeatFoodText": "Food from text",
+  "setFeatExerciseCreate": "Custom exercises",
+  "setFeatChat": "Coach chat",
+  "setFeatWorkoutSummary": "Workout summaries",
+  "setFeatFoodPhoto": "Food photos",
+  "setFeatMorningMessage": "Morning message",
+  "setFeatPlateau": "Plateau alerts",
+  "setFeatMealSwap": "Meal swaps",
+  "setFeatGroceryList": "Grocery list",
+  "setFeatInitialPlan": "Workout plan",
+  "setFeatMealPlan": "Meal plan",
+  "setFeatWeeklyReport": "Weekly report",
+  "setFeatKeyTest": "Key test",
+  "setNotifications": "Notifications",
+  "setNotificationsSub": "Workout, meals, water, supplements, weight, coach",
+  "setHealthConnect": "Health Connect",
+  "setHealthConnectSub": "Smart ring / watch: sleep, heart rate, steps",
+  "setCoachMemory": "Coach memory",
+  "setCoachMemorySub": "What the coach remembers about you",
+  "setBackup": "Backup & restore",
+  "setBackupSub": "Export everything to one file or restore it",
+  "setBackupBanner": "You haven't backed up in over 2 weeks.",
+  "setBackupNow": "Back up",
+  "setLock": "App lock",
+  "setLockSub": "Fingerprint / face / PIN when opening the app",
+  "setLockTimeout": "Lock after leaving the app",
+  "setLockImmediately": "Immediately",
+  "setLockSeconds": "{seconds} sec",
+  "@setLockSeconds": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "setLockMinutes": "{minutes} min",
+  "@setLockMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "setLockUnsupported": "No fingerprint, face or screen lock is set up on this phone.",
+  "setLockFailed": "Authentication failed. Try again.",
+  "setLockEnableReason": "Confirm to turn on the app lock",
+  "setLockDisableReason": "Confirm to turn off the app lock",
+  "setLockReason": "Unlock IronMind",
+  "setLockLocked": "IronMind is locked",
+  "setLockUnlock": "Unlock",
+  "setAbout": "About",
+  "setAboutSub": "Version, data sources and licenses",
+  "setAboutVersion": "Version {version}",
+  "@setAboutVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "setAboutTagline": "Your personal gym coach — workouts, nutrition, sleep and body, powered by Claude.",
+  "setAboutSources": "Data sources & licenses",
+  "setAboutExerciseDb": "Exercise library data and images",
+  "setAboutFontAr": "Arabic font",
+  "setAboutFontEn": "English font",
+  "setAboutClaude": "AI coach (your own API key)",
+  "setAboutPrivacy": "Privacy",
+  "setAboutPrivacyBody": "All your data stays on this phone. Only the AI requests you trigger are sent to Claude, and progress photos are never sent unless you explicitly ask.",
+  "setAboutLicenses": "Open-source licenses",
+  "setExerciseImages": "Exercise images offline",
+  "setExerciseImagesSub": "Download all exercise images for use without internet",
+  "setBackupExport": "Export backup",
+  "setBackupExportHelp": "One .zip file with your database, progress photos, meal photos and custom exercise media. Save it to Drive or anywhere.",
+  "setBackupExportButton": "Export & share",
+  "setBackupWorking": "Preparing backup…",
+  "setBackupNever": "No backup yet",
+  "setBackupLast": "Last backup: {date}",
+  "@setBackupLast": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "setBackupDone": "Backup ready",
+  "setBackupFailed": "Backup failed: {error}",
+  "@setBackupFailed": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "setBackupShareSubject": "IronMind backup",
+  "setBackupKeyNote": "Your Claude API key is never included. Add it again after restoring on a new phone.",
+  "setRestore": "Restore from backup",
+  "setRestoreHelp": "Replaces ALL data on this phone with the backup.",
+  "setRestoreButton": "Choose backup file",
+  "setRestorePick": "Choose an IronMind backup (.zip)",
+  "setRestoreNotBackup": "This file isn't an IronMind backup.",
+  "setRestoreCorrupt": "The backup file is damaged or incomplete.",
+  "setRestoreNewer": "This backup is from a newer app version. Update the app first.",
+  "setRestoreConfirmTitle": "Replace all data?",
+  "setRestoreConfirmBody": "Backup from {date} (app {version}). Everything currently on this phone will be replaced. This can't be undone.",
+  "@setRestoreConfirmBody": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "setRestoreReplace": "Replace",
+  "setRestoreWorking": "Restoring your data… don't close the app.",
+  "setRestoreDone": "Restore complete",
+  "setRestoreFailed": "Restore failed",
+  "setRestoreRestart": "Close the app and open it again to continue.",
+  "setRestoreCloseApp": "Close app",
+  "setChannelWorkout": "Workout reminders",
+  "setChannelMeals": "Meal reminders",
+  "setChannelWater": "Water reminders",
+  "setChannelSupplements": "Supplement reminders",
+  "setChannelWeight": "Weigh-in reminder",
+  "setChannelCoach": "Coach messages",
+  "setChannelRestTimer": "Rest timer",
+  "setChannelBackup": "Backup reminder",
+  "setNotifWorkoutTitle": "Training day 💪",
+  "setNotifWorkoutBody": "Your workout is at {time}. Get ready.",
+  "@setNotifWorkoutBody": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "setNotifMealTitle": "Meal {number}",
+  "@setNotifMealTitle": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "setNotifMealBody": "Time to eat — log it after.",
+  "setNotifWaterTitle": "Drink water 💧",
+  "setNotifWaterBody": "A glass now keeps you on target.",
+  "setNotifSupplementsTitle": "Supplements",
+  "setNotifWeightTitle": "Morning weigh-in",
+  "setNotifWeightBody": "Weigh yourself before eating or drinking.",
+  "setNotifBackupTitle": "Time for a backup",
+  "setNotifBackupBody": "No backup in 2 weeks. Export one from Settings so you don't lose your progress.",
+  "setNotifPermissionOff": "Notifications are turned off for IronMind.",
+  "setNotifExactOff": "Exact alarms are off — reminders may arrive a few minutes late.",
+  "setNotifAllow": "Allow",
+  "setNotifWorkout": "Workout reminder",
+  "setNotifWorkoutDays": "On training days: {days}",
+  "@setNotifWorkoutDays": {
+    "placeholders": {
+      "days": {
+        "type": "String"
+      }
+    }
+  },
+  "setNotifWorkoutNoDays": "Set your training days in your profile",
+  "setNotifWorkoutDefault": "Use default (30 min before {time})",
+  "@setNotifWorkoutDefault": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "setNotifTime": "Reminder time",
+  "setNotifMeals": "Meal reminders",
+  "setNotifMealsSub": "At each meal time",
+  "setNotifUseProfileTimes": "Use meal times from profile",
+  "setNotifWater": "Water reminders",
+  "setNotifWaterSub": "While you're awake ({wake} – {sleep})",
+  "@setNotifWaterSub": {
+    "placeholders": {
+      "wake": {
+        "type": "String"
+      },
+      "sleep": {
+        "type": "String"
+      }
+    }
+  },
+  "setNotifWaterEvery": "Remind me every",
+  "setNotifHours": "{hours, plural, =1{1 hour} other{{hours} hours}}",
+  "@setNotifHours": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "setNotifSupplements": "Supplement reminders",
+  "setNotifNoSupplements": "No supplements added yet",
+  "setNotifWeight": "Morning weigh-in",
+  "setNotifWeightSub": "Right after you wake up",
+  "setNotifWeightDefault": "Use default (15 min after waking)",
+  "setNotifCoach": "Coach initiatives",
+  "setNotifCoachSub": "Morning message, workout summaries, plateau alerts, weekly report",
+  "setNotifBackup": "Backup reminder",
+  "setNotifBackupSub": "If you haven't backed up for 2 weeks",
+  "setNotifTest": "Send a test notification",
+  "setNotifTestTitle": "IronMind",
+  "setNotifTestBody": "Notifications are working ✅",
+  "setWidgetWorkoutLabel": "Today's workout",
+  "setWidgetWorkout": "Workout",
+  "setWidgetNoPlan": "No plan yet",
+  "setWidgetOpenApp": "Open the app to start",
+  "setWidgetRestDay": "Rest day",
+  "setWidgetRestSub": "Recover well",
+  "setWidgetWorkoutDone": "Done ✓",
+  "setWidgetExercises": "{count, plural, =1{1 exercise} other{{count} exercises}}",
+  "@setWidgetExercises": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "setWidgetCaloriesLabel": "Calories",
+  "setWidgetKcalLeft": "{kcal} left",
+  "@setWidgetKcalLeft": {
+    "placeholders": {
+      "kcal": {
+        "type": "int"
+      }
+    }
+  },
+  "setWidgetKcalOver": "{kcal} over",
+  "@setWidgetKcalOver": {
+    "placeholders": {
+      "kcal": {
+        "type": "int"
+      }
+    }
+  },
+  "setWidgetWaterLabel": "Water",
+  "setWidgetWaterText": "{ml} / {goal} ml",
+  "@setWidgetWaterText": {
+    "placeholders": {
+      "ml": {
+        "type": "int"
+      },
+      "goal": {
+        "type": "int"
+      }
+    }
+  },
+  "setWidgetAddCup": "+ Cup"
+}

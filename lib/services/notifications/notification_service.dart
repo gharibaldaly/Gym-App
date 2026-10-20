@@ -1,9 +1,7 @@
 import 'dart:async';
 import 'dart:io';
-import 'dart:typed_data';
 import 'dart:ui';
 
-import 'package:drift/drift.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
@@ -42,9 +40,9 @@ class NotificationService {
   static bool get _supported => !kIsWeb && (Platform.isAndroid || Platform.isIOS);
 
   /// Initializes the plugin, time zones and channels. Safe to call many times.
-  /// [requestPermission] asks for POST_NOTIFICATIONS (Android 13+); pass false
-  /// from background isolates.
-  static Future<void> init({bool requestPermission = true}) async {
+  /// [requestPermission] also asks for POST_NOTIFICATIONS (Android 13+). By default
+  /// the permission is requested by AppLockGate once onboarding is complete.
+  static Future<void> init({bool requestPermission = false}) async {
     final ok = await (_initFuture ??= _doInit());
     if (ok && requestPermission) await requestPermissions();
   }

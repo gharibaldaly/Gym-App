@@ -30,13 +30,24 @@ Future<void> seedExercisesIfNeeded(AppDatabase db, SharedPreferences prefs, {Ass
 
   final sw = Stopwatch()..start();
   final b = bundle ?? rootBundle;
-  final raw = jsonDecode(await b.loadString(kExerciseSeedAsset)) as List;
-  final ar = <String, ArabicExerciseContent>{};
-  for (final path in kExerciseArabicAssets) {
+  Future<String?> load(String path) async {
     try {
-      ar.addAll(parseArabicContent(await b.loadString(path)));
+      return await b.loadString(path);
     } catch (_) {
-      // File not bundled yet or malformed: fall back to the glossary / English.
+      return null; // Arabic file not bundled: fall back to the glossary / English name.
+    }
+  }
+
+  final sources = await Future.wait([load(kExerciseSeedAsset), ...kExerciseArabicAssets.map(load)]);
+  if (sources.first == null) throw StateError('Missing $kExerciseSeedAsset');
+  final raw = jsonDecode(sources.first!) as List;
+  final ar = <String, ArabicExerciseContent>{};
+  for (final src in sources.skip(1)) {
+    if (src == null) continue;
+    try {
+      ar.addAll(parseArabicContent(src));
+    } catch (_) {
+      // Malformed file: ignore it rather than blocking app start.
     }
   }
   final rows = buildSeedCompanions(raw, ar);
