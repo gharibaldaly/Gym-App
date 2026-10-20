@@ -1,0 +1,38 @@
+{
+  "todayCoachTitle": "Coach",
+  "todayCoachEmpty": "Your coach's morning message will appear here.",
+  "todayRecoveryTitle": "Recovery",
+  "todayRecoveryEmpty": "Log your sleep or connect Health Connect to get a recovery score.",
+  "todayRecoveryHigh": "Well recovered — push hard today.",
+  "todayRecoveryModerate": "Moderate recovery — train normally, listen to your body.",
+  "todayRecoveryLow": "Low recovery — consider a lighter session today.",
+  "todayWorkoutTitle": "Today's workout",
+  "todayNoPlan": "No active plan yet. Build one from the Workout tab.",
+  "todayRestDay": "Rest day. Recover, eat well and hit your water goal.",
+  "todayExerciseCount": "{count, plural, =1{1 exercise} other{{count} exercises}}",
+  "@todayExerciseCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "todayStartWorkout": "Start today's workout",
+  "todayResumeWorkout": "Resume workout",
+  "todayWorkoutDone": "Done for today 💪",
+  "todayKcalLeft": "kcal left",
+  "todayKcalOver": "kcal over",
+  "todayAddCup": "+ Cup of water",
+  "todaySupplementsTitle": "Supplements",
+  "todaySupplementsEmpty": "No supplements added.",
+  "todayWeightTitle": "Body weight",
+  "todayWeightEmpty": "Tap to log today's weight.",
+  "todayWeightAvg": "7-day avg {avg}",
+  "@todayWeightAvg": {
+    "placeholders": {
+      "avg": {
+        "type": "String"
+      }
+    }
+  }
+}

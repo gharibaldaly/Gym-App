@@ -1,17 +1,85 @@
-# ironmind
+# IronMind 💪 — مدربك الذكي في الجيم
 
-A new Flutter project.
+أبلكيشن Android شخصي (مستخدم واحد، من غير حسابات) بيغطي كل حاجة في الجيم: التمارين، الأكل، النوم، الجسم، ومدرب ذكي مبني على Claude API.
+كل البيانات بتتخزن على الموبايل بس (SQLite)، وكل التسجيل شغال من غير نت.
 
-## Getting Started
+## المميزات باختصار
+- **أونبوردنج** ٢٤ سؤال والـ AI يبني خطة التمرين والأكل على إجاباتك (ولو مفيش مفتاح بيتعمل حساب محلي + خطة جاهزة).
+- **مكتبة تمارين** ٨٧٦ تمرين (عربي/إنجليزي) بصور الخطوات، رسم عضلات، وتسجيلك وأرقامك القياسية في كل تمرين، وإضافة تمرين جديد بالـ AI.
+- **التمرينة الحية**: عداد، شاشة متطفيش، +/− كبيرة، نسخ الست اللي فات، إدخال بالصوت ("80 كيلو 10 عدات")، اقتراح Progressive Overload أوفلاين، تايمر راحة بينبه في الخلفية، بدائل للتمرين، كارديو، نوت، واحتفال بالـ PR.
+- **التغذية**: خطة وجبات مصرية بالجرامات، تسجيل بالصورة/الكتابة/الصوت/أكلاتي، تبديل الوجبة، وقائمة مشتريات أسبوعية.
+- **التتبع**: الميه، المكملات، النوم، الوزن (مع متوسط ٧ أيام)، المقاسات، صور التقدم (محمية بالبصمة)، Health Connect للخاتم، ودرجة استشفاء يومية.
+- **المدرب الذكي**: شات بالمصري عارف أرقامك، بيقترح تعديلات (بموافقتك)، بيفتكر ملاحظاتك، ورسالة الصبح + ملخص التمرينة + تنبيه الثبات (Plateau) + تقرير أسبوعي.
+- **التقدم**: رسوم بيانية، كاليندر الالتزام، صفحة الأرقام القياسية، وتقارير PDF بالعربي.
+- إشعارات قابلة للتعديل، ويدجت للشاشة الرئيسية (+ كوباية ميه من غير ما تفتح الأبلكيشن)، نسخ احتياطي، وقفل بالبصمة.
 
-This project is a starting point for a Flutter application.
+## تثبيت الأبلكيشن على موبايلك
 
-A few resources to get you started if this is your first Flutter project:
+### الطريقة ١: تحميل الـ APK الجاهز من GitHub (الأسهل)
+1. افتح الريبو على GitHub ← تاب **Actions** ← آخر تشغيل ناجح لـ **Build APK**.
+2. من تحت **Artifacts** نزّل `IronMind-release-apk` (ملف zip جواه `app-release.apk`).
+3. انقل الـ APK للموبايل وافتحه. لو طلب "السماح بالتثبيت من مصادر غير معروفة" وافق للتطبيق اللي فاتح بيه الملف.
+4. لو عملت tag زي `v1.0.0` الـ APK بيتحط كمان في صفحة **Releases**.
 
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
+> **التوقيع:** عشان التحديثات تتسطب فوق النسخة القديمة لازم كل النسخ تكون موقّعة بنفس المفتاح. اعمل مفتاح مرة واحدة:
+> ```bash
+> keytool -genkey -v -keystore ironmind.jks -keyalg RSA -keysize 2048 -validity 10000 -alias ironmind
+> base64 -w0 ironmind.jks   # انسخ الناتج
+> ```
+> وضيف في GitHub ← Settings ← Secrets and variables ← Actions الأسرار دي:
+> `IRONMIND_KEYSTORE_BASE64` و`IRONMIND_KEYSTORE_PASSWORD` و`IRONMIND_KEY_ALIAS` (ironmind) و`IRONMIND_KEY_PASSWORD`.
+> من غيرهم الـ APK بيتوقّع بمفتاح debug (شغال عادي، بس التحديث ممكن يطلب تمسح النسخة القديمة الأول — اعمل Backup قبلها).
+> احتفظ بملف `ironmind.jks` في مكان آمن ومتحطوش في الريبو.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### الطريقة ٢: تبني بنفسك على الكمبيوتر
+المتطلبات: Flutter 3.47 أو أحدث، Android SDK (أسهل حاجة Android Studio)، Java 17.
+```bash
+flutter pub get
+dart run tool/merge_arb.dart && flutter gen-l10n
+dart run build_runner build --delete-conflicting-outputs
+flutter build apk --release
+# الملف: build/app/outputs/flutter-apk/app-release.apk
+```
+للتوقيع المحلي اعمل ملف `android/key.properties` (متترفعش على git):
+```properties
+storeFile=/المسار/ironmind.jks
+storePassword=...
+keyAlias=ironmind
+keyPassword=...
+```
+أو وصّل الموبايل بكابل USB (مع تفعيل USB debugging) وشغّل `flutter install --release`.
+
+## إضافة مفتاح Claude API
+1. ادخل [console.anthropic.com](https://console.anthropic.com) ← **API Keys** ← **Create Key**، وحط رصيد في **Billing**.
+2. في الأبلكيشن: أيقونة الإعدادات ⚙️ فوق ← **مفتاح Claude API** ← الصق المفتاح ← **اختبر المفتاح** ← **حفظ**.
+   (أو في آخر الأونبوردنج.)
+3. المفتاح بيتحفظ مشفّر على الموبايل (flutter_secure_storage)، **مش** في الكود ولا في النسخة الاحتياطية.
+
+الأبلكيشن كله شغال من غير مفتاح؛ ميزات الـ AI بس هي اللي بتظهر رسالة "ضيف المفتاح".
+طلبات الـ AI اللي مش مستعجلة (ملخص التمرينة، تحليل صورة الأكل) بتستنى في طابور وتتبعت أول ما النت يرجع.
+
+### الموديلات والمصاريف
+| المهمة | الموديل الافتراضي |
+| --- | --- |
+| تحويل الصوت/النص لبيانات، بدائل التمارين، استخلاص الذاكرة | `claude-haiku-5-5` |
+| الشات، ملخص التمرينة، تحليل صور الأكل، رسالة الصبح | `claude-sonnet-5-5` |
+| الخطة الأولى، خطة الأكل، التقرير الأسبوعي | `claude-opus-5-5` |
+
+تقدر تغيّر أسماء الموديلات من **الإعدادات ← موديلات الـ AI**، وتشوف التوكنز والتكلفة التقديرية بالدولار (النهاردة/الشهر/لكل ميزة) من **عداد المصاريف**.
+
+## Health Connect والخاتم
+1. نزّل **Health Connect** من Google Play (موجود جوه Android 14+).
+2. في تطبيق الخاتم (Cardoo) فعّل المزامنة مع Health Connect لو موجودة.
+3. في IronMind: الإعدادات ← **Health Connect** ← فعّل واسمح بالصلاحيات ← **مزامنة الآن**.
+4. نفس الشاشة بتعرض **آخر بيانات اتسحبت ومصدرها** — لو مفيش بيانات من الخاتم، سجّل النوم يدوي وكل حاجة هتشتغل عادي.
+
+## النسخ الاحتياطي
+الإعدادات ← **النسخ الاحتياطي** ← **تصدير** بيعمل ملف zip واحد (القاعدة + الصور) تبعته لـ Drive أو أي مكان.
+على موبايل جديد: **استيراد** واختار الملف. الأبلكيشن بيفكّرك كل أسبوعين. مفتاح الـ API مش جوه الباك أب — ضيفه تاني.
+
+## للمطورين
+- الهيكل: `lib/features/<feature>` (onboarding, exercises, workout, nutrition, tracking, coach, progress, settings, today) + `lib/data` (Drift + repositories) + `lib/ai` (طبقة Claude الوحيدة) + `lib/services` (إشعارات، ويدجت، باك أب، قفل، مهام خلفية) + `lib/core` (ثيم، حسابات، ويدجتس مشتركة).
+- الترجمة: كل ميزة ليها `lib/l10n/parts/<feature>_{en,ar}.arb`، وبيتدمجوا بـ `dart run tool/merge_arb.dart` قبل `flutter gen-l10n`.
+- الاختبارات: `flutter test` (TDEE، 1RM، progressive overload، plateau، recovery score، voice parser، وغيرهم).
+- القرارات اللي متحسمتش في المواصفات مكتوبة في [DECISIONS.md](DECISIONS.md).
+- بيانات التمارين: [free-exercise-db](https://github.com/yuhonas/free-exercise-db) (Unlicense / ملكية عامة). الخطوط: Cairo وInter (SIL OFL).
