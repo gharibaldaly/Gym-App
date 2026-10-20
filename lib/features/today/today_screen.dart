@@ -1,4 +1,3 @@
-import 'package:drift/drift.dart' hide Column;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -18,48 +17,11 @@ import '../tracking/tracking_screens.dart';
 import '../workout/live_workout_screen.dart';
 import '../workout/today_workout_provider.dart';
 
-/// Today's active supplements with whether each was ticked today.
-final todaySupplementChecksProvider = StreamProvider<List<(Supplement, bool)>>((ref) {
-  final db = ref.watch(databaseProvider);
-  final day = today();
-  final q = db.select(db.supplements)
-    ..where((t) => t.active.equals(true))
-    ..orderBy([(t) => OrderingTerm.asc(t.id)]);
-  return q.watch().asyncMap((sups) async {
-    final logs = await (db.select(db.supplementLogs)
-          ..where((t) => t.date.equals(day) & t.taken.equals(true)))
-        .get();
-    final taken = logs.map((l) => l.supplementId).toSet();
-    return [for (final s in sups) (s, taken.contains(s.id))];
-  });
-});
-
-// Re-evaluate supplement checks whenever a log row changes.
-final _supplementLogsTick = StreamProvider<int>((ref) {
-  final db = ref.watch(databaseProvider);
-  return db.select(db.supplementLogs).watch().map((r) => r.length);
-});
-
-Future<void> toggleSupplementToday(AppDatabase db, int supplementId) async {
-  final day = today();
-  final existing = await (db.select(db.supplementLogs)
-        ..where((t) => t.date.equals(day) & t.supplementId.equals(supplementId)))
-      .get();
-  if (existing.isEmpty) {
-    await db.into(db.supplementLogs).insert(SupplementLogsCompanion.insert(date: day, supplementId: supplementId));
-  } else {
-    final log = existing.first;
-    await (db.update(db.supplementLogs)..where((t) => t.id.equals(log.id)))
-        .write(SupplementLogsCompanion(taken: Value(!log.taken)));
-  }
-}
-
 class TodayScreen extends ConsumerWidget {
   const TodayScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    ref.watch(_supplementLogsTick);
     final dateLabel = DateFormat.MMMMEEEEd(context.lang).format(DateTime.now());
     return Scaffold(
       appBar: AppBar(
@@ -70,14 +32,11 @@ class TodayScreen extends ConsumerWidget {
             Text(dateLabel, style: context.text.bodySmall?.copyWith(color: AppColors.textMuted)),
           ],
         ),
-        actions: [
-          IconButton(icon: const Icon(Icons.settings_outlined), onPressed: () => openSettings(context)),
-        ],
+        actions: [IconButton(icon: const Icon(Icons.settings_outlined), onPressed: () => openSettings(context))],
       ),
       body: RefreshIndicator(
         onRefresh: () async {
           ref.invalidate(todayWorkoutProvider);
-          ref.invalidate(todaySupplementChecksProvider);
         },
         child: ListView(
           padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
@@ -183,11 +142,13 @@ class _WorkoutCard extends ConsumerWidget {
     if (tw.isRestDay) {
       return SectionCard(
         title: l.todayWorkoutTitle,
-        child: Row(children: [
-          const Icon(Icons.self_improvement, color: AppColors.textMuted),
-          const SizedBox(width: 12),
-          Expanded(child: Text(l.todayRestDay)),
-        ]),
+        child: Row(
+          children: [
+            const Icon(Icons.self_improvement, color: AppColors.textMuted),
+            const SizedBox(width: 12),
+            Expanded(child: Text(l.todayRestDay)),
+          ],
+        ),
       );
     }
     final session = tw.session;
@@ -199,17 +160,18 @@ class _WorkoutCard extends ConsumerWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(tw.planDay!.name, style: context.text.titleLarge?.copyWith(fontWeight: FontWeight.w800)),
-          if (tw.planDay!.focus != null)
-            Text(tw.planDay!.focus!, style: const TextStyle(color: AppColors.textMuted)),
+          if (tw.planDay!.focus != null) Text(tw.planDay!.focus!, style: const TextStyle(color: AppColors.textMuted)),
           const SizedBox(height: 4),
           Text(l.todayExerciseCount(tw.exerciseCount), style: const TextStyle(color: AppColors.textMuted)),
           const SizedBox(height: 12),
           if (done)
-            Row(children: [
-              const Icon(Icons.check_circle, color: AppColors.primary),
-              const SizedBox(width: 8),
-              Text(l.todayWorkoutDone),
-            ])
+            Row(
+              children: [
+                const Icon(Icons.check_circle, color: AppColors.primary),
+                const SizedBox(width: 8),
+                Text(l.todayWorkoutDone),
+              ],
+            )
           else
             FilledButton.icon(
               icon: const Icon(Icons.play_arrow_rounded, size: 28),
@@ -243,43 +205,67 @@ class _RingsCard extends ConsumerWidget {
             children: [
               InkWell(
                 onTap: () => ref.read(homeTabProvider.notifier).select(2),
-                child: Column(children: [
-                  ProgressRing(
-                    value: n.calories,
-                    max: n.targetCalories,
-                    center: Column(mainAxisSize: MainAxisSize.min, children: [
-                      Text(fmtNum(remaining.abs().roundToDouble()),
-                          style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w800)),
-                      Text(remaining >= 0 ? l.todayKcalLeft : l.todayKcalOver,
-                          style: const TextStyle(fontSize: 11, color: AppColors.textMuted)),
-                    ]),
-                  ),
-                  const SizedBox(height: 6),
-                  Text(l.calories),
-                ]),
+                child: Column(
+                  children: [
+                    ProgressRing(
+                      value: n.calories,
+                      max: n.targetCalories,
+                      center: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            fmtNum(remaining.abs().roundToDouble()),
+                            style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w800),
+                          ),
+                          Text(
+                            remaining >= 0 ? l.todayKcalLeft : l.todayKcalOver,
+                            style: const TextStyle(fontSize: 11, color: AppColors.textMuted),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(l.calories),
+                  ],
+                ),
               ),
               InkWell(
                 onTap: () => push(context, const WaterScreen()),
-                child: Column(children: [
-                  ProgressRing(
-                    value: water.toDouble(),
-                    max: waterGoal.toDouble(),
-                    color: AppColors.water,
-                    center: Column(mainAxisSize: MainAxisSize.min, children: [
-                      Text(fmtNum(water / 1000, maxDecimals: 2),
-                          style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w800)),
-                      Text('/ ${fmtNum(waterGoal / 1000, maxDecimals: 2)} L',
-                          style: const TextStyle(fontSize: 11, color: AppColors.textMuted)),
-                    ]),
-                  ),
-                  const SizedBox(height: 6),
-                  Text(l.water),
-                ]),
+                child: Column(
+                  children: [
+                    ProgressRing(
+                      value: water.toDouble(),
+                      max: waterGoal.toDouble(),
+                      color: AppColors.water,
+                      center: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            fmtNum(water / 1000, maxDecimals: 2),
+                            style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w800),
+                          ),
+                          Text(
+                            '/ ${fmtNum(waterGoal / 1000, maxDecimals: 2)} L',
+                            style: const TextStyle(fontSize: 11, color: AppColors.textMuted),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(height: 6),
+                    Text(l.water),
+                  ],
+                ),
               ),
             ],
           ),
           const SizedBox(height: 12),
-          MacroBar(label: l.protein, value: n.protein, target: n.targetProtein, color: AppColors.protein, unit: l.gramsShort),
+          MacroBar(
+            label: l.protein,
+            value: n.protein,
+            target: n.targetProtein,
+            color: AppColors.protein,
+            unit: l.gramsShort,
+          ),
           MacroBar(label: l.carbs, value: n.carbs, target: n.targetCarbs, color: AppColors.carbs, unit: l.gramsShort),
           MacroBar(label: l.fat, value: n.fat, target: n.targetFat, color: AppColors.fat, unit: l.gramsShort),
           const SizedBox(height: 8),
@@ -309,7 +295,7 @@ class _SupplementsCard extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final items = ref.watch(todaySupplementChecksProvider).value ?? const [];
+    final items = ref.watch(todaySupplementsProvider).value ?? const [];
     final l = context.l10n;
     return SectionCard(
       title: l.todaySupplementsTitle,
@@ -331,8 +317,7 @@ class _SupplementsCard extends ConsumerWidget {
                     checkmarkColor: AppColors.primary,
                     onSelected: (_) async {
                       HapticFeedback.selectionClick();
-                      await toggleSupplementToday(ref.read(databaseProvider), s.id);
-                      ref.invalidate(todaySupplementChecksProvider);
+                      await toggleSupplement(ref, s.id);
                     },
                   ),
               ],
@@ -350,14 +335,19 @@ class _WeightCard extends ConsumerWidget {
     final l = context.l10n;
     return SectionCard(
       title: l.todayWeightTitle,
-      onTap: () => push(context, const BodyWeightScreen()),
-      trailing: const Icon(Icons.chevron_right, color: AppColors.textMuted),
+      onTap: () => showWeightQuickLog(context, ref),
+      trailing: IconButton(
+        icon: const Icon(Icons.show_chart, color: AppColors.textMuted),
+        onPressed: () => push(context, const BodyWeightScreen()),
+      ),
       child: w?.weight == null
           ? Text(l.todayWeightEmpty, style: const TextStyle(color: AppColors.textMuted))
           : Row(
               children: [
-                Text('${fmtNum(w!.weight!)} ${l.kg}',
-                    style: context.text.headlineSmall?.copyWith(fontWeight: FontWeight.w800)),
+                Text(
+                  '${fmtNum(w!.weight!)} ${l.kg}',
+                  style: context.text.headlineSmall?.copyWith(fontWeight: FontWeight.w800),
+                ),
                 const SizedBox(width: 12),
                 if (w.avg7 != null)
                   Text(l.todayWeightAvg(fmtNum(w.avg7!)), style: const TextStyle(color: AppColors.textMuted)),
