@@ -181,7 +181,11 @@ Future<void> offerPlanRegeneration(
       context,
       PlanReviewScreen(
         planId: r.planId!,
-        onApproved: () => messenger.showSnackBar(SnackBar(content: Text(l.onbPlanActivated))),
+        // The review screen doesn't pop itself when onApproved is given.
+        onApproved: () {
+          nav.pop();
+          messenger.showSnackBar(SnackBar(content: Text(l.onbPlanActivated)));
+        },
       ),
     );
   }
@@ -332,12 +336,14 @@ class TargetsCard extends StatelessWidget {
 // "Build my plan" progress screen
 // ---------------------------------------------------------------------------
 
-enum _JobState { waiting, running, done, failed }
+enum _JobState { waiting, running, done, template, failed }
 
-/// Shown after the summary: targets are already computed locally; if a key is
-/// set and we're online, generates the workout + meal plans with AI, then
-/// opens the plan review. [onFinished] is called once when the user is done
-/// (the onboarding host marks onboarding complete there).
+/// Shown after the summary: targets are already computed locally. With a key
+/// and internet the workout + meal plans are generated with AI; otherwise (or
+/// when AI fails) local template plans are built so every user leaves
+/// onboarding with a plan. The workout plan is then reviewed/approved.
+/// [onFinished] is called once when the user is done (the onboarding host
+/// marks onboarding complete there).
 class PlanBuildScreen extends ConsumerStatefulWidget {
   final VoidCallback onFinished;
   const PlanBuildScreen({super.key, required this.onFinished});
@@ -359,6 +365,7 @@ class _PlanBuildScreenState extends ConsumerState<PlanBuildScreen> with SingleTi
   bool _reviewOpened = false;
 
   bool get _running => _workout == _JobState.running || _meals == _JobState.running;
+  bool get _aiOk => _ai == AiAvailability.ok;
 
   @override
   void initState() {
@@ -376,44 +383,75 @@ class _PlanBuildScreenState extends ConsumerState<PlanBuildScreen> with SingleTi
     final ai = await checkAiAvailability(ref);
     if (!mounted) return;
     setState(() => _ai = ai);
-    if (ai != AiAvailability.ok) {
-      _pulse.stop();
-      return;
-    }
     await Future.wait([_runWorkout(), _runMeals()]);
     if (!mounted) return;
     _pulse.stop();
-    // Everything worked → go straight to the review.
-    if (_planId != null && _meals == _JobState.done && !_reviewOpened) {
+    // Everything generated with AI → go straight to the review.
+    if (_planId != null && _workout == _JobState.done && _meals == _JobState.done && !_reviewOpened) {
       await Future<void>.delayed(const Duration(milliseconds: 700));
-      if (mounted) _openReview();
+      if (mounted && !_reviewOpened) _openReview();
     }
   }
 
+  /// AI plan when possible, else the local template (ensureNoKeyFallback).
   Future<void> _runWorkout() async {
     setState(() {
       _workout = _JobState.running;
       _workoutErr = null;
     });
-    final r = await runPlanGenerators(workout: ref.read(workoutPlanGeneratorProvider));
+    final gen = ref.read(workoutPlanGeneratorProvider);
+    int? id;
+    Object? err;
+    var usedAi = false;
+    if (_aiOk) {
+      final r = await runPlanGenerators(workout: gen);
+      id = r.planId;
+      err = r.workoutError;
+      usedAi = id != null;
+    }
+    if (id == null) {
+      try {
+        id = await gen.ensureNoKeyFallback();
+      } catch (e, st) {
+        debugPrint('template workout plan failed: $e\n$st');
+        err ??= e;
+      }
+    }
     if (!mounted) return;
     setState(() {
-      _planId = r.planId;
-      _workout = r.planId != null ? _JobState.done : _JobState.failed;
-      _workoutErr = r.workoutError == null ? null : planErrorText(context, r.workoutError!);
+      if (id != null) _planId = id;
+      _workout = id == null ? _JobState.failed : (usedAi ? _JobState.done : _JobState.template);
+      _workoutErr = err == null ? null : planErrorText(context, err);
     });
   }
 
+  /// AI meal plan when possible, else the local template plan.
   Future<void> _runMeals() async {
     setState(() {
       _meals = _JobState.running;
       _mealErr = null;
     });
-    final r = await runPlanGenerators(meals: ref.read(mealPlanGeneratorProvider));
+    final gen = ref.read(mealPlanGeneratorProvider);
+    Object? err;
+    var state = _JobState.failed;
+    if (_aiOk) {
+      final r = await runPlanGenerators(meals: gen);
+      err = r.mealError;
+      if (r.mealOk) state = _JobState.done;
+    }
+    if (state != _JobState.done) {
+      try {
+        await gen.buildTemplateAndSave();
+        state = _JobState.template;
+      } catch (e, st) {
+        debugPrint('template meal plan failed: $e\n$st');
+        err ??= e;
+      }
+    }
     if (!mounted) return;
     setState(() {
-      _meals = r.mealOk ? _JobState.done : _JobState.failed;
-      _mealErr = r.mealError == null ? null : planErrorText(context, r.mealError!);
+      _meals = state;
+      _mealErr = err == null ? null : planErrorText(context, err);
     });
   }
 
@@ -434,6 +472,11 @@ class _PlanBuildScreenState extends ConsumerState<PlanBuildScreen> with SingleTi
     if (_finished) return;
     _finished = true;
     WidgetsBinding.instance.addPostFrameCallback((_) => widget.onFinished());
+  }
+
+  String? _note(String? err, String later) {
+    if (err == null) return null;
+    return '$err\n$later';
   }
 
   @override
@@ -487,22 +530,20 @@ class _PlanBuildScreenState extends ConsumerState<PlanBuildScreen> with SingleTi
                     ],
                     const SizedBox(height: 20),
                     _TaskRow(icon: Icons.calculate_outlined, label: l.onbBuildTargets, state: _JobState.done),
-                    if (_ai == AiAvailability.ok) ...[
-                      _TaskRow(
-                        icon: Icons.fitness_center,
-                        label: l.onbBuildWorkout,
-                        state: _workout,
-                        error: _workoutErr == null ? null : '$_workoutErr\n${l.onbBuildWorkoutLater}',
-                        onRetry: () => _retry(_runWorkout),
-                      ),
-                      _TaskRow(
-                        icon: Icons.restaurant,
-                        label: l.onbBuildMeals,
-                        state: _meals,
-                        error: _mealErr == null ? null : '$_mealErr\n${l.onbBuildMealsLater}',
-                        onRetry: () => _retry(_runMeals),
-                      ),
-                    ],
+                    _TaskRow(
+                      icon: Icons.fitness_center,
+                      label: l.onbBuildWorkout,
+                      state: _workout,
+                      note: _note(_workoutErr, l.onbBuildWorkoutLater),
+                      onRetry: _aiOk && !_reviewOpened ? () => _retry(_runWorkout) : null,
+                    ),
+                    _TaskRow(
+                      icon: Icons.restaurant,
+                      label: l.onbBuildMeals,
+                      state: _meals,
+                      note: _note(_mealErr, l.onbBuildMealsLater),
+                      onRetry: _aiOk ? () => _retry(_runMeals) : null,
+                    ),
                     if (_ai == AiAvailability.noKey)
                       InfoNote(l.onbBuildNoKey, icon: Icons.key_off, color: AppColors.warning),
                     if (_ai == AiAvailability.offline)
@@ -522,14 +563,13 @@ class _PlanBuildScreenState extends ConsumerState<PlanBuildScreen> with SingleTi
                           key: const ValueKey('actions'),
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            if (_planId != null) ...[
+                            if (_planId != null)
                               FilledButton.icon(
                                 onPressed: _openReview,
                                 icon: const Icon(Icons.checklist),
                                 label: Text(l.onbReviewPlan),
-                              ),
-                              TextButton(onPressed: _finish, child: Text(l.onbSkipReview)),
-                            ] else
+                              )
+                            else
                               FilledButton.icon(
                                 onPressed: _finish,
                                 icon: const Icon(Icons.rocket_launch_outlined),
@@ -551,9 +591,9 @@ class _TaskRow extends StatelessWidget {
   final IconData icon;
   final String label;
   final _JobState state;
-  final String? error;
+  final String? note;
   final VoidCallback? onRetry;
-  const _TaskRow({required this.icon, required this.label, required this.state, this.error, this.onRetry});
+  const _TaskRow({required this.icon, required this.label, required this.state, this.note, this.onRetry});
 
   @override
   Widget build(BuildContext context) {
@@ -562,6 +602,7 @@ class _TaskRow extends StatelessWidget {
       _JobState.waiting => (l.onbStatusWaiting, AppColors.textMuted),
       _JobState.running => (l.onbStatusWorking, AppColors.info),
       _JobState.done => (l.onbStatusDone, AppColors.primary),
+      _JobState.template => (l.onbStatusTemplate, AppColors.primary),
       _JobState.failed => (l.onbStatusFailed, AppColors.warning),
     };
     return Card(
@@ -580,6 +621,8 @@ class _TaskRow extends StatelessWidget {
                   _JobState.running => const SizedBox(
                       key: ValueKey('r'), width: 22, height: 22, child: CircularProgressIndicator(strokeWidth: 2.5)),
                   _JobState.done => const Icon(Icons.check_circle, key: ValueKey('d'), color: AppColors.primary),
+                  _JobState.template =>
+                    const Icon(Icons.inventory_2_outlined, key: ValueKey('t'), color: AppColors.primary),
                   _JobState.failed =>
                     const Icon(Icons.error_outline, key: ValueKey('f'), color: AppColors.warning),
                   _JobState.waiting =>
@@ -591,10 +634,10 @@ class _TaskRow extends StatelessWidget {
               padding: const EdgeInsetsDirectional.only(start: 36, top: 2),
               child: Text(status, style: TextStyle(color: color, fontSize: 13)),
             ),
-            if (state == _JobState.failed && error != null) ...[
+            if ((state == _JobState.failed || state == _JobState.template) && note != null) ...[
               Padding(
                 padding: const EdgeInsetsDirectional.only(start: 36, top: 6),
-                child: Text(error!, style: context.text.bodySmall),
+                child: Text(note!, style: context.text.bodySmall),
               ),
               if (onRetry != null)
                 Align(

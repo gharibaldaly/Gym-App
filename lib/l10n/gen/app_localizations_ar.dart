@@ -2331,18 +2331,20 @@ class AppLocalizationsAr extends AppLocalizations {
   String get onbBuildMeals => 'خطة الأكل';
 
   @override
-  String get onbBuildWorkoutLater => 'تقدر تعملها بعدين من تاب التمرين.';
+  String get onbBuildWorkoutLater =>
+      'عملنالك خطة جاهزة من إجاباتك دلوقتي – وتقدر تعملها بالـ AI بعدين من تاب التمرين.';
 
   @override
-  String get onbBuildMealsLater => 'تقدر تعملها بعدين من تاب الأكل.';
+  String get onbBuildMealsLater =>
+      'عملنالك خطة أكل جاهزة دلوقتي – وتقدر تعملها بالـ AI بعدين من تاب الأكل.';
 
   @override
   String get onbBuildNoKey =>
-      'خطط الـ AI محتاجة مفتاح Claude API. سعراتك والماكروز جاهزين؛ ضيف المفتاح بعدين من الإعدادات واعمل الخطط من تاب التمرين وتاب الأكل.';
+      'لسه مفيش مفتاح Claude API، فعملنالك خطة تمرين وخطة أكل جاهزين من إجاباتك. ضيف المفتاح بعدين من الإعدادات وتقدر تعملهم بالـ AI من تاب التمرين وتاب الأكل.';
 
   @override
   String get onbBuildOffline =>
-      'مفيش نت دلوقتي. سعراتك والماكروز جاهزين؛ اعمل خطط الـ AI من تاب التمرين وتاب الأكل لما النت يرجع.';
+      'مفيش نت دلوقتي، فعملنالك خطة تمرين وخطة أكل جاهزين من إجاباتك. تقدر تعملهم بالـ AI من تاب التمرين وتاب الأكل لما النت يرجع.';
 
   @override
   String get onbDailyTargets => 'أهدافك اليومية';
@@ -2379,6 +2381,9 @@ class AppLocalizationsAr extends AppLocalizations {
 
   @override
   String get onbStatusFailed => 'مش دلوقتي';
+
+  @override
+  String get onbStatusTemplate => 'خطة جاهزة';
 
   @override
   String get onbProfileTitle => 'البروفايل';

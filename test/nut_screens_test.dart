@@ -108,7 +108,8 @@ void main() {
     await _pump(tester, db, const NutritionTabScreen(), lang: 'ar');
     await _settle(tester);
     expect(find.text('وجبة مستنية تحليل الـ AI'), findsOneWidget);
-    await tester.scrollUntilVisible(find.text('مستني تحليل الـ AI'), 300, scrollable: find.byType(Scrollable).first);
+    final vertical = find.byWidgetPredicate((w) => w is Scrollable && w.axisDirection == AxisDirection.down);
+    await tester.scrollUntilVisible(find.text('مستني تحليل الـ AI'), 300, scrollable: vertical.first);
     expect(find.text('مستني تحليل الـ AI'), findsOneWidget);
     await _end(tester);
   });
@@ -166,11 +167,11 @@ void main() {
     expect(find.text('260 kcal'), findsWidgets);
     await tester.tap(find.byIcon(Icons.add).last);
     await _settle(tester);
-    expect(find.text('210 g'), findsOneWidget);
+    expect(find.text('225 g'), findsOneWidget); // 25 g steps from 200 g
     await tester.tap(find.text('Save meal'));
     await _settle(tester);
     final log = (await db.select(db.mealLogs).get()).single;
-    expect(log.calories, closeTo(273, 0.5));
+    expect(log.calories, closeTo(292.5, 0.5));
     expect(log.source, 'ai_text');
     final mine = (await db.select(db.foodItems).get()).single;
     expect(mine.name, 'Rice plate');

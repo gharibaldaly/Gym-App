@@ -4367,25 +4367,25 @@ abstract class AppLocalizations {
   /// No description provided for @onbBuildWorkoutLater.
   ///
   /// In en, this message translates to:
-  /// **'You can generate it later from the Workout tab.'**
+  /// **'We built a ready-made plan from your answers for now – you can regenerate it with AI later from the Workout tab.'**
   String get onbBuildWorkoutLater;
 
   /// No description provided for @onbBuildMealsLater.
   ///
   /// In en, this message translates to:
-  /// **'You can generate it later from the Food tab.'**
+  /// **'We built a ready-made meal plan for now – you can regenerate it with AI later from the Food tab.'**
   String get onbBuildMealsLater;
 
   /// No description provided for @onbBuildNoKey.
   ///
   /// In en, this message translates to:
-  /// **'AI plans need a Claude API key. Your calories and macros are ready; add the key later from Settings and generate the plans from the Workout and Food tabs.'**
+  /// **'No Claude API key yet, so we built ready-made workout and meal plans from your answers. Add the key later in Settings to regenerate them with AI from the Workout and Food tabs.'**
   String get onbBuildNoKey;
 
   /// No description provided for @onbBuildOffline.
   ///
   /// In en, this message translates to:
-  /// **'No internet right now. Your calories and macros are ready; generate the AI plans from the Workout and Food tabs when you\'re back online.'**
+  /// **'No internet right now, so we built ready-made workout and meal plans from your answers. Regenerate them with AI from the Workout and Food tabs when you\'re back online.'**
   String get onbBuildOffline;
 
   /// No description provided for @onbDailyTargets.
@@ -4459,6 +4459,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Not now'**
   String get onbStatusFailed;
+
+  /// No description provided for @onbStatusTemplate.
+  ///
+  /// In en, this message translates to:
+  /// **'Ready-made plan'**
+  String get onbStatusTemplate;
 
   /// No description provided for @onbProfileTitle.
   ///

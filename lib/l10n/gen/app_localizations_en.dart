@@ -2351,19 +2351,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onbBuildWorkoutLater =>
-      'You can generate it later from the Workout tab.';
+      'We built a ready-made plan from your answers for now – you can regenerate it with AI later from the Workout tab.';
 
   @override
   String get onbBuildMealsLater =>
-      'You can generate it later from the Food tab.';
+      'We built a ready-made meal plan for now – you can regenerate it with AI later from the Food tab.';
 
   @override
   String get onbBuildNoKey =>
-      'AI plans need a Claude API key. Your calories and macros are ready; add the key later from Settings and generate the plans from the Workout and Food tabs.';
+      'No Claude API key yet, so we built ready-made workout and meal plans from your answers. Add the key later in Settings to regenerate them with AI from the Workout and Food tabs.';
 
   @override
   String get onbBuildOffline =>
-      'No internet right now. Your calories and macros are ready; generate the AI plans from the Workout and Food tabs when you\'re back online.';
+      'No internet right now, so we built ready-made workout and meal plans from your answers. Regenerate them with AI from the Workout and Food tabs when you\'re back online.';
 
   @override
   String get onbDailyTargets => 'Your daily targets';
@@ -2400,6 +2400,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onbStatusFailed => 'Not now';
+
+  @override
+  String get onbStatusTemplate => 'Ready-made plan';
 
   @override
   String get onbProfileTitle => 'My profile';

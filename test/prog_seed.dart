@@ -3,7 +3,10 @@ import 'package:drift/drift.dart' hide isNull;
 import 'package:drift/native.dart';
 import 'package:ironmind/core/providers.dart';
 
-AppDatabase memoryDb() => AppDatabase(NativeDatabase.memory());
+AppDatabase memoryDb() {
+  driftRuntimeOptions.dontWarnAboutMultipleDatabases = true;
+  return AppDatabase(NativeDatabase.memory());
+}
 
 Future<void> seedExercises(AppDatabase db) async {
   Future<void> ex(String id, String en, String ar, String muscles) => db.into(db.exercises).insert(
