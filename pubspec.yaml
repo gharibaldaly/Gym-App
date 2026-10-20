@@ -59,7 +59,6 @@ dependencies:
   workmanager: ^0.10.10
   health: ^13.3.2
   local_auth: ^3.0.2
-  permission_handler: ^13.0.2
 
   # Backup
   archive: ^4.5.2
