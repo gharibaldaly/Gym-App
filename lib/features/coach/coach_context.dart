@@ -17,13 +17,13 @@ String weekdayEn(int weekday) => _weekdaysEn[(weekday - 1).clamp(0, 6)];
 /// and a [dynamic] part (date, last days of logs, memories, pending proposals).
 class CoachContext {
   final String stable;
-  final String dynamic;
-  const CoachContext(this.stable, this.dynamic);
+  final String dynamicPart;
+  const CoachContext(this.stable, this.dynamicPart);
 
-  List<Map<String, dynamic>> get systemBlocks => AiService.systemBlocks(stable, dynamic: dynamic);
+  List<Map<String, dynamic>> get systemBlocks => AiService.systemBlocks(stable, dynamic: dynamicPart);
 
   /// Rough token estimate (≈ 4 chars/token for English, ~2.5 for Arabic).
-  int get approxTokens => ((stable.length + dynamic.length) / 3).round();
+  int get approxTokens => ((stable.length + dynamicPart.length) / 3).round();
 }
 
 /// Builds the compact context summary sent with every coach request.

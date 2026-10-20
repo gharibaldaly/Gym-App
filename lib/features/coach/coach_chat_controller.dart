@@ -198,7 +198,7 @@ class CoachChatController extends Notifier<CoachChatState> {
       );
       state = const CoachChatState();
     } catch (e, st) {
-      debugPrint('coach chat failed: $e\n$st');
+      if (e is! AiException) debugPrint('coach chat failed: $e\n$st');
       await _savePartial(buffer, proposalIds);
       state = CoachChatState(error: aiErrorText(e, ar: _lang == 'ar'));
     }

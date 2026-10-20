@@ -28,7 +28,7 @@ class CoachPrefKeys {
   /// JSON {"weightFactor":0.9,"setsDelta":-1} for that day's workout.
   static String recoveryAdjust(DateTime day) => 'recovery_adjust_${ymd(day)}';
 
-  /// JSON {"<planExerciseId>":"<newExerciseId>"} – swaps for that day only.
+  /// JSON `{"planExerciseId": "newExerciseId"}` – swaps for that day only.
   static String swapToday(DateTime day) => 'swap_today_${ymd(day)}';
 }
 

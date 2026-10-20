@@ -245,6 +245,481 @@
   "weekdaySat": "Sat",
   "weekdaySun": "Sun",
   "comingSoon": "Coming soon",
+  "exLibraryTitle": "Exercise library",
+  "exPickTitle": "Choose an exercise",
+  "exSearchHint": "Search in Arabic or English",
+  "exAllMuscles": "All muscles",
+  "exAllEquipment": "All equipment",
+  "exMuscleFilter": "Muscle",
+  "exEquipmentFilter": "Equipment",
+  "exFavoritesOnly": "Favorites",
+  "exMyCustom": "My exercises",
+  "exClearFilters": "Clear filters",
+  "exResultsCount": "{count, plural, =1{1 exercise} other{{count} exercises}}",
+  "@exResultsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "exNoResults": "No exercises match your search.",
+  "exAddWithAi": "Add with AI",
+  "exFavoriteAdd": "Add to favorites",
+  "exFavoriteRemove": "Remove from favorites",
+  "exCustomBadge": "Custom",
+  "exBodyFront": "Front",
+  "exBodyBack": "Back",
+  "exPrimaryMuscles": "Primary muscles",
+  "exSecondaryMuscles": "Secondary muscles",
+  "exMusclesWorked": "Muscles worked",
+  "exHowTo": "How to do it",
+  "exCommonMistakes": "Common mistakes",
+  "exNoInstructions": "No instructions yet.",
+  "exImageOffline": "Image not downloaded yet. Open it once with internet to keep it offline.",
+  "exStepOf": "{current}/{total}",
+  "@exStepOf": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "exYourHistory": "Your history",
+  "exNoHistory": "You haven't logged this exercise yet.",
+  "exLastPerformance": "Last time",
+  "exPersonalRecords": "Personal records",
+  "exHeaviest": "Heaviest weight",
+  "exBestE1rm": "Best est. 1RM",
+  "exRepRecords": "Most reps at each weight",
+  "exSetLine": "{weight} kg × {reps}",
+  "@exSetLine": {
+    "placeholders": {
+      "weight": {
+        "type": "String"
+      },
+      "reps": {
+        "type": "int"
+      }
+    }
+  },
+  "exKgValue": "{value} kg",
+  "@exKgValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "exSessionVolume": "Volume: {volume} kg",
+  "@exSessionVolume": {
+    "placeholders": {
+      "volume": {
+        "type": "String"
+      }
+    }
+  },
+  "exProgressChart": "Progress",
+  "exChartE1rm": "Est. 1RM",
+  "exChartTopWeight": "Top weight",
+  "exChartNeedMore": "Log this exercise in at least 2 sessions to see your progress chart.",
+  "exEdit": "Edit",
+  "exDelete": "Delete exercise",
+  "exDeleteConfirm": "Delete this custom exercise?",
+  "exDeleteInUse": "Can't delete: this exercise is used in your logs or plan.",
+  "exDeleted": "Exercise deleted",
+  "exNotFound": "Exercise not found",
+  "exAddTitle": "Add exercise",
+  "exEditTitle": "Edit exercise",
+  "exReviewTitle": "Review & edit",
+  "exDescribeTitle": "Describe the exercise",
+  "exDescribeHint": "In your own words, e.g. \"machine where I sit and push two handles forward for chest\"",
+  "exVoiceStart": "Speak",
+  "exVoiceListening": "Listening…",
+  "exVoiceUnavailable": "Voice input isn't available on this device.",
+  "exPhotoOptional": "Photo of the machine (optional)",
+  "exPhotoCamera": "Camera",
+  "exPhotoGallery": "Gallery",
+  "exPhotoRemove": "Remove photo",
+  "exPhotoError": "Couldn't load the photo.",
+  "exContinue": "Continue",
+  "exCreateWithAi": "Create with AI",
+  "exFillManually": "Fill in manually",
+  "exAiOffManual": "AI is off — you can still add the exercise manually.",
+  "exDescribeFirst": "Describe the exercise or add a photo first.",
+  "exDidYouMean": "Did you mean…?",
+  "exDidYouMeanBody": "These exercises are already in the library. Use one instead of creating a duplicate.",
+  "exUseExisting": "Use",
+  "exCreateNewAnyway": "No, create a new one",
+  "exAiWorking": "Claude is building the exercise…",
+  "exAiSimilarFound": "This looks like an exercise you already have:",
+  "exNameEn": "Name (English)",
+  "exNameAr": "Name (Arabic)",
+  "exFieldEquipment": "Equipment",
+  "exFieldForce": "Force",
+  "exFieldMechanic": "Compound / isolation",
+  "exFieldCategory": "Category",
+  "exNone": "—",
+  "exStepsEn": "Steps (English)",
+  "exStepsAr": "Steps (Arabic)",
+  "exMistakesEn": "Common mistakes (English)",
+  "exMistakesAr": "Common mistakes (Arabic)",
+  "exOnePerLine": "One per line",
+  "exNeedNameAndMuscle": "Add a name and at least one primary muscle.",
+  "exSave": "Save exercise",
+  "exSaved": "Exercise saved",
+  "exOfflineTitle": "Offline exercise images",
+  "exOfflineBody": "Download the step images of all exercises so they show without internet (about {mb} MB). Images you open are also kept automatically.",
+  "@exOfflineBody": {
+    "placeholders": {
+      "mb": {
+        "type": "int"
+      }
+    }
+  },
+  "exOfflineWifiTip": "Tip: use Wi-Fi — the pack is large.",
+  "exOfflineStart": "Download all",
+  "exOfflineCancel": "Stop",
+  "exOfflineClear": "Delete downloaded images",
+  "exOfflineClearConfirm": "Exercise images will need internet again until re-downloaded.",
+  "exOfflineCleared": "Downloaded images deleted",
+  "exOfflineProgress": "{done} / {total}",
+  "@exOfflineProgress": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "exOfflineCached": "{cached} of {total} images saved",
+  "@exOfflineCached": {
+    "placeholders": {
+      "cached": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "exOfflineFailed": "{count} failed — try again later",
+  "@exOfflineFailed": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "exOfflineDone": "All exercise images are available offline",
+  "exOfflineChecking": "Checking saved images…",
+  "exOfflineNeedsInternet": "Connect to the internet to download.",
+  "nutTitle": "Nutrition",
+  "nutTabToday": "Today",
+  "nutTabPlan": "Meal plan",
+  "nutTabShopping": "Shopping",
+  "nutTodayTitle": "Today's calories",
+  "nutTrainingDay": "Training day",
+  "nutRestDay": "Rest day",
+  "nutNoTargets": "No calorie targets yet. Finish your profile to get your daily numbers.",
+  "nutKcalLeft": "kcal left",
+  "nutKcalOver": "kcal over",
+  "nutRemainingMacros": "Left: protein {protein} g · carbs {carbs} g · fat {fat} g",
+  "@nutRemainingMacros": {
+    "placeholders": {
+      "protein": {
+        "type": "String"
+      },
+      "carbs": {
+        "type": "String"
+      },
+      "fat": {
+        "type": "String"
+      }
+    }
+  },
+  "nutFromSupplements": "Incl. supplements: {protein} g protein · {kcal} kcal",
+  "@nutFromSupplements": {
+    "placeholders": {
+      "protein": {
+        "type": "String"
+      },
+      "kcal": {
+        "type": "String"
+      }
+    }
+  },
+  "nutMacroLine": "{kcal} kcal · P {protein} · C {carbs} · F {fat}",
+  "@nutMacroLine": {
+    "placeholders": {
+      "kcal": {
+        "type": "String"
+      },
+      "protein": {
+        "type": "String"
+      },
+      "carbs": {
+        "type": "String"
+      },
+      "fat": {
+        "type": "String"
+      }
+    }
+  },
+  "nutProteinShort": "P",
+  "nutCarbsShort": "C",
+  "nutFatShort": "F",
+  "nutPendingCount": "{count, plural, =1{1 meal waiting for AI analysis} other{{count} meals waiting for AI analysis}}",
+  "@nutPendingCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "nutPendingNoKey": "Add your Claude API key and they will be analyzed automatically.",
+  "nutPendingOffline": "They'll be analyzed when you're back online.",
+  "nutPendingWorking": "Analyzing in the background…",
+  "nutMealsTitle": "Meals: planned vs eaten",
+  "nutNoPlanToday": "You don't have a meal plan yet. Create one to see your meals here.",
+  "nutOpenPlan": "Open meal plan",
+  "nutPlannedLine": "Planned: {macros}",
+  "@nutPlannedLine": {
+    "placeholders": {
+      "macros": {
+        "type": "String"
+      }
+    }
+  },
+  "nutEatenLine": "Eaten: {macros}",
+  "@nutEatenLine": {
+    "placeholders": {
+      "macros": {
+        "type": "String"
+      }
+    }
+  },
+  "nutAteAsPlanned": "Ate it as planned",
+  "nutAteHalf": "Ate half of it",
+  "nutAteDifferent": "Ate something different",
+  "nutLoggedMeal": "Logged: {name}",
+  "@nutLoggedMeal": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "nutUndo": "Undo",
+  "nutLoggedTitle": "Logged today",
+  "nutNothingLogged": "Nothing logged yet. Tap + to log a meal.",
+  "nutWaitingForAi": "Waiting for AI analysis",
+  "nutConfidence": "AI confidence {percent}%",
+  "@nutConfidence": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "nutSavedToMyFoods": "Saved to My foods",
+  "nutAnalyzeNow": "Analyze now",
+  "nutDeleted": "Meal deleted",
+  "nutSaved": "Saved",
+  "nutSupplementsTitle": "Supplements today",
+  "nutNoSupplementsToday": "No supplements ticked today. Mark them in the Today tab and their protein/calories count here.",
+  "nutSupplementMacros": "{protein} g protein · {kcal} kcal",
+  "@nutSupplementMacros": {
+    "placeholders": {
+      "protein": {
+        "type": "String"
+      },
+      "kcal": {
+        "type": "String"
+      }
+    }
+  },
+  "nutNoMacros": "no calories",
+  "nutLogFood": "Log food",
+  "nutLogPhoto": "Photo",
+  "nutLogPhotoHint": "Snap your plate, the AI estimates it",
+  "nutLogText": "Type or say it",
+  "nutLogTextHint": "e.g. \"a medium koshary and two eggs\"",
+  "nutMyFoods": "My foods",
+  "nutMyFoodsHint": "One tap, no AI, works offline",
+  "nutLogManual": "Manual",
+  "nutLogManualHint": "Pick from Egyptian foods + grams",
+  "nutLogged": "Meal logged",
+  "nutTakePhoto": "Take a photo",
+  "nutFromGallery": "Choose from gallery",
+  "nutPhotoError": "Couldn't open the camera or gallery.",
+  "nutPhotoMealName": "Meal photo",
+  "nutQueuedNoKey": "Saved with the photo. Add your API key in Settings and it will be analyzed.",
+  "nutAnalyzingPhoto": "Analyzing your plate…",
+  "nutAnalysisFailed": "Couldn't analyze it",
+  "nutLogManually": "Log manually",
+  "nutAnalyzeLater": "Save & analyze later",
+  "nutReviewTitle": "Review meal",
+  "nutEditMeal": "Edit meal",
+  "nutReviewHint": "Check the amounts — changing grams updates the macros.",
+  "nutMealName": "Meal name",
+  "nutWhichMeal": "Which meal?",
+  "nutOtherMeal": "Snack / outside the plan",
+  "nutMealNumber": "Meal {number}",
+  "@nutMealNumber": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "nutItems": "Items",
+  "nutAddFood": "Add food",
+  "nutNoItemsDetected": "The AI found no food. Add the items yourself.",
+  "nutNoItemsYet": "No items yet. Add a food from the list.",
+  "nutItemName": "Item name",
+  "nutGrams": "Grams",
+  "nutTotal": "Total",
+  "nutSaveToMyFoods": "Save to My foods",
+  "nutSaveToMyFoodsHint": "Log it again later with one tap, without AI",
+  "nutSaveMeal": "Save meal",
+  "nutAddAtLeastOne": "Add at least one item.",
+  "nutSearchFoods": "Search foods (فول، rice…)",
+  "nutNoFoodsFound": "No foods found",
+  "nutPer100g": "Per 100 g: {macros}",
+  "@nutPer100g": {
+    "placeholders": {
+      "macros": {
+        "type": "String"
+      }
+    }
+  },
+  "nutTextPrompt": "What did you eat?",
+  "nutTextHintExample": "a medium koshary plate and two eggs",
+  "nutSpeak": "Speak",
+  "nutStopListening": "Stop",
+  "nutListening": "Listening…",
+  "nutTapToSpeak": "Tap the mic and say what you ate",
+  "nutSpeechUnavailable": "Voice input is not available on this device.",
+  "nutAnalyze": "Analyze with AI",
+  "nutAnalyzing": "Analyzing…",
+  "nutMyFoodsEmpty": "Meals you log are saved here so you can log them again with one tap.",
+  "nutMyFoodsTapHint": "Tap to log · hold for portion & options",
+  "nutUsedTimes": "{count, plural, =1{Used once} other{Used {count} times}}",
+  "@nutUsedTimes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "nutMore": "More",
+  "nutHalfPortion": "Half portion",
+  "nutFullPortion": "Full portion",
+  "nutOneAndHalfPortion": "1.5 portions",
+  "nutDoublePortion": "Double portion",
+  "nutFavorite": "Add to favorites",
+  "nutUnfavorite": "Remove from favorites",
+  "nutNoPlan": "No meal plan yet. The AI builds one with Egyptian food that fits your macros, budget and taste.",
+  "nutGeneratePlan": "Build my meal plan",
+  "nutUseBasicPlan": "Use a basic offline plan",
+  "nutGeneratingPlan": "Building your meal plan… this can take a minute.",
+  "nutBuildingPlan": "Building a basic plan…",
+  "nutPlanReady": "Your new meal plan is ready",
+  "nutBasicPlanReady": "Basic plan ready",
+  "nutPlanFallback": "No AI right now, so we built a basic plan from Egyptian foods.",
+  "nutPlanFailed": "Couldn't build the plan",
+  "nutTemplatePlanNote": "Basic plan built offline from the built-in food table. Regenerate with AI for a personalized plan.",
+  "nutDayTotal": "Day total",
+  "nutTargetLine": "Target: {macros}",
+  "@nutTargetLine": {
+    "placeholders": {
+      "macros": {
+        "type": "String"
+      }
+    }
+  },
+  "nutNoMealsForDay": "No meals for this day type in the plan.",
+  "nutItemMacros": "{kcal} kcal · P {protein} · C {carbs} · F {fat}",
+  "@nutItemMacros": {
+    "placeholders": {
+      "kcal": {
+        "type": "String"
+      },
+      "protein": {
+        "type": "String"
+      },
+      "carbs": {
+        "type": "String"
+      },
+      "fat": {
+        "type": "String"
+      }
+    }
+  },
+  "nutSwapMeal": "Swap meal",
+  "nutSwapTitle": "Swap {meal}",
+  "@nutSwapTitle": {
+    "placeholders": {
+      "meal": {
+        "type": "String"
+      }
+    }
+  },
+  "nutSwapSubtitle": "Alternatives with about the same macros: {macros}",
+  "@nutSwapSubtitle": {
+    "placeholders": {
+      "macros": {
+        "type": "String"
+      }
+    }
+  },
+  "nutFindingAlternatives": "Finding alternatives…",
+  "nutNoAlternatives": "No alternatives found. Try again.",
+  "nutUseThis": "Use this meal",
+  "nutMoreAlternatives": "Other alternatives",
+  "nutMealSwapped": "Meal swapped in your plan",
+  "nutRegenerate": "Regenerate plan",
+  "nutRegenerateTitle": "Build a new meal plan?",
+  "nutRegenerateBody": "Your current plan (and any swaps) will be replaced. Your logged meals stay.",
+  "nutShoppingNoPlan": "Create a meal plan first and your weekly shopping list will appear here.",
+  "nutShoppingTitle": "Weekly shopping list",
+  "nutShoppingSubtitle": "For {training} training days and {rest} rest days",
+  "@nutShoppingSubtitle": {
+    "placeholders": {
+      "training": {
+        "type": "int"
+      },
+      "rest": {
+        "type": "int"
+      }
+    }
+  },
+  "nutShoppingShareTitle": "Shopping list – week of {date}",
+  "@nutShoppingShareTitle": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "nutShare": "Share",
+  "nutUncheckAll": "Uncheck all",
+  "nutLiter": "L",
+  "nutCatProtein": "Meat, poultry & eggs",
+  "nutCatCarb": "Bread, grains & legumes",
+  "nutCatDairy": "Dairy",
+  "nutCatFat": "Oils, nuts & spreads",
+  "nutCatFruit": "Fruit",
+  "nutCatVeg": "Vegetables",
+  "nutCatDish": "Ready dishes",
+  "nutCatSupplement": "Supplements",
+  "nutCatOther": "Other",
   "onbStepOf": "Step {current} of {total}",
   "@onbStepOf": {
     "placeholders": {
@@ -819,6 +1294,601 @@
   "onbErrBudget": "Enter an amount between 100 and 1,000,000 EGP",
   "onbErrSuppName": "Every supplement needs a name",
   "onbErrWater": "Water goal must be between 1,000 and 8,000 ml",
+  "progTitle": "Progress",
+  "progPeriodWeek": "Week",
+  "progPeriodMonth": "Month",
+  "progPeriod3Months": "3 months",
+  "progPeriodYear": "Year",
+  "progPeriodAll": "All",
+  "progLinkPrs": "Records",
+  "progLinkPhotos": "Photos",
+  "progLinkMeasurements": "Measurements",
+  "progLinkWeight": "Body weight",
+  "progExportPdf": "Export PDF report",
+  "progCalendarTitle": "Adherence calendar",
+  "progLegendCompleted": "Completed",
+  "progLegendPartial": "Partial",
+  "progLegendMissed": "Missed",
+  "progLegendRest": "Rest",
+  "progAdherencePct": "{pct}% adherence",
+  "@progAdherencePct": {
+    "placeholders": {
+      "pct": {
+        "type": "String"
+      }
+    }
+  },
+  "progAdherenceNone": "No training days due yet this month",
+  "progAdherenceCounts": "{completed} completed · {partial} partial · {missed} missed",
+  "@progAdherenceCounts": {
+    "placeholders": {
+      "completed": {
+        "type": "String"
+      },
+      "partial": {
+        "type": "String"
+      },
+      "missed": {
+        "type": "String"
+      }
+    }
+  },
+  "progPrevMonth": "Previous month",
+  "progNextMonth": "Next month",
+  "progStatusInProgress": "In progress",
+  "progStatusRestDay": "Rest day",
+  "progStatusToday": "Today – not trained yet",
+  "progStatusFuture": "Upcoming",
+  "progStatusNone": "Before you started tracking",
+  "progDayNothing": "Nothing logged on this day.",
+  "progDayWorkout": "Workout",
+  "progDayNutrition": "Food",
+  "progDayWater": "Water",
+  "progDaySleep": "Sleep",
+  "progDayWeight": "Weight",
+  "progDayRecovery": "Recovery",
+  "progDayCardio": "Cardio",
+  "progSetTypeWarmup": "Warm-up",
+  "progSetTypeDrop": "Drop set",
+  "progSetTypeFailure": "To failure",
+  "progVolumeValue": "Volume {value} kg",
+  "@progVolumeValue": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "progSetsCount": "Sets: {count}",
+  "@progSetsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "progPrsCount": "PRs: {count}",
+  "@progPrsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "progPrBadge": "PR",
+  "progDurationMin": "{minutes} min",
+  "@progDurationMin": {
+    "placeholders": {
+      "minutes": {
+        "type": "String"
+      }
+    }
+  },
+  "progMealsCount": "Meals: {count}",
+  "@progMealsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "progUnknownExercise": "Unknown exercise",
+  "progExerciseTitle": "Exercise progress",
+  "progPickExercise": "Pick an exercise",
+  "progSearchExercise": "Search your exercises",
+  "progTopSet": "Top set",
+  "progE1rm": "Est. 1RM",
+  "progNoExerciseData": "Log a workout and your strength progress shows up here.",
+  "progNoDataInPeriod": "No data in this period.",
+  "progBest": "Best",
+  "progChange": "Change",
+  "progLatest": "Latest",
+  "progSessionsCount": "Sessions: {count}",
+  "@progSessionsCount": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "progNoMatches": "No matches",
+  "progVolumeTitle": "Weekly volume per muscle",
+  "progAvgPerWeek": "Weekly average over {weeks} weeks (weight × reps)",
+  "@progAvgPerWeek": {
+    "placeholders": {
+      "weeks": {
+        "type": "String"
+      }
+    }
+  },
+  "progEffectiveSets": "Effective sets / week",
+  "progEffectiveSetsHint": "Effective set = working set at RPE 7+ (or no RPE logged). Around 10–20 per muscle per week is a solid range for growth.",
+  "progWeeklyTotal": "Total volume per week",
+  "progNoVolumeData": "No working sets in this period yet.",
+  "progMuscleCol": "Muscle",
+  "progVolumeCol": "Volume/wk",
+  "progSetsCol": "Eff. sets",
+  "progBodyTitle": "Body weight",
+  "progDaily": "Daily",
+  "progMovingAvg": "7-day average",
+  "progMeasurementsTitle": "Measurements",
+  "progNoWeightData": "No weight logged in this period.",
+  "progNoMeasurementData": "No measurements in this period.",
+  "progLogWeight": "Log weight",
+  "progLogMeasurements": "Add measurements",
+  "progMeasureWaist": "Waist",
+  "progMeasureChest": "Chest",
+  "progMeasureArm": "Arm",
+  "progMeasureThigh": "Thigh",
+  "progMeasureNeck": "Neck",
+  "progMeasureHips": "Hips",
+  "progMeasureBodyFat": "Body fat %",
+  "progNutritionTitle": "Calories & macros vs target",
+  "progTarget": "Target",
+  "progAvgPerDay": "Daily average ({days} days logged)",
+  "@progAvgPerDay": {
+    "placeholders": {
+      "days": {
+        "type": "String"
+      }
+    }
+  },
+  "progNoNutritionData": "No meals logged in this period.",
+  "progDaysOnTarget": "Days within ±10% of your calorie target: {count}/{total}",
+  "@progDaysOnTarget": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "progSleepTitle": "Sleep & recovery",
+  "progSleepHours": "Sleep (h)",
+  "progRecoveryScore": "Recovery score",
+  "progAvgSleep": "Avg sleep",
+  "progAvgRecovery": "Avg recovery",
+  "progNoSleepData": "No sleep or recovery data in this period. Log sleep manually or connect Health Connect.",
+  "progPrsTitle": "Personal records",
+  "progPrHeaviest": "Heaviest",
+  "progPrBestE1rm": "Best est. 1RM",
+  "progPrRepsAtWeight": "Most reps at each weight",
+  "progNoPrs": "No records yet – log a few workouts first.",
+  "progSetsLogged": "{count} working sets",
+  "@progSetsLogged": {
+    "placeholders": {
+      "count": {
+        "type": "String"
+      }
+    }
+  },
+  "progLastTrained": "Last: {date}",
+  "@progLastTrained": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "progReportChoose": "Export progress report",
+  "progReportThisWeek": "This week",
+  "progReportLastWeek": "Last week",
+  "progReportThisMonth": "This month",
+  "progReportLastMonth": "Last month",
+  "progReportGenerating": "Preparing your report…",
+  "progReportFailed": "Couldn't create the report",
+  "progReportShareSubject": "IronMind progress report",
+  "progPdfWeeklyTitle": "Weekly progress report",
+  "progPdfMonthlyTitle": "Monthly progress report",
+  "progPdfGenerated": "Generated {date}",
+  "@progPdfGenerated": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "progPdfSummary": "Summary",
+  "progPdfSessionsDone": "Sessions done",
+  "progPdfSessionsMissed": "Missed days",
+  "progPdfAdherence": "Adherence",
+  "progPdfVolume": "Total volume",
+  "progPdfPrs": "Personal records",
+  "progPdfAvgCalories": "Avg calories",
+  "progPdfAvgProtein": "Avg protein",
+  "progPdfWeightChange": "Weight change",
+  "progPdfAvgSleep": "Avg sleep",
+  "progPdfAvgRecovery": "Avg recovery",
+  "progPdfTarget": "target {value}",
+  "@progPdfTarget": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "progPdfCoachSummary": "Coach summary",
+  "progPdfNoCoachSummary": "No weekly coach report in this period. You can ask the coach for one from the Coach tab.",
+  "progPdfSessionsTable": "Sessions",
+  "progPdfDate": "Date",
+  "progPdfName": "Workout",
+  "progPdfStatus": "Status",
+  "progPdfDuration": "Duration",
+  "progPdfSets": "Sets",
+  "progPdfExercise": "Exercise",
+  "progPdfType": "Record",
+  "progPdfSet": "Set",
+  "progPdfTypeWeight": "Heaviest",
+  "progPdfTypeReps": "Reps",
+  "progPdfTypeE1rm": "e1RM",
+  "progPdfBodyTable": "Body metrics",
+  "progPdfMuscleChart": "Volume per muscle (kg)",
+  "progPdfCaloriesChart": "Daily calories vs target",
+  "progPdfWeightChart": "Body weight (kg)",
+  "progPdfNone": "Nothing logged in this period.",
+  "progPdfPage": "Page {page} of {total}",
+  "@progPdfPage": {
+    "placeholders": {
+      "page": {
+        "type": "String"
+      },
+      "total": {
+        "type": "String"
+      }
+    }
+  },
+  "progPdfEaten": "Eaten",
+  "progPdfFromTo": "{from} to {to}",
+  "@progPdfFromTo": {
+    "placeholders": {
+      "from": {
+        "type": "String"
+      },
+      "to": {
+        "type": "String"
+      }
+    }
+  },
+  "setProfile": "Profile",
+  "setProfileSub": "Edit your answers, goals and targets",
+  "setSectionAi": "AI coach (Claude)",
+  "setSectionApp": "App",
+  "setApiKey": "Claude API key",
+  "setApiKeyHelp": "Stored only on this phone in encrypted storage. Never included in backups.",
+  "setApiKeySaved": "API key saved",
+  "setApiKeyTest": "Test key",
+  "setApiKeyTesting": "Testing…",
+  "setApiKeyValid": "The key works",
+  "setApiKeyInvalid": "The key didn't work",
+  "setApiKeyChange": "Change",
+  "setApiKeyRemove": "Remove",
+  "setApiKeyRemoveTitle": "Remove API key?",
+  "setApiKeyRemoveBody": "AI features will stop working until you add a key again.",
+  "setModels": "AI models",
+  "setModelFast": "Fast model (Haiku tier)",
+  "setModelFastHelp": "Voice/text parsing, exercise alternatives, memory",
+  "setModelBalanced": "Balanced model (Sonnet tier)",
+  "setModelBalancedHelp": "Chat, workout summaries, food photos, morning message",
+  "setModelSmart": "Smartest model (Opus tier)",
+  "setModelSmartHelp": "First plan, meal plan, weekly report",
+  "setModelsSaved": "Models saved",
+  "setModelsReset": "Reset to defaults",
+  "setModelsResetDone": "Default models restored",
+  "setRefusalFallback": "Server-side fallback on refusals",
+  "setRefusalFallbackSub": "If a model refuses a request, Claude retries it on a fallback model automatically.",
+  "setCost": "AI costs",
+  "setCostToday": "Today",
+  "setCostMonth": "This month",
+  "setCostAllTime": "All time",
+  "setCostByFeature": "By feature",
+  "setCostEmpty": "No AI requests in this period",
+  "setCostTokens": "{tokens} tokens",
+  "@setCostTokens": {
+    "placeholders": {
+      "tokens": {
+        "type": "String"
+      }
+    }
+  },
+  "setCostFeatureDetail": "{requests} requests · in {input} · out {output} · cache {cache}",
+  "@setCostFeatureDetail": {
+    "placeholders": {
+      "requests": {
+        "type": "int"
+      },
+      "input": {
+        "type": "String"
+      },
+      "output": {
+        "type": "String"
+      },
+      "cache": {
+        "type": "String"
+      }
+    }
+  },
+  "setCostNote": "Estimated from public prices. No spending limit is applied.",
+  "setFeatVoiceParse": "Voice → set",
+  "setFeatExerciseAlternatives": "Exercise alternatives",
+  "setFeatMemoryExtract": "Coach memory",
+  "setFeatFoodText": "Food from text",
+  "setFeatExerciseCreate": "Custom exercises",
+  "setFeatChat": "Coach chat",
+  "setFeatWorkoutSummary": "Workout summaries",
+  "setFeatFoodPhoto": "Food photos",
+  "setFeatMorningMessage": "Morning message",
+  "setFeatPlateau": "Plateau alerts",
+  "setFeatMealSwap": "Meal swaps",
+  "setFeatGroceryList": "Grocery list",
+  "setFeatInitialPlan": "Workout plan",
+  "setFeatMealPlan": "Meal plan",
+  "setFeatWeeklyReport": "Weekly report",
+  "setFeatKeyTest": "Key test",
+  "setNotifications": "Notifications",
+  "setNotificationsSub": "Workout, meals, water, supplements, weight, coach",
+  "setHealthConnect": "Health Connect",
+  "setHealthConnectSub": "Smart ring / watch: sleep, heart rate, steps",
+  "setCoachMemory": "Coach memory",
+  "setCoachMemorySub": "What the coach remembers about you",
+  "setBackup": "Backup & restore",
+  "setBackupSub": "Export everything to one file or restore it",
+  "setBackupBanner": "You haven't backed up in over 2 weeks.",
+  "setBackupNow": "Back up",
+  "setLock": "App lock",
+  "setLockSub": "Fingerprint / face / PIN when opening the app",
+  "setLockTimeout": "Lock after leaving the app",
+  "setLockImmediately": "Immediately",
+  "setLockSeconds": "{seconds} sec",
+  "@setLockSeconds": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "setLockMinutes": "{minutes} min",
+  "@setLockMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "setLockUnsupported": "No fingerprint, face or screen lock is set up on this phone.",
+  "setLockFailed": "Authentication failed. Try again.",
+  "setLockEnableReason": "Confirm to turn on the app lock",
+  "setLockDisableReason": "Confirm to turn off the app lock",
+  "setLockReason": "Unlock IronMind",
+  "setLockLocked": "IronMind is locked",
+  "setLockUnlock": "Unlock",
+  "setAbout": "About",
+  "setAboutSub": "Version, data sources and licenses",
+  "setAboutVersion": "Version {version}",
+  "@setAboutVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "setAboutTagline": "Your personal gym coach — workouts, nutrition, sleep and body, powered by Claude.",
+  "setAboutSources": "Data sources & licenses",
+  "setAboutExerciseDb": "Exercise library data and images",
+  "setAboutFontAr": "Arabic font",
+  "setAboutFontEn": "English font",
+  "setAboutClaude": "AI coach (your own API key)",
+  "setAboutPrivacy": "Privacy",
+  "setAboutPrivacyBody": "All your data stays on this phone. Only the AI requests you trigger are sent to Claude, and progress photos are never sent unless you explicitly ask.",
+  "setAboutLicenses": "Open-source licenses",
+  "setExerciseImages": "Exercise images offline",
+  "setExerciseImagesSub": "Download all exercise images for use without internet",
+  "setBackupExport": "Export backup",
+  "setBackupExportHelp": "One .zip file with your database, progress photos, meal photos and custom exercise media. Save it to Drive or anywhere.",
+  "setBackupExportButton": "Export & share",
+  "setBackupWorking": "Preparing backup…",
+  "setBackupNever": "No backup yet",
+  "setBackupLast": "Last backup: {date}",
+  "@setBackupLast": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "setBackupDone": "Backup ready",
+  "setBackupFailed": "Backup failed: {error}",
+  "@setBackupFailed": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "setBackupShareSubject": "IronMind backup",
+  "setBackupKeyNote": "Your Claude API key is never included. Add it again after restoring on a new phone.",
+  "setRestore": "Restore from backup",
+  "setRestoreHelp": "Replaces ALL data on this phone with the backup.",
+  "setRestoreButton": "Choose backup file",
+  "setRestorePick": "Choose an IronMind backup (.zip)",
+  "setRestoreNotBackup": "This file isn't an IronMind backup.",
+  "setRestoreCorrupt": "The backup file is damaged or incomplete.",
+  "setRestoreNewer": "This backup is from a newer app version. Update the app first.",
+  "setRestoreConfirmTitle": "Replace all data?",
+  "setRestoreConfirmBody": "Backup from {date} (app {version}). Everything currently on this phone will be replaced. This can't be undone.",
+  "@setRestoreConfirmBody": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      },
+      "version": {
+        "type": "String"
+      }
+    }
+  },
+  "setRestoreReplace": "Replace",
+  "setRestoreWorking": "Restoring your data… don't close the app.",
+  "setRestoreDone": "Restore complete",
+  "setRestoreFailed": "Restore failed",
+  "setRestoreRestart": "Close the app and open it again to continue.",
+  "setRestoreCloseApp": "Close app",
+  "setChannelWorkout": "Workout reminders",
+  "setChannelMeals": "Meal reminders",
+  "setChannelWater": "Water reminders",
+  "setChannelSupplements": "Supplement reminders",
+  "setChannelWeight": "Weigh-in reminder",
+  "setChannelCoach": "Coach messages",
+  "setChannelRestTimer": "Rest timer",
+  "setChannelBackup": "Backup reminder",
+  "setNotifWorkoutTitle": "Training day 💪",
+  "setNotifWorkoutBody": "Your workout is at {time}. Get ready.",
+  "@setNotifWorkoutBody": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "setNotifMealTitle": "Meal {number}",
+  "@setNotifMealTitle": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "setNotifMealBody": "Time to eat — log it after.",
+  "setNotifWaterTitle": "Drink water 💧",
+  "setNotifWaterBody": "A glass now keeps you on target.",
+  "setNotifSupplementsTitle": "Supplements",
+  "setNotifWeightTitle": "Morning weigh-in",
+  "setNotifWeightBody": "Weigh yourself before eating or drinking.",
+  "setNotifBackupTitle": "Time for a backup",
+  "setNotifBackupBody": "No backup in 2 weeks. Export one from Settings so you don't lose your progress.",
+  "setNotifPermissionOff": "Notifications are turned off for IronMind.",
+  "setNotifExactOff": "Exact alarms are off — reminders may arrive a few minutes late.",
+  "setNotifAllow": "Allow",
+  "setNotifWorkout": "Workout reminder",
+  "setNotifWorkoutDays": "On training days: {days}",
+  "@setNotifWorkoutDays": {
+    "placeholders": {
+      "days": {
+        "type": "String"
+      }
+    }
+  },
+  "setNotifWorkoutNoDays": "Set your training days in your profile",
+  "setNotifWorkoutDefault": "Use default (30 min before {time})",
+  "@setNotifWorkoutDefault": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "setNotifTime": "Reminder time",
+  "setNotifMeals": "Meal reminders",
+  "setNotifMealsSub": "At each meal time",
+  "setNotifUseProfileTimes": "Use meal times from profile",
+  "setNotifWater": "Water reminders",
+  "setNotifWaterSub": "While you're awake ({wake} – {sleep})",
+  "@setNotifWaterSub": {
+    "placeholders": {
+      "wake": {
+        "type": "String"
+      },
+      "sleep": {
+        "type": "String"
+      }
+    }
+  },
+  "setNotifWaterEvery": "Remind me every",
+  "setNotifHours": "{hours, plural, =1{1 hour} other{{hours} hours}}",
+  "@setNotifHours": {
+    "placeholders": {
+      "hours": {
+        "type": "int"
+      }
+    }
+  },
+  "setNotifSupplements": "Supplement reminders",
+  "setNotifNoSupplements": "No supplements added yet",
+  "setNotifWeight": "Morning weigh-in",
+  "setNotifWeightSub": "Right after you wake up",
+  "setNotifWeightDefault": "Use default (15 min after waking)",
+  "setNotifCoach": "Coach initiatives",
+  "setNotifCoachSub": "Morning message, workout summaries, plateau alerts, weekly report",
+  "setNotifBackup": "Backup reminder",
+  "setNotifBackupSub": "If you haven't backed up for 2 weeks",
+  "setNotifTest": "Send a test notification",
+  "setNotifTestTitle": "IronMind",
+  "setNotifTestBody": "Notifications are working ✅",
+  "setWidgetWorkoutLabel": "Today's workout",
+  "setWidgetWorkout": "Workout",
+  "setWidgetNoPlan": "No plan yet",
+  "setWidgetOpenApp": "Open the app to start",
+  "setWidgetRestDay": "Rest day",
+  "setWidgetRestSub": "Recover well",
+  "setWidgetWorkoutDone": "Done ✓",
+  "setWidgetExercises": "{count, plural, =1{1 exercise} other{{count} exercises}}",
+  "@setWidgetExercises": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "setWidgetCaloriesLabel": "Calories",
+  "setWidgetKcalLeft": "{kcal} left",
+  "@setWidgetKcalLeft": {
+    "placeholders": {
+      "kcal": {
+        "type": "int"
+      }
+    }
+  },
+  "setWidgetKcalOver": "{kcal} over",
+  "@setWidgetKcalOver": {
+    "placeholders": {
+      "kcal": {
+        "type": "int"
+      }
+    }
+  },
+  "setWidgetWaterLabel": "Water",
+  "setWidgetWaterText": "{ml} / {goal} ml",
+  "@setWidgetWaterText": {
+    "placeholders": {
+      "ml": {
+        "type": "int"
+      },
+      "goal": {
+        "type": "int"
+      }
+    }
+  },
+  "setWidgetAddCup": "+ Cup",
   "todayCoachTitle": "Coach",
   "todayCoachEmpty": "Your coach's morning message will appear here.",
   "todayRecoveryTitle": "Recovery",
@@ -854,5 +1924,575 @@
         "type": "String"
       }
     }
-  }
+  },
+  "trkWaterTitle": "Water",
+  "trkSupplementsTitle": "Supplements",
+  "trkSleepTitle": "Sleep",
+  "trkWeightTitle": "Body weight",
+  "trkMeasurementsTitle": "Measurements",
+  "trkPhotosTitle": "Progress photos",
+  "trkHealthConnectTitle": "Health Connect & ring",
+  "trkDate": "Date",
+  "trkHistory": "History",
+  "trkLast7Days": "Last 7 days",
+  "trkInvalidNumber": "Enter a valid number",
+  "trkDeleteConfirm": "Delete \"{name}\"?",
+  "@trkDeleteConfirm": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "trkDeleted": "Deleted",
+  "trkHoursMinutes": "{h}h {m}m",
+  "@trkHoursMinutes": {
+    "placeholders": {
+      "h": {
+        "type": "int"
+      },
+      "m": {
+        "type": "int"
+      }
+    }
+  },
+  "trkSourceManual": "Manual",
+  "trkSourceHealthConnect": "Health Connect",
+  "trkSyncNow": "Sync now",
+  "trkSyncing": "Syncing…",
+  "trkSyncDone": "Synced",
+  "trkSyncFailed": "Couldn't sync — your manual entries still work",
+  "trkTypeValue": "Type a value",
+  "trkClear": "Clear",
+  "trkWaterProgress": "{drunk} / {goal} ml",
+  "@trkWaterProgress": {
+    "placeholders": {
+      "drunk": {
+        "type": "int"
+      },
+      "goal": {
+        "type": "int"
+      }
+    }
+  },
+  "trkWaterRemaining": "{ml} ml left today",
+  "@trkWaterRemaining": {
+    "placeholders": {
+      "ml": {
+        "type": "int"
+      }
+    }
+  },
+  "trkWaterGoalReached": "Daily goal reached. Nice!",
+  "trkAddCup": "Cup · {ml} ml",
+  "@trkAddCup": {
+    "placeholders": {
+      "ml": {
+        "type": "int"
+      }
+    }
+  },
+  "trkAddBottle": "Bottle · {ml} ml",
+  "@trkAddBottle": {
+    "placeholders": {
+      "ml": {
+        "type": "int"
+      }
+    }
+  },
+  "trkAddCustom": "Custom amount",
+  "trkUndoLast": "Undo last",
+  "trkUndone": "Removed {ml} ml",
+  "@trkUndone": {
+    "placeholders": {
+      "ml": {
+        "type": "int"
+      }
+    }
+  },
+  "trkWaterAdded": "+{ml} ml",
+  "@trkWaterAdded": {
+    "placeholders": {
+      "ml": {
+        "type": "int"
+      }
+    }
+  },
+  "trkWaterSizes": "Cup & bottle sizes",
+  "trkCupSize": "Cup size (ml)",
+  "trkBottleSize": "Bottle size (ml)",
+  "trkAmountMl": "Amount (ml)",
+  "trkTodayEntries": "Today's entries",
+  "trkNoWaterYet": "No water logged today yet",
+  "trkGoalLabel": "Goal {ml} ml",
+  "@trkGoalLabel": {
+    "placeholders": {
+      "ml": {
+        "type": "int"
+      }
+    }
+  },
+  "trkSuppToday": "Today",
+  "trkSuppTakenCount": "{taken} of {total} taken",
+  "@trkSuppTakenCount": {
+    "placeholders": {
+      "taken": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "trkSuppManage": "My supplements",
+  "trkSuppAdd": "Add supplement",
+  "trkSuppEdit": "Edit supplement",
+  "trkSuppName": "Name",
+  "trkSuppDose": "Dose (e.g. 5 g, 1 scoop)",
+  "trkSuppTiming": "Timing",
+  "trkTimingMorning": "Morning",
+  "trkTimingPreWorkout": "Pre-workout",
+  "trkTimingPostWorkout": "Post-workout",
+  "trkTimingWithMeal": "With a meal",
+  "trkTimingEvening": "Evening",
+  "trkTimingBedtime": "Before bed",
+  "trkSuppPerServing": "Per serving (added to your daily macros when ticked)",
+  "trkSuppProtein": "Protein (g)",
+  "trkSuppCalories": "Calories (kcal)",
+  "trkSuppCarbs": "Carbs (g)",
+  "trkSuppFat": "Fat (g)",
+  "trkSuppActive": "In use",
+  "trkSuppPaused": "Paused",
+  "trkSuppEmpty": "Add the supplements you take, then tick them off every day.",
+  "trkSuppImport": "Import from my profile",
+  "trkSuppImported": "{count} imported",
+  "@trkSuppImported": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "trkSuppNote": "Logging only — the app doesn't recommend supplements.",
+  "trkSuppNoneActive": "No supplements in use",
+  "trkNameRequired": "Name is required",
+  "trkSuppMacros": "{protein} g protein · {calories} kcal",
+  "@trkSuppMacros": {
+    "placeholders": {
+      "protein": {
+        "type": "String"
+      },
+      "calories": {
+        "type": "String"
+      }
+    }
+  },
+  "trkSleepLastNight": "Last night",
+  "trkSleepNoData": "No sleep logged for last night",
+  "trkSleepLog": "Log sleep",
+  "trkSleepEdit": "Edit sleep",
+  "trkSleepHours": "Hours slept",
+  "trkSleepQuality": "Quality",
+  "trkQuality1": "Very bad",
+  "trkQuality2": "Bad",
+  "trkQuality3": "OK",
+  "trkQuality4": "Good",
+  "trkQuality5": "Excellent",
+  "trkBedTime": "Bedtime",
+  "trkWakeTime": "Wake-up",
+  "trkSleepDate": "Woke up on",
+  "trkOptionalTimes": "Bed & wake times (optional)",
+  "trkStageDeep": "Deep",
+  "trkStageRem": "REM",
+  "trkStageLight": "Light",
+  "trkStageAwake": "Awake",
+  "trkSleepWeekAvg": "7-day average {value}",
+  "@trkSleepWeekAvg": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "trkSleepNeed": "Your need {value}",
+  "@trkSleepNeed": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "trkSleepConnectHint": "Connect your ring through Health Connect to fill sleep and stages automatically.",
+  "trkSleepManualOverrides": "A manual entry replaces the ring data for that night.",
+  "trkSleepEmpty": "No sleep logged yet.",
+  "trkRecoveryToday": "Recovery today",
+  "trkRecoveryLow": "Low",
+  "trkRecoveryModerate": "Moderate",
+  "trkRecoveryHigh": "High",
+  "trkRecoveryCalibrating": "Baseline still calibrating ({days}/14 days)",
+  "@trkRecoveryCalibrating": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "trkWeightLog": "Log weight",
+  "trkWeightLatest": "Latest",
+  "trkWeightAvg7": "7-day average",
+  "trkWeightChange7": "vs last week",
+  "trkWeightDaily": "Daily",
+  "trkRange1M": "1M",
+  "trkRange3M": "3M",
+  "trkRange1Y": "1Y",
+  "trkRangeAll": "All",
+  "trkWeightEmpty": "Weigh yourself every morning — the 7-day average smooths out daily swings.",
+  "trkWeightSaved": "Saved {kg} kg",
+  "@trkWeightSaved": {
+    "placeholders": {
+      "kg": {
+        "type": "String"
+      }
+    }
+  },
+  "trkWeightKg": "Weight (kg)",
+  "trkNeedTwoPoints": "Log a few days to see the chart",
+  "trkMeasureWaist": "Waist",
+  "trkMeasureChest": "Chest",
+  "trkMeasureArm": "Arm",
+  "trkMeasureThigh": "Thigh",
+  "trkMeasureNeck": "Neck",
+  "trkMeasureHips": "Hips",
+  "trkMeasureBodyFat": "Body fat %",
+  "trkMeasureNew": "New measurements",
+  "trkMeasureEdit": "Edit measurements",
+  "trkMeasureDue": "It's been over a week since your last measurements — measure today.",
+  "trkMeasureNone": "No measurements yet — take them once a week, same time of day.",
+  "trkMeasureTip": "Measure in the morning before eating; tape snug, not tight.",
+  "trkMeasureNeedOne": "Enter at least one value",
+  "trkLastMeasured": "Last: {date}",
+  "@trkLastMeasured": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "trkPhotosLocked": "Progress photos are locked",
+  "trkPhotosUnlock": "Unlock",
+  "trkPhotosAuthReason": "Unlock to view your progress photos",
+  "trkPhotosAdd": "Add photos",
+  "trkPhotosCompare": "Compare",
+  "trkAngleFront": "Front",
+  "trkAngleSide": "Side",
+  "trkAngleBack": "Back",
+  "trkCamera": "Camera",
+  "trkGallery": "Gallery",
+  "trkPhotosEmpty": "Take front, side and back photos every 2–4 weeks in the same light and pose.",
+  "trkPhotosPrivate": "Saved privately inside the app — never in your gallery and never sent to the AI.",
+  "trkPhotoDeleteConfirm": "Delete this photo?",
+  "trkBefore": "Before",
+  "trkAfter": "After",
+  "trkSideBySide": "Side by side",
+  "trkSlider": "Slider",
+  "trkNoPhotoForAngle": "No photo for this angle on this date",
+  "trkComparePickTwo": "Add photos on at least two dates to compare.",
+  "trkPhotoSaved": "Photo saved",
+  "trkPhotoFailed": "Couldn't save the photo",
+  "trkPhotoMissing": "Photo file missing",
+  "trkPhotosForDate": "Photos for {date}",
+  "@trkPhotosForDate": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "trkDragToCompare": "Drag to compare",
+  "trkHcEnable": "Use Health Connect",
+  "trkHcEnableSub": "Read sleep, heart rate, HRV, steps and calories written by your ring's app",
+  "trkHcStatus": "Status",
+  "trkHcAvailable": "Health Connect is installed",
+  "trkHcNotInstalled": "Health Connect isn't installed",
+  "trkHcNeedsUpdate": "Health Connect needs an update",
+  "trkHcUnsupported": "Health Connect isn't supported on this device",
+  "trkHcInstall": "Install Health Connect",
+  "trkHcInstallHint": "Android 14+ has it built in (Settings → Security & privacy → Health Connect). On older phones install it from the Play Store.",
+  "trkHcPermGranted": "Read permissions granted",
+  "trkHcPermMissing": "Read permissions not granted yet",
+  "trkHcGrant": "Grant permissions",
+  "trkHcBgGranted": "Background reading allowed",
+  "trkHcBgMissing": "Background reading not allowed (sync runs when you open the app)",
+  "trkHcBgAllow": "Allow background reading",
+  "trkHcLastSync": "Last sync: {time}",
+  "@trkHcLastSync": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "trkHcNeverSynced": "Never synced",
+  "trkHcOutcomeOk": "Last sync pulled {count} data points",
+  "@trkHcOutcomeOk": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "trkHcOutcomeNoPermission": "Last sync: no permission to read data",
+  "trkHcOutcomeUnavailable": "Last sync: Health Connect unavailable",
+  "trkHcOutcomeError": "Last sync failed",
+  "trkHcLastPulled": "Last data pulled",
+  "trkHcLastPulledSub": "Check the source app: if your ring's app shows up here with recent dates, it writes to Health Connect.",
+  "trkHcColType": "Data",
+  "trkHcColDate": "Date",
+  "trkHcColValue": "Value",
+  "trkHcColSource": "Source app",
+  "trkHcNothing": "Nothing yet",
+  "trkHcTypeSleep": "Sleep session",
+  "trkHcTypeAsleep": "Asleep (no stage)",
+  "trkHcTypeHr": "Heart rate",
+  "trkHcTypeRhr": "Resting heart rate",
+  "trkHcTypeHrv": "HRV (RMSSD)",
+  "trkHcTypeSteps": "Steps",
+  "trkHcTypeCalories": "Active calories",
+  "trkHcSources": "Apps writing data: {apps}",
+  "@trkHcSources": {
+    "placeholders": {
+      "apps": {
+        "type": "String"
+      }
+    }
+  },
+  "trkHcCardooTitle": "Is your ring's data arriving?",
+  "trkHcCardooBody": "It's not confirmed that the Cardoo app writes to Health Connect. Open the Cardoo app and enable syncing to Health Connect if it offers it, wear the ring for a night, then tap Sync now and check the table below.",
+  "trkHcManualFallback": "If nothing arrives, IronMind just uses what you log manually (sleep, weight…). Nothing breaks.",
+  "trkHcEnabledToast": "Health Connect enabled",
+  "trkHcDisabledToast": "Health Connect disabled — manual entry only",
+  "trkUnitBpm": "bpm",
+  "trkUnitMs": "ms",
+  "trkUnitSteps": "steps",
+  "woAddCardio": "Add cardio",
+  "woAddExercise": "Add exercise",
+  "woApprovePlan": "Approve plan",
+  "woAskCoach": "Ask the coach to review",
+  "woBuildTemplate": "Build a basic plan (no AI)",
+  "woCaloriesAuto": "Estimated automatically (MET) – you can edit it",
+  "woCardio": "Cardio",
+  "woCardioBike": "Bike",
+  "woCardioElliptical": "Elliptical",
+  "woCardioJumpRope": "Jump rope",
+  "woCardioOther": "Other",
+  "woCardioRowing": "Rowing",
+  "woCardioRun": "Run",
+  "woCardioStairs": "Stairs",
+  "woCardioSwim": "Swim",
+  "woCardioTreadmill": "Treadmill",
+  "woCardioWalk": "Walk",
+  "woCoachEvaluation": "Coach evaluation",
+  "woCoachNeedsKey": "Add your Claude API key to get the coach's evaluation of this workout.",
+  "woCoachQueued": "No internet – the coach will review this workout as soon as you're back online.",
+  "woCoachReviewing": "The coach is reviewing your workout…",
+  "woContinueWorkout": "Continue this workout",
+  "woCooldown": "Cool-down",
+  "woCopyLast": "Copy last",
+  "woDeleteSession": "Delete workout",
+  "woDeleteSessionBody": "All sets, cardio and notes of this workout will be deleted.",
+  "woDeleteSessionTitle": "Delete this workout?",
+  "woDeleteSetTitle": "Delete this set?",
+  "woDeloadActiveBody": "Lighter week: suggestions use 85% of your weights. Focus on technique and recovery.",
+  "woDeloadActiveShort": "Deload week – 85% weights",
+  "woDeloadActiveTitle": "Deload week – day {day} of 7",
+  "@woDeloadActiveTitle": {
+    "placeholders": {
+      "day": {
+        "type": "int"
+      }
+    }
+  },
+  "woDeloadBadge": "Deload",
+  "woDeloadDuePerformance": "Your estimated 1RMs dropped over the last 2 weeks – that's usually accumulated fatigue. A lighter week at 85% will bring you back stronger.",
+  "woDeloadDueSchedule": "You've trained hard for {weeks} weeks. A lighter week at 85% weights helps you recover and keep progressing.",
+  "@woDeloadDueSchedule": {
+    "placeholders": {
+      "weeks": {
+        "type": "int"
+      }
+    }
+  },
+  "woDeloadDueTitle": "Time for a deload week?",
+  "woDeloadEvery": "Deload every {weeks} weeks",
+  "@woDeloadEvery": {
+    "placeholders": {
+      "weeks": {
+        "type": "int"
+      }
+    }
+  },
+  "woDiscard": "Discard",
+  "woDuration": "Duration",
+  "woEditPlan": "Edit plan",
+  "woEndDeload": "End",
+  "woExerciseCount": "{count, plural, =0{no exercises} =1{1 exercise} other{{count} exercises}}",
+  "@woExerciseCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "woExerciseInfo": "Exercise details",
+  "woExerciseNote": "Exercise note",
+  "woExerciseNoteHint": "e.g. shoulder hurts on the way down",
+  "woExercises": "Exercises",
+  "woFinish": "Finish",
+  "woFinishPartialBody": "Not all planned sets are done. It will be saved as a partial workout.",
+  "woFinishPartialTitle": "Finish anyway?",
+  "woFinishWorkout": "Finish workout",
+  "woFirstTime": "First time – no comparison yet",
+  "woFreeWorkout": "Workout",
+  "woFreeWorkoutHint": "Add exercises from the library and log your sets.",
+  "woGenerateWithAi": "Build my plan with AI",
+  "woGeneratingPlan": "Building your plan… this can take a minute.",
+  "woHistory": "History",
+  "woIncline": "Incline",
+  "woKmh": "km/h",
+  "woLastTime": "Last time",
+  "woLevel": "Level",
+  "woLibrary": "Library",
+  "woMissedBody": "This training day was missed. The schedule doesn't shift – just show up next time.",
+  "woNewRecords": "New records",
+  "woNoExercises": "No exercises yet",
+  "woNoHistory": "No workouts yet. Your sessions will show up here.",
+  "woNoPlan": "You don't have an active workout plan yet. Build one with AI, or start with a basic plan that works offline.",
+  "woNotNow": "Not now",
+  "woNothingLoggedBody": "You haven't logged any set or cardio. Discard this workout?",
+  "woNothingLoggedTitle": "Nothing logged",
+  "woNothingToCopy": "No previous set to copy",
+  "woPendingPlan": "A new plan is waiting for your review",
+  "woPickFromLibrary": "Pick from the library",
+  "woPlanApproved": "Plan activated 💪",
+  "woPlanNotFound": "Plan not found",
+  "woPlanTools": "Plan",
+  "woPrBanner": "New PR! {exercise}: {types}",
+  "@woPrBanner": {
+    "placeholders": {
+      "exercise": {
+        "type": "String"
+      },
+      "types": {
+        "type": "String"
+      }
+    }
+  },
+  "woPrE1rm": "Best 1RM",
+  "woPrReps": "Most reps",
+  "woPrWeight": "Heaviest weight",
+  "woPrs": "PRs",
+  "woReasonAddReps": "Same weight – aim for one more rep.",
+  "woReasonDeload": "Deload: 85% of last time.",
+  "woReasonFirstTime": "First time – pick a weight you can do with good form.",
+  "woReasonIncrease": "You hit the top of the rep range last time – add weight.",
+  "woReasonReduce": "Two tough sessions in a row – drop the weight a bit.",
+  "woReasonRepeat": "Repeat last time's numbers with solid form.",
+  "woRecoveryAdjusted": "Recovery adjusted",
+  "woRecoveryPill": "Low recovery: −{pct}% weight, −{sets} set",
+  "@woRecoveryPill": {
+    "placeholders": {
+      "pct": {
+        "type": "int"
+      },
+      "sets": {
+        "type": "int"
+      }
+    }
+  },
+  "woRegenerate": "Rebuild plan with AI",
+  "woRegenerateBody": "The AI will build a new plan for you to review. Your current plan stays active until you approve the new one.",
+  "woRegenerateTitle": "Rebuild your plan?",
+  "woRemoveExerciseTitle": "Remove this exercise?",
+  "woRepMax": "Max reps",
+  "woRepMin": "Min reps",
+  "woReps": "Reps",
+  "woRest": "Rest",
+  "woRestDay": "Rest day",
+  "woRestDayBody": "Recover today: sleep well, eat your protein, maybe a light walk.",
+  "woRestDoneBody": "Rest is over – next set!",
+  "woRestDoneTitle": "Rest timer",
+  "woRestSeconds": "Rest (sec)",
+  "woRestTimer": "Rest",
+  "woResumeWorkout": "Resume workout",
+  "woReviewHint": "Edit anything you like (tap to edit, drag to reorder), then approve.",
+  "woReviewPlan": "Review your plan",
+  "woSaveSet": "Save set",
+  "woSessionNotFound": "Workout not found",
+  "woSessionNotes": "Workout notes",
+  "woSessionNotesHint": "How did it feel? Anything to remember?",
+  "woSetTypeDrop": "Drop set",
+  "woSetTypeFailure": "To failure",
+  "woSetTypeNormal": "Normal",
+  "woSetTypeWarmup": "Warm-up",
+  "woSets": "Sets",
+  "woSetsCount": "{count, plural, =1{1 set} other{{count} sets}}",
+  "@woSetsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "woSourceAi": "AI",
+  "woSourceTemplate": "Basic",
+  "woSpeed": "Speed",
+  "woStartDeload": "Start deload week",
+  "woStartEmpty": "Start an empty workout",
+  "woStartThisWorkout": "Do this workout now",
+  "woStartToday": "Start today's workout",
+  "woStatusCompleted": "Completed",
+  "woStatusInProgress": "In progress",
+  "woStatusMissed": "Missed",
+  "woStatusPartial": "Partial",
+  "woSubstitute": "Substitute",
+  "woSubstituteAi": "AI suggestions",
+  "woSubstituteAlways": "Always",
+  "woSubstituteLocal": "Similar exercises",
+  "woSubstituteNone": "No alternatives found",
+  "woSubstituteOnce": "Just this workout",
+  "woSubstituteTitle": "Substitute exercise",
+  "woSubstituted": "Substituted",
+  "woSummaryTitle": "Workout summary",
+  "woSwap": "Swap",
+  "woTargetRpe": "Target RPE",
+  "woTemplateBody": "A new basic plan will be built for you to review. Your current plan stays active until you approve it.",
+  "woTemplateTitle": "Build a basic plan?",
+  "woTodayTitle": "Today",
+  "woTotalVolume": "Total volume",
+  "woTry": "Try",
+  "woViewSummary": "View summary",
+  "woVoiceConfirm": "Save this set?",
+  "woVoiceExample": "Say e.g. \"80 kilo 10 reps\"",
+  "woVoiceHint": "Try saying the weight then the reps, e.g. \"80 kilo 10 reps\".",
+  "woVoiceNotUnderstood": "Didn't catch that",
+  "woVoiceParsing": "Understanding…",
+  "woVoiceTitle": "Listening…",
+  "woVoiceUnavailable": "Speech recognition isn't available on this device.",
+  "woVolume": "Volume",
+  "woVsLastTime": "Last time: best {best} · volume {volume} kg",
+  "@woVsLastTime": {
+    "placeholders": {
+      "best": {
+        "type": "String"
+      },
+      "volume": {
+        "type": "String"
+      }
+    }
+  },
+  "woWarmup": "Warm-up",
+  "woWeeklyPlan": "Plan",
+  "woWeightKg": "Weight (kg)",
+  "woWorkingSets": "Working sets",
+  "woWorkout": "Workout"
 }
