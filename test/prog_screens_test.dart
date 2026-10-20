@@ -64,8 +64,10 @@ Future<AppDatabase> _seeded(WidgetTester tester) async {
 }
 
 Future<void> _dispose(WidgetTester tester, AppDatabase db) async {
+  debugPrint('PROG: dispose');
   await tester.pumpWidget(const SizedBox());
   await tester.runAsync(db.close);
+  debugPrint('PROG: disposed');
 }
 
 void main() {
@@ -82,12 +84,14 @@ void main() {
       await _scrollTo(tester, find.text(l.progPeriodAll));
       await tester.tap(find.text(l.progPeriodAll));
       await _settle(tester);
+      debugPrint('PROG: tapped all');
 
       expect(find.text(l.progExerciseTitle), findsOneWidget);
       expect(find.text(lang == 'ar' ? 'سكوات بالبار' : 'Barbell Squat'), findsWidgets);
 
       for (final title in [l.progVolumeTitle, l.progBodyTitle, l.progNutritionTitle, l.progSleepTitle]) {
         await _scrollTo(tester, find.text(title));
+        debugPrint('PROG: reached $title');
         expect(find.text(title), findsOneWidget);
       }
       expect(find.text(l.progNoSleepData), findsNothing);

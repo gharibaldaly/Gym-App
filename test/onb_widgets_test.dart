@@ -231,7 +231,9 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.text(en.onbSummaryTitle), findsOneWidget);
     await tester.tap(find.text(en.onbBuildPlan));
+    // Plan builders use drift streams → let real async work run too.
     for (var i = 0; i < 10; i++) {
+      await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 50)));
       await tester.pump(const Duration(milliseconds: 300));
     }
 

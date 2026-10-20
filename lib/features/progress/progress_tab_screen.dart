@@ -113,22 +113,45 @@ class _PeriodSelector extends ConsumerWidget {
       ProgressPeriod.year: l.progPeriodYear,
       ProgressPeriod.all: l.progPeriodAll,
     };
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
+    return Container(
+      height: 44,
+      padding: const EdgeInsets.all(3),
+      decoration: BoxDecoration(
+        color: AppColors.card,
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: AppColors.border),
+      ),
       child: Row(children: [
         for (final p in ProgressPeriod.values)
-          Padding(
-            padding: const EdgeInsetsDirectional.only(end: 8),
-            child: ChoiceChip(
-              label: Text(labels[p]!),
+          Expanded(
+            child: Semantics(
               selected: p == current,
-              showCheckmark: false,
-              labelStyle: TextStyle(
-                fontWeight: FontWeight.w700,
-                color: p == current ? AppColors.primary : AppColors.text,
+              button: true,
+              child: Material(
+                color: p == current ? AppColors.primary : Colors.transparent,
+                borderRadius: BorderRadius.circular(11),
+                child: InkWell(
+                  borderRadius: BorderRadius.circular(11),
+                  onTap: () => ref.read(progressPeriodProvider.notifier).set(p),
+                  child: Center(
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                        child: Text(
+                          labels[p]!,
+                          maxLines: 1,
+                          style: TextStyle(
+                            fontWeight: FontWeight.w700,
+                            fontSize: 13,
+                            color: p == current ? AppColors.onPrimary : AppColors.text,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ),
-              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-              onSelected: (_) => ref.read(progressPeriodProvider.notifier).set(p),
             ),
           ),
       ]),
