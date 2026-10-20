@@ -52,6 +52,10 @@ android {
 
     buildTypes {
         release {
+            // R8 shrinking can strip classes that plugins reach via reflection
+            // (platform channels then never answer and the app hangs on the splash).
+            isMinifyEnabled = false
+            isShrinkResources = false
             signingConfig = if (releaseStoreFile != null) {
                 signingConfigs.getByName("release")
             } else {

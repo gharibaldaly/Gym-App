@@ -9,6 +9,7 @@ import '../features/onboarding/onboarding_flow.dart';
 import '../l10n/gen/app_localizations.dart';
 import '../services/lock/app_lock.dart';
 import 'bootstrap.dart';
+import 'startup_error.dart';
 import 'home_shell.dart';
 
 final navigatorKey = GlobalKey<NavigatorState>();
@@ -50,6 +51,14 @@ class _AppGate extends ConsumerWidget {
     final profile = ref.watch(profileProvider);
     if (boot.isLoading || profile.isLoading) {
       return const Scaffold(body: Center(child: CircularProgressIndicator()));
+    }
+    // The database is required; show the real error instead of a broken app.
+    if (profile.hasError) {
+      return StartupErrorView(
+        error: profile.error!,
+        stack: profile.stackTrace,
+        onRetry: () => ref.invalidate(profileProvider),
+      );
     }
     if (profile.value?.onboardingComplete != true) return const OnboardingFlow();
     return const HomeShell();
