@@ -50,8 +50,6 @@ class _SessionSummaryScreenState extends ConsumerState<SessionSummaryScreen> {
       WidgetsBinding.instance.addPostFrameCallback((_) {
         unawaited(runPostWorkout(
           coach: ref.read(coachInitiativesProvider),
-          repo: ref.read(workoutRepositoryProvider),
-          prefs: ref.read(sharedPrefsProvider),
           sessionId: widget.sessionId,
         ));
       });

@@ -105,30 +105,13 @@ Future<List<ExerciseComparison>> compareWithPrevious(WorkoutRepository repo, Wor
   return out;
 }
 
-/// After finishing: ask the coach for the summary (queued offline by the coach), then
-/// run plateau detection and ask the coach to explain new plateaus. Never throws.
-Future<void> runPostWorkout({
-  required CoachInitiatives coach,
-  required WorkoutRepository repo,
-  required SharedPreferences prefs,
-  required int sessionId,
-}) async {
+/// After finishing: ask the coach for the summary (queued offline by the coach).
+/// `CoachInitiatives.onWorkoutFinished` also runs the local plateau rule and asks for
+/// explanations itself (deduped), so no separate plateau call is made here. Never throws.
+Future<void> runPostWorkout({required CoachInitiatives coach, required int sessionId}) async {
   try {
     await coach.onWorkoutFinished(sessionId);
   } catch (e) {
     debugPrint('onWorkoutFinished failed: $e');
-  }
-  try {
-    final sets = await repo.sessionSets(sessionId);
-    final ids = sets.where((s) => isWorkingSet(s.setType)).map((s) => s.exerciseId);
-    for (final id in await detectNewPlateaus(repo, prefs, ids)) {
-      try {
-        await coach.explainPlateau(id);
-      } catch (e) {
-        debugPrint('explainPlateau($id) failed: $e');
-      }
-    }
-  } catch (e) {
-    debugPrint('plateau detection failed: $e');
   }
 }

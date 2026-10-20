@@ -16,6 +16,9 @@ import '../../features/tracking/tracking_providers.dart';
 import '../../features/workout/today_workout_provider.dart';
 import '../notifications/notification_service.dart';
 import '../widget/home_widget_service.dart';
+import 'lock_rules.dart';
+
+export 'lock_rules.dart';
 
 /// Outcome of an authentication attempt.
 enum LockAuthResult { success, failed, unavailable }
@@ -57,11 +60,6 @@ class AppLockPrefs {
   static int timeoutSeconds(SharedPreferences p) => p.getInt(SettingsKeys.lockAfterSeconds) ?? defaultTimeoutSeconds;
 }
 
-/// Pure rule: lock again after the app was in background longer than the timeout.
-bool shouldRelock({required bool enabled, required DateTime? backgroundedAt, required DateTime now, required int timeoutSeconds}) {
-  if (!enabled || backgroundedAt == null) return false;
-  return now.difference(backgroundedAt).inSeconds >= timeoutSeconds;
-}
 
 /// Biometric lock on open and after a period in background (toggle in settings).
 /// Also hosts app-wide glue that must live inside the ProviderScope:

@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:ironmind/services/backup/backup_service.dart' show BackupService;
 import 'package:ironmind/services/backup/backup_manifest.dart';
-import 'package:ironmind/services/lock/app_lock.dart' show shouldRelock;
+import 'package:ironmind/services/lock/lock_rules.dart';
 
 void main() {
   Map<String, dynamic> valid() => BackupManifest(
