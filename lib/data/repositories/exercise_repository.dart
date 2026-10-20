@@ -25,6 +25,8 @@ class ExerciseRepository {
   }
 
   /// Search by name (ar/en), filter by muscle (primary or secondary) and equipment.
+  /// Every whitespace-separated word of [query] must match the English or Arabic
+  /// name ("db bench" finds "Dumbbell Bench Press" via [expandSearchToken]).
   Stream<List<Exercise>> watchSearch({
     String query = '',
     String? muscle,
@@ -35,9 +37,12 @@ class ExerciseRepository {
     final q = db.select(db.exercises);
     q.where((t) {
       Expression<bool> e = const Constant(true);
-      if (query.trim().isNotEmpty) {
-        final like = '%${query.trim().toLowerCase()}%';
-        e = e & (t.nameEn.lower().like(like) | t.nameAr.like('%${query.trim()}%'));
+      for (final token in query.trim().split(RegExp(r'\s+')).where((w) => w.isNotEmpty)) {
+        Expression<bool> any = const Constant(false);
+        for (final variant in expandSearchToken(token)) {
+          any = any | t.nameEn.lower().like('%${variant.toLowerCase()}%') | t.nameAr.like('%$variant%');
+        }
+        e = e & any;
       }
       if (muscle != null) {
         e = e & (t.primaryMusclesJson.like('%"$muscle"%') | t.secondaryMusclesJson.like('%"$muscle"%'));
@@ -49,6 +54,43 @@ class ExerciseRepository {
     });
     q.orderBy([(t) => OrderingTerm.desc(t.isFavorite), (t) => OrderingTerm.asc(t.nameEn)]);
     return q.watch();
+  }
+
+  Stream<Exercise?> watchById(String id) =>
+      (db.select(db.exercises)..where((t) => t.id.equals(id))).watchSingleOrNull();
+
+  /// Exercises whose primary muscles include [muscle] (for AI candidate lists).
+  Future<List<Exercise>> byPrimaryMuscle(String muscle, {String? excludeId}) => (db.select(db.exercises)
+        ..where((t) {
+          Expression<bool> e = t.primaryMusclesJson.like('%"$muscle"%');
+          if (excludeId != null) e = e & t.id.equals(excludeId).not();
+          return e;
+        }))
+      .get();
+
+  /// Inserts a user-created exercise (id must start with `custom_`).
+  Future<void> insertCustom(ExercisesCompanion e) =>
+      db.into(db.exercises).insertOnConflictUpdate(e.copyWith(isCustom: const Value(true)));
+
+  /// True when the exercise is referenced by logged sets or plans.
+  Future<bool> isInUse(String id) async {
+    final s = await (db.select(db.setLogs)
+          ..where((t) => t.exerciseId.equals(id))
+          ..limit(1))
+        .get();
+    if (s.isNotEmpty) return true;
+    final p = await (db.select(db.planExercises)
+          ..where((t) => t.exerciseId.equals(id))
+          ..limit(1))
+        .get();
+    return p.isNotEmpty;
+  }
+
+  /// Deletes a custom exercise that is not used anywhere. Returns false when it is in use.
+  Future<bool> deleteCustom(String id) async {
+    if (!id.startsWith('custom_') || await isInUse(id)) return false;
+    await (db.delete(db.exercises)..where((t) => t.id.equals(id) & t.isCustom.equals(true))).go();
+    return true;
   }
 
   Future<void> setFavorite(String id, bool fav) =>
@@ -109,6 +151,40 @@ extension ExerciseX on Exercise {
         'adductors',
         'abductors',
       }.contains);
+}
+
+/// Search variants for one query word: common gym abbreviations and Arabic
+/// spelling variants (أ/إ/ا, ة/ه, ى/ي).
+List<String> expandSearchToken(String token) {
+  final t = token.toLowerCase();
+  const abbr = {
+    'db': 'dumbbell',
+    'dumbell': 'dumbbell',
+    'bb': 'barbell',
+    'kb': 'kettlebell',
+    'ez': 'e-z',
+    'ohp': 'overhead press',
+    'rdl': 'romanian deadlift',
+    'pushup': 'push-up',
+    'pullup': 'pull-up',
+    'chinup': 'chin-up',
+    'situp': 'sit-up',
+  };
+  final out = <String>{token};
+  if (abbr.containsKey(t)) out.add(abbr[t]!);
+  if (RegExp(r'[\u0600-\u06FF]').hasMatch(token)) {
+    final base = token.replaceAll(RegExp('[أإآ]'), 'ا');
+    out
+      ..add(base)
+      ..add(base.replaceAll('ة', 'ه'))
+      ..add(base.replaceAll('ه', 'ة'))
+      ..add(base.replaceAll('ى', 'ي'))
+      ..add(base.replaceAll('ي', 'ى'));
+    // Words often written with hamza: "اطالة" ↔ "إطالة".
+    if (base.startsWith('ا')) out.add('إ${base.substring(1)}');
+    if (base.startsWith('ا')) out.add('أ${base.substring(1)}');
+  }
+  return out.toList();
 }
 
 final exerciseRepositoryProvider =
