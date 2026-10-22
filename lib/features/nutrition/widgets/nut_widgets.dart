@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart' as p;
 
@@ -68,7 +69,7 @@ class MealPhotoThumb extends ConsumerWidget {
       width: size,
       height: size,
       decoration: BoxDecoration(color: AppColors.cardHigh, borderRadius: BorderRadius.circular(10)),
-      child: const Icon(Icons.photo, color: AppColors.textMuted),
+      child: const Icon(Symbols.photo_rounded, color: AppColors.textMuted),
     );
     if (docs == null && !p.isAbsolute(path)) return placeholder;
     final full = p.isAbsolute(path) ? path : p.join(docs!, path);
@@ -88,12 +89,12 @@ class MealPhotoThumb extends ConsumerWidget {
 
 /// Icon for a meal log source.
 IconData sourceIcon(String source) => switch (source) {
-      'ai_photo' => Icons.photo_camera,
-      'ai_text' => Icons.keyboard_voice,
-      'plan' => Icons.event_available,
-      'saved' => Icons.bookmark,
-      'supplement' => Icons.medication,
-      _ => Icons.edit_note,
+      'ai_photo' => Symbols.photo_camera_rounded,
+      'ai_text' => Symbols.keyboard_voice_rounded,
+      'plan' => Symbols.event_available_rounded,
+      'saved' => Symbols.bookmark_rounded,
+      'supplement' => Symbols.pill_rounded,
+      _ => Symbols.edit_note_rounded,
     };
 
 Future<bool> confirmDialog(BuildContext context, {required String title, String? body, String? confirm}) async {

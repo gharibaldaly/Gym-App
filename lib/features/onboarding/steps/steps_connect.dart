@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../../ai/ai_service.dart';
 import '../../../core/providers.dart';
@@ -59,9 +60,9 @@ class _HealthConnectStepState extends ConsumerState<HealthConnectStep> {
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Column(children: [
-              item(Icons.bedtime_outlined, l.onbHealthItemSleep),
-              item(Icons.monitor_heart_outlined, l.onbHealthItemHeart),
-              item(Icons.directions_walk, l.onbHealthItemSteps),
+              item(Symbols.bedtime_rounded, l.onbHealthItemSleep),
+              item(Symbols.monitor_heart_rounded, l.onbHealthItemHeart),
+              item(Symbols.directions_walk_rounded, l.onbHealthItemSteps),
             ]),
           ),
         ),
@@ -78,7 +79,7 @@ class _HealthConnectStepState extends ConsumerState<HealthConnectStep> {
                     border: Border.all(color: AppColors.primary),
                   ),
                   child: Row(children: [
-                    const Icon(Icons.check_circle, color: AppColors.primary, size: 32),
+                    const Icon(Symbols.check_circle_rounded, fill: 1, color: AppColors.primary, size: 32),
                     const SizedBox(width: 12),
                     Expanded(
                       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -94,7 +95,7 @@ class _HealthConnectStepState extends ConsumerState<HealthConnectStep> {
                   onPressed: _busy ? null : () => _set(true),
                   icon: _busy
                       ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2))
-                      : const Icon(Icons.link),
+                      : const Icon(Symbols.link_rounded),
                   label: Text(l.onbHealthConnect),
                 ),
         ),
@@ -186,7 +187,7 @@ class _ApiKeyStepState extends ConsumerState<ApiKeyStep> {
               border: Border.all(color: AppColors.primary),
             ),
             child: Row(children: [
-              const Icon(Icons.verified_user, color: AppColors.primary, size: 32),
+              const Icon(Symbols.verified_user_rounded, fill: 1, color: AppColors.primary, size: 32),
               const SizedBox(width: 12),
               Expanded(child: Text(l.onbKeySaved, style: const TextStyle(fontWeight: FontWeight.w700))),
             ]),
@@ -195,7 +196,7 @@ class _ApiKeyStepState extends ConsumerState<ApiKeyStep> {
           Align(
             alignment: AlignmentDirectional.centerStart,
             child: TextButton.icon(
-              icon: const Icon(Icons.edit_outlined),
+              icon: const Icon(Symbols.edit_rounded),
               label: Text(l.onbKeyReplace),
               onPressed: () => setState(() {
                 _replacing = true;
@@ -224,9 +225,9 @@ class _ApiKeyStepState extends ConsumerState<ApiKeyStep> {
           textDirection: TextDirection.ltr,
           decoration: InputDecoration(
             labelText: l.onbKeyField,
-            prefixIcon: const Icon(Icons.key_outlined),
+            prefixIcon: const Icon(Symbols.key_rounded),
             suffixIcon: IconButton(
-              icon: Icon(_obscure ? Icons.visibility_outlined : Icons.visibility_off_outlined),
+              icon: Icon(_obscure ? Symbols.visibility_rounded : Symbols.visibility_off_rounded),
               onPressed: () => setState(() => _obscure = !_obscure),
             ),
           ),
@@ -241,7 +242,7 @@ class _ApiKeyStepState extends ConsumerState<ApiKeyStep> {
               onPressed: _status == _KeyStatus.testing ? null : _test,
               icon: _status == _KeyStatus.testing
                   ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2))
-                  : const Icon(Icons.network_check),
+                  : const Icon(Symbols.network_check_rounded),
               label: Text(l.onbKeyTest),
             ),
           ),
@@ -249,7 +250,7 @@ class _ApiKeyStepState extends ConsumerState<ApiKeyStep> {
           Expanded(
             child: FilledButton.icon(
               onPressed: _status == _KeyStatus.testing ? null : _save,
-              icon: const Icon(Icons.lock_outline),
+              icon: const Icon(Symbols.lock_rounded),
               label: Text(l.onbKeySave),
             ),
           ),
@@ -258,12 +259,12 @@ class _ApiKeyStepState extends ConsumerState<ApiKeyStep> {
           Padding(
             padding: const EdgeInsets.only(top: 12),
             child: Row(children: [
-              Icon(_status == _KeyStatus.invalid ? Icons.error_outline : Icons.check_circle, color: color),
+              Icon(_status == _KeyStatus.invalid ? Symbols.error_rounded : Symbols.check_circle_rounded, color: color),
               const SizedBox(width: 8),
               Expanded(child: Text(_message!, style: TextStyle(color: color))),
             ]),
           ),
-        InfoNote(l.onbKeyWhere, icon: Icons.shield_outlined),
+        InfoNote(l.onbKeyWhere, icon: Symbols.shield_rounded),
       ],
     );
   }

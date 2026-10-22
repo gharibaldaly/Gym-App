@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
 import '../../ai/ai_service.dart';
@@ -134,7 +135,7 @@ class _CoachChatViewState extends ConsumerState<CoachChatView> with AutomaticKee
           child: messagesAsync.isLoading && messages.isEmpty
               ? const Center(child: CircularProgressIndicator())
               : itemCount == 0
-                  ? EmptyState(icon: Icons.forum_outlined, text: l.coachEmptyChat)
+                  ? EmptyState(icon: Symbols.forum_rounded, text: l.coachEmptyChat)
                   : ListView.builder(
                       reverse: true,
                       padding: const EdgeInsets.fromLTRB(12, 8, 12, 12),
@@ -166,7 +167,7 @@ class _CoachChatViewState extends ConsumerState<CoachChatView> with AutomaticKee
                                         onPressed: online && hasKey
                                             ? () => ref.read(coachChatProvider.notifier).retry()
                                             : null,
-                                        icon: const Icon(Icons.refresh),
+                                        icon: const Icon(Symbols.refresh_rounded),
                                         label: Text(l.coachResend),
                                       ),
                                     )
@@ -189,7 +190,7 @@ class _CoachChatViewState extends ConsumerState<CoachChatView> with AutomaticKee
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             child: Row(
               children: [
-                const Icon(Icons.error_outline, color: AppColors.danger),
+                const Icon(Symbols.error_rounded, color: AppColors.danger),
                 const SizedBox(width: 8),
                 Expanded(child: Text(chat.error!, style: context.text.bodySmall)),
                 TextButton(
@@ -198,7 +199,7 @@ class _CoachChatViewState extends ConsumerState<CoachChatView> with AutomaticKee
                 ),
                 IconButton(
                   onPressed: () => ref.read(coachChatProvider.notifier).dismissError(),
-                  icon: const Icon(Icons.close, size: 18),
+                  icon: const Icon(Symbols.close_rounded, size: 18),
                 ),
               ],
             ),
@@ -251,7 +252,7 @@ class _InputBar extends StatelessWidget {
                 child: IconButton(
                   tooltip: l.coachVoice,
                   onPressed: enabled ? onVoice : null,
-                  icon: Icon(listening ? Icons.stop_circle : Icons.mic_none,
+                  icon: Icon(listening ? Symbols.stop_circle_rounded : Symbols.mic_none_rounded,
                       color: listening ? AppColors.danger : null, size: 28),
                 ),
               ),
@@ -281,7 +282,7 @@ class _InputBar extends StatelessWidget {
                   onPressed: canSend ? onSend : null,
                   icon: sending
                       ? const SizedBox(width: 22, height: 22, child: CircularProgressIndicator(strokeWidth: 2.5))
-                      : const Icon(Icons.send),
+                      : const Icon(Symbols.send_rounded),
                 ),
               ),
             ],

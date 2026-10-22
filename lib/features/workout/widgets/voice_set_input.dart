@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:speech_to_text/speech_recognition_error.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
@@ -212,7 +213,7 @@ class _ListeningDialogState extends State<_ListeningDialog> {
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(_error != null ? Icons.mic_off : Icons.mic,
+          Icon(_error != null ? Symbols.mic_off_rounded : Symbols.mic_rounded,
               size: 56, color: _error != null ? AppColors.danger : (_listening ? AppColors.primary : AppColors.textMuted)),
           const SizedBox(height: 12),
           Text(

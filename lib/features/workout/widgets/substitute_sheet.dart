@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../../ai/ai_service.dart';
 import '../../../core/navigation.dart';
@@ -93,7 +94,7 @@ class _SubstituteSheetState extends ConsumerState<_SubstituteSheet> {
         minVerticalPadding: 12,
         title: Text(e.name(lang), style: const TextStyle(fontWeight: FontWeight.w600)),
         subtitle: Text(sub, style: const TextStyle(color: AppColors.textMuted)),
-        trailing: const Icon(Icons.swap_horiz, color: AppColors.primary),
+        trailing: const Icon(Symbols.swap_horiz_rounded, color: AppColors.primary),
         onTap: () => _pick(e.id),
       ),
     );
@@ -124,8 +125,8 @@ class _SubstituteSheetState extends ConsumerState<_SubstituteSheet> {
             const SizedBox(height: 12),
             SegmentedButton<bool>(
               segments: [
-                ButtonSegment(value: false, label: Text(l.woSubstituteOnce), icon: const Icon(Icons.today)),
-                ButtonSegment(value: true, label: Text(l.woSubstituteAlways), icon: const Icon(Icons.push_pin)),
+                ButtonSegment(value: false, label: Text(l.woSubstituteOnce), icon: const Icon(Symbols.today_rounded, fill: 1)),
+                ButtonSegment(value: true, label: Text(l.woSubstituteAlways), icon: const Icon(Symbols.push_pin_rounded, fill: 1)),
               ],
               selected: {_always},
               onSelectionChanged: (s) => setState(() => _always = s.first),
@@ -143,7 +144,7 @@ class _SubstituteSheetState extends ConsumerState<_SubstituteSheet> {
           const SizedBox(height: 16),
           Row(
             children: [
-              const Icon(Icons.auto_awesome, size: 18, color: AppColors.primary),
+              const Icon(Symbols.auto_awesome_rounded, size: 18, color: AppColors.primary),
               const SizedBox(width: 6),
               Text(l.woSubstituteAi, style: context.text.titleSmall),
             ],
@@ -161,7 +162,7 @@ class _SubstituteSheetState extends ConsumerState<_SubstituteSheet> {
             const AiUnavailableBanner(),
           const SizedBox(height: 16),
           OutlinedButton.icon(
-            icon: const Icon(Icons.menu_book),
+            icon: const Icon(Symbols.menu_book_rounded),
             label: Text(l.woPickFromLibrary),
             onPressed: () async {
               final id = await push<String>(context, const ExerciseLibraryScreen(pickMode: true));

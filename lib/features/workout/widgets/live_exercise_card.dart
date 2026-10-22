@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../../core/calc/progression.dart';
 import '../../../core/navigation.dart';
@@ -191,7 +192,7 @@ class _LiveExerciseCardState extends ConsumerState<LiveExerciseCard> {
                     radius: 16,
                     backgroundColor: done ? AppColors.primary : AppColors.cardHigh,
                     child: done
-                        ? const Icon(Icons.check, size: 18, color: AppColors.onPrimary)
+                        ? const Icon(Symbols.check_rounded, size: 18, color: AppColors.onPrimary)
                         : Text('${widget.index + 1}', style: const TextStyle(fontWeight: FontWeight.w700)),
                   ),
                   const SizedBox(width: 10),
@@ -220,10 +221,10 @@ class _LiveExerciseCardState extends ConsumerState<LiveExerciseCard> {
                             runSpacing: 4,
                             children: [
                               Pill('${working.length}/$planned', color: done ? AppColors.primary : AppColors.textMuted),
-                              if (widget.substituted) Pill(l.woSubstituted, color: AppColors.info, icon: Icons.swap_horiz),
+                              if (widget.substituted) Pill(l.woSubstituted, color: AppColors.info, icon: Symbols.swap_horiz_rounded),
                               if (t?.deload == true) Pill(l.woDeloadBadge, color: AppColors.info),
                               if (t?.recovery != null && !(t!.recovery!.isNeutral))
-                                Pill(l.woRecoveryAdjusted, color: AppColors.warning, icon: Icons.battery_alert),
+                                Pill(l.woRecoveryAdjusted, color: AppColors.warning, icon: Symbols.battery_alert_rounded),
                             ],
                           ),
                         ),
@@ -233,12 +234,13 @@ class _LiveExerciseCardState extends ConsumerState<LiveExerciseCard> {
                   if (ex != null) ...[
                     IconButton(
                       tooltip: l.woSubstitute,
-                      icon: const Icon(Icons.swap_horiz),
+                      icon: const Icon(Symbols.swap_horiz_rounded),
                       onPressed: () => widget.onSubstitute(ex),
                     ),
                     IconButton(
                       tooltip: l.woExerciseNote,
-                      icon: Icon(widget.note == null ? Icons.sticky_note_2_outlined : Icons.sticky_note_2,
+                      icon: Icon(Symbols.sticky_note_2_rounded,
+                          fill: widget.note == null ? 0 : 1,
                           color: widget.note == null ? null : AppColors.info),
                       onPressed: () => widget.onNote(ex),
                     ),
@@ -314,7 +316,7 @@ class _LiveExerciseCardState extends ConsumerState<LiveExerciseCard> {
               padding: const EdgeInsets.symmetric(vertical: 6),
               child: Row(
                 children: [
-                  const Icon(Icons.trending_up, size: 16, color: AppColors.primary),
+                  const Icon(Symbols.trending_up_rounded, size: 16, color: AppColors.primary),
                   const SizedBox(width: 6),
                   Expanded(child: Text(_reasonText(context, next), style: const TextStyle(color: AppColors.primary, fontSize: 12))),
                 ],
@@ -362,7 +364,7 @@ class _LiveExerciseCardState extends ConsumerState<LiveExerciseCard> {
           Row(
             children: [
               Expanded(
-                child: OutlinedButton.icon(onPressed: _copyLast, icon: const Icon(Icons.copy), label: Text(l.woCopyLast)),
+                child: OutlinedButton.icon(onPressed: _copyLast, icon: const Icon(Symbols.content_copy_rounded), label: Text(l.woCopyLast)),
               ),
               const SizedBox(width: 8),
               SizedBox(
@@ -371,14 +373,14 @@ class _LiveExerciseCardState extends ConsumerState<LiveExerciseCard> {
                 child: OutlinedButton(
                   style: OutlinedButton.styleFrom(padding: EdgeInsets.zero),
                   onPressed: () => widget.onVoice(ex),
-                  child: const Icon(Icons.mic),
+                  child: const Icon(Symbols.mic_rounded),
                 ),
               ),
               const SizedBox(width: 8),
               Expanded(
                 child: OutlinedButton.icon(
                   onPressed: () => widget.onRest(t?.restSeconds ?? widget.planExercise?.restSeconds ?? 90),
-                  icon: const Icon(Icons.timer_outlined),
+                  icon: const Icon(Symbols.timer_rounded),
                   label: Text(restText(t?.restSeconds ?? widget.planExercise?.restSeconds ?? 90)),
                 ),
               ),
@@ -389,7 +391,7 @@ class _LiveExerciseCardState extends ConsumerState<LiveExerciseCard> {
             height: 60,
             child: FilledButton.icon(
               onPressed: _saving ? null : () => _save(ex),
-              icon: const Icon(Icons.check_circle, size: 28),
+              icon: const Icon(Symbols.check_circle_rounded, fill: 1, size: 28),
               label: Text(l.woSaveSet, style: const TextStyle(fontSize: 18)),
             ),
           ),
@@ -475,8 +477,8 @@ class _SetRow extends StatelessWidget {
                 ],
               ),
             ),
-            if (pr) const Icon(Icons.emoji_events, color: AppColors.warning, size: 20),
-            if (done && !pr) const Icon(Icons.check, color: AppColors.primary, size: 18),
+            if (pr) const Icon(Symbols.trophy_rounded, fill: 1, color: AppColors.warning, size: 20),
+            if (done && !pr) const Icon(Symbols.check_rounded, color: AppColors.primary, size: 18),
           ],
         ),
       ),

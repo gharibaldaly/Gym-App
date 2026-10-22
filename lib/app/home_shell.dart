@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../core/utils/context_ext.dart';
 import '../features/coach/coach_tab_screen.dart';
@@ -38,11 +39,11 @@ class HomeShell extends ConsumerWidget {
         selectedIndex: index,
         onDestinationSelected: ref.read(homeTabProvider.notifier).select,
         destinations: [
-          NavigationDestination(icon: const Icon(Icons.today_outlined), selectedIcon: const Icon(Icons.today), label: l.tabToday),
-          NavigationDestination(icon: const Icon(Icons.fitness_center_outlined), selectedIcon: const Icon(Icons.fitness_center), label: l.tabWorkout),
-          NavigationDestination(icon: const Icon(Icons.restaurant_outlined), selectedIcon: const Icon(Icons.restaurant), label: l.tabFood),
-          NavigationDestination(icon: const Icon(Icons.forum_outlined), selectedIcon: const Icon(Icons.forum), label: l.tabCoach),
-          NavigationDestination(icon: const Icon(Icons.insights_outlined), selectedIcon: const Icon(Icons.insights), label: l.tabProgress),
+          NavigationDestination(icon: const Icon(Symbols.today_rounded), selectedIcon: const Icon(Symbols.today_rounded, fill: 1), label: l.tabToday),
+          NavigationDestination(icon: const Icon(Symbols.fitness_center_rounded), selectedIcon: const Icon(Symbols.fitness_center_rounded, fill: 1), label: l.tabWorkout),
+          NavigationDestination(icon: const Icon(Symbols.restaurant_rounded), selectedIcon: const Icon(Symbols.restaurant_rounded, fill: 1), label: l.tabFood),
+          NavigationDestination(icon: const Icon(Symbols.forum_rounded), selectedIcon: const Icon(Symbols.forum_rounded, fill: 1), label: l.tabCoach),
+          NavigationDestination(icon: const Icon(Symbols.monitoring_rounded), selectedIcon: const Icon(Symbols.monitoring_rounded, fill: 1), label: l.tabProgress),
         ],
       ),
     );

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../core/navigation.dart';
 import '../../core/theme/app_theme.dart';
@@ -32,7 +33,7 @@ class _PrsScreenState extends ConsumerState<PrsScreen> {
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(child: Text('${l.errorGeneric}\n$e')),
         data: (items) {
-          if (items.isEmpty) return EmptyState(icon: Icons.emoji_events_outlined, text: l.progNoPrs);
+          if (items.isEmpty) return EmptyState(icon: Symbols.trophy_rounded, text: l.progNoPrs);
           final q = _q.trim().toLowerCase();
           final shown = q.isEmpty
               ? items
@@ -45,7 +46,7 @@ class _PrsScreenState extends ConsumerState<PrsScreen> {
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
             children: [
               TextField(
-                decoration: InputDecoration(prefixIcon: const Icon(Icons.search), hintText: l.progSearchExercise),
+                decoration: InputDecoration(prefixIcon: const Icon(Symbols.search_rounded), hintText: l.progSearchExercise),
                 onChanged: (v) => setState(() => _q = v),
               ),
               const SizedBox(height: 8),
@@ -81,7 +82,7 @@ class PrCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Row(children: [
-            const Icon(Icons.emoji_events, color: AppColors.primary),
+            const Icon(Symbols.trophy_rounded, fill: 1, color: AppColors.primary),
             const SizedBox(width: 10),
             Expanded(
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -97,7 +98,7 @@ class PrCard extends StatelessWidget {
                 ),
               ]),
             ),
-            const Icon(Icons.chevron_right, color: AppColors.textMuted),
+            const Icon(Symbols.chevron_right_rounded, color: AppColors.textMuted),
           ]),
           const SizedBox(height: 12),
           Row(children: [

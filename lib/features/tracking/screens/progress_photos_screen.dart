@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../../core/navigation.dart';
 import '../../../core/providers.dart';
@@ -68,11 +69,11 @@ class _BiometricGateState extends State<_BiometricGate> {
         child: _busy
             ? const CircularProgressIndicator()
             : EmptyState(
-                icon: Icons.lock_outline,
+                icon: Symbols.lock_rounded,
                 text: l.trkPhotosLocked,
                 action: FilledButton.icon(
                   onPressed: _auth,
-                  icon: const Icon(Icons.fingerprint),
+                  icon: const Icon(Symbols.fingerprint_rounded),
                   label: Text(l.trkPhotosUnlock),
                 ),
               ),
@@ -104,14 +105,14 @@ class _ProgressPhotosBody extends ConsumerWidget {
         actions: [
           IconButton(
             tooltip: l.trkPhotosCompare,
-            icon: const Icon(Icons.compare),
+            icon: const Icon(Symbols.compare_rounded),
             onPressed: groups.length < 2 ? null : () => push(context, const ProgressPhotoCompareScreen(unlocked: true)),
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => showAddPhotosSheet(context, today()),
-        icon: const Icon(Icons.add_a_photo),
+        icon: const Icon(Symbols.add_a_photo_rounded, fill: 1),
         label: Text(l.trkPhotosAdd),
       ),
       body: photos.isLoading || docs == null
@@ -119,18 +120,18 @@ class _ProgressPhotosBody extends ConsumerWidget {
           : ListView(
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 96),
               children: [
-                InfoBanner(icon: Icons.lock, text: l.trkPhotosPrivate, color: AppColors.primary),
+                InfoBanner(icon: Symbols.lock_rounded, text: l.trkPhotosPrivate, color: AppColors.primary),
                 if (groups.isEmpty)
                   Padding(
                     padding: const EdgeInsets.only(top: 32),
-                    child: EmptyState(icon: Icons.photo_camera_front_outlined, text: l.trkPhotosEmpty),
+                    child: EmptyState(icon: Symbols.photo_camera_front_rounded, text: l.trkPhotosEmpty),
                   ),
                 for (final (day, byAngle) in groups)
                   SectionCard(
                     title: fmtDayLong(context, day),
                     trailing: IconButton(
                       visualDensity: VisualDensity.compact,
-                      icon: const Icon(Icons.add_a_photo_outlined, size: 20),
+                      icon: const Icon(Symbols.add_a_photo_rounded, size: 20),
                       onPressed: () => showAddPhotosSheet(context, day),
                     ),
                     child: Row(
@@ -177,7 +178,7 @@ class _PhotoSlot extends StatelessWidget {
             child: InkWell(
               onTap: onTap,
               child: photo == null
-                  ? const Icon(Icons.add, color: AppColors.textMuted)
+                  ? const Icon(Symbols.add_rounded, color: AppColors.textMuted)
                   : PhotoImage(docs: docs, relPath: photo!.path, cacheWidth: 360),
             ),
           ),
@@ -206,7 +207,7 @@ class PhotoImage extends StatelessWidget {
       gaplessPlayback: true,
       errorBuilder: (_, _, _) => Center(
         child: Column(mainAxisSize: MainAxisSize.min, children: [
-          const Icon(Icons.broken_image_outlined, color: AppColors.textMuted),
+          const Icon(Symbols.broken_image_rounded, color: AppColors.textMuted),
           Text(context.l10n.trkPhotoMissing, style: context.text.bodySmall, textAlign: TextAlign.center),
         ]),
       ),
@@ -276,7 +277,7 @@ class _AddPhotosSheetState extends ConsumerState<_AddPhotosSheet> {
                     child: byAngle[a] != null && docs != null
                         ? PhotoImage(docs: docs, relPath: byAngle[a]!.path, cacheWidth: 120)
                         : const ColoredBox(
-                            color: AppColors.cardHigh, child: Icon(Icons.person_outline, color: AppColors.textMuted)),
+                            color: AppColors.cardHigh, child: Icon(Symbols.person_rounded, color: AppColors.textMuted)),
                   ),
                 ),
                 title: Text(angleLabel(context, a)),
@@ -288,13 +289,13 @@ class _AddPhotosSheetState extends ConsumerState<_AddPhotosSheet> {
                           IconButton.filledTonal(
                             tooltip: l.trkCamera,
                             onPressed: _busyAngle == null ? () => _capture(a, true) : null,
-                            icon: const Icon(Icons.photo_camera),
+                            icon: const Icon(Symbols.photo_camera_rounded, fill: 1),
                           ),
                           const SizedBox(width: 8),
                           IconButton.filledTonal(
                             tooltip: l.trkGallery,
                             onPressed: _busyAngle == null ? () => _capture(a, false) : null,
-                            icon: const Icon(Icons.photo_library),
+                            icon: const Icon(Symbols.photo_library_rounded, fill: 1),
                           ),
                         ],
                       ),
@@ -322,7 +323,7 @@ class _PhotoViewer extends ConsumerWidget {
         actions: [
           IconButton(
             tooltip: l.delete,
-            icon: const Icon(Icons.delete_outline),
+            icon: const Icon(Symbols.delete_rounded),
             onPressed: () async {
               if (!await confirmDelete(context, l.trkPhotoDeleteConfirm)) return;
               await ProgressPhotoStorage.delete(ref.read(databaseProvider), photo);
@@ -374,7 +375,7 @@ class _CompareBodyState extends ConsumerState<_CompareBody> {
     if (dates.length < 2 || docs == null) {
       return Scaffold(
         appBar: AppBar(title: Text(l.trkPhotosCompare)),
-        body: EmptyState(icon: Icons.compare, text: l.trkComparePickTwo),
+        body: EmptyState(icon: Symbols.compare_rounded, text: l.trkComparePickTwo),
       );
     }
     final before = dates.contains(_before) ? _before! : dates.last;
@@ -431,8 +432,8 @@ class _CompareBodyState extends ConsumerState<_CompareBody> {
           SegmentedButton<bool>(
             showSelectedIcon: false,
             segments: [
-              ButtonSegment(value: false, icon: const Icon(Icons.view_column), label: Text(l.trkSideBySide)),
-              ButtonSegment(value: true, icon: const Icon(Icons.swap_horiz), label: Text(l.trkSlider)),
+              ButtonSegment(value: false, icon: const Icon(Symbols.view_column_rounded), label: Text(l.trkSideBySide)),
+              ButtonSegment(value: true, icon: const Icon(Symbols.swap_horiz_rounded), label: Text(l.trkSlider)),
             ],
             selected: {_slider},
             onSelectionChanged: (s) => setState(() => _slider = s.first),
@@ -541,7 +542,7 @@ class _BeforeAfterSlider extends StatelessWidget {
                       width: 40,
                       height: 40,
                       decoration: const BoxDecoration(color: AppColors.primary, shape: BoxShape.circle),
-                      child: const Icon(Icons.compare_arrows, color: AppColors.onPrimary),
+                      child: const Icon(Symbols.compare_arrows_rounded, color: AppColors.onPrimary),
                     ),
                   ),
                   Positioned(left: 8, top: 8, child: label(beforeLabel)),

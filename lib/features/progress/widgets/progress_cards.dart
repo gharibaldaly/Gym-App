@@ -3,6 +3,7 @@ library;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../../core/calc/stats.dart';
 import '../../../core/navigation.dart';
@@ -65,7 +66,7 @@ class ExerciseProgressCard extends ConsumerWidget {
           ? null
           : IconButton(
               tooltip: l.progOpenExercise,
-              icon: const Icon(Icons.open_in_new, size: 20),
+              icon: const Icon(Symbols.open_in_new_rounded, size: 20),
               onPressed: () => push(context, ExerciseDetailScreen(exerciseId: id)),
             ),
       child: logged.when(
@@ -73,7 +74,7 @@ class ExerciseProgressCard extends ConsumerWidget {
         error: (e, _) => _error(context, e),
         data: (list) {
           if (list.isEmpty || id == null) {
-            return CardEmpty(icon: Icons.show_chart, text: l.progNoExerciseData);
+            return CardEmpty(icon: Symbols.show_chart_rounded, text: l.progNoExerciseData);
           }
           final current = list.where((e) => e.exercise.id == id).firstOrNull ?? list.first;
           return Column(
@@ -114,7 +115,7 @@ class _ExercisePickerButton extends ConsumerWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
           child: Row(children: [
-            const Icon(Icons.fitness_center, color: AppColors.primary, size: 20),
+            const Icon(Symbols.fitness_center_rounded, fill: 1, color: AppColors.primary, size: 20),
             const SizedBox(width: 10),
             Expanded(
               child: Text(name,
@@ -123,7 +124,7 @@ class _ExercisePickerButton extends ConsumerWidget {
                   style: const TextStyle(fontWeight: FontWeight.w700, fontSize: 16)),
             ),
             Text(context.l10n.progChangeExercise, style: const TextStyle(color: AppColors.primary)),
-            const Icon(Icons.expand_more, color: AppColors.primary),
+            const Icon(Symbols.expand_more_rounded, color: AppColors.primary),
           ]),
         ),
       ),
@@ -166,7 +167,7 @@ class _ExercisePickerSheetState extends State<_ExercisePickerSheet> {
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: TextField(
               autofocus: false,
-              decoration: InputDecoration(prefixIcon: const Icon(Icons.search), hintText: l.progSearchExercise),
+              decoration: InputDecoration(prefixIcon: const Icon(Symbols.search_rounded), hintText: l.progSearchExercise),
               onChanged: (v) => setState(() => _q = v),
             ),
           ),
@@ -212,7 +213,7 @@ class _ExerciseChart extends ConsumerWidget {
           loading: _loading,
           error: (e, _) => _error(context, e),
           data: (pts) {
-            if (pts.isEmpty) return CardEmpty(icon: Icons.event_busy, text: l.progNoDataInPeriod);
+            if (pts.isEmpty) return CardEmpty(icon: Symbols.event_busy_rounded, text: l.progNoDataInPeriod);
             final bestTop = pts.reduce((a, b) =>
                 b.topWeight > a.topWeight || (b.topWeight == a.topWeight && b.topReps > a.topReps) ? b : a);
             final bestE = pts.map((p) => p.bestE1rm).reduce((a, b) => a > b ? a : b);
@@ -290,7 +291,7 @@ class MuscleVolumeCard extends ConsumerWidget {
             loading: _loading,
             error: (e, _) => _error(context, e),
             data: (d) {
-              if (d.isEmpty) return CardEmpty(icon: Icons.bar_chart, text: l.progNoVolumeData);
+              if (d.isEmpty) return CardEmpty(icon: Symbols.bar_chart_rounded, text: l.progNoVolumeData);
               final maxV = d.muscles.map((m) => m.avgWeeklyVolume).fold(0.0, (a, b) => a > b ? a : b);
               final muted = context.text.labelSmall?.copyWith(color: AppColors.textMuted);
               return Column(
@@ -406,7 +407,7 @@ class _BodyProgressCardState extends ConsumerState<BodyProgressCard> {
       title: l.progBodyTitle,
       trailing: TextButton.icon(
         onPressed: () => push(context, const BodyWeightScreen()),
-        icon: const Icon(Icons.add, size: 18),
+        icon: const Icon(Symbols.add_rounded, size: 18),
         label: Text(l.progLogWeight),
       ),
       child: ref.watch(bodyWeightDataProvider).when(
@@ -416,7 +417,7 @@ class _BodyProgressCardState extends ConsumerState<BodyProgressCard> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 if (d.daily.isEmpty)
-                  CardEmpty(icon: Icons.monitor_weight_outlined, text: l.progNoWeightData)
+                  CardEmpty(icon: Symbols.monitor_weight_rounded, text: l.progNoWeightData)
                 else ...[
                   Wrap(spacing: 20, runSpacing: 8, children: [
                     StatPill(label: l.progLatest, value: _kg(context, d.daily.last.value)),
@@ -459,7 +460,7 @@ class _BodyProgressCardState extends ConsumerState<BodyProgressCard> {
                   Expanded(child: Text(l.progMeasurementsTitle, style: context.text.titleSmall)),
                   TextButton.icon(
                     onPressed: () => push(context, const BodyMeasurementsScreen()),
-                    icon: const Icon(Icons.straighten, size: 18),
+                    icon: const Icon(Symbols.straighten_rounded, size: 18),
                     label: Text(l.progLogMeasurements),
                   ),
                 ]),
@@ -531,7 +532,7 @@ class NutritionProgressCard extends ConsumerWidget {
             loading: _loading,
             error: (e, _) => _error(context, e),
             data: (days) {
-              if (days.isEmpty) return CardEmpty(icon: Icons.restaurant, text: l.progNoNutritionData);
+              if (days.isEmpty) return CardEmpty(icon: Symbols.restaurant_rounded, text: l.progNoNutritionData);
               double avg(double Function(NutritionDay) f) => Stats.mean(days.map(f))!;
               final withTarget = days.where((d) => d.calorieTarget != null).toList();
               final onTarget =
@@ -640,7 +641,7 @@ class SleepRecoveryCard extends ConsumerWidget {
       title: l.progSleepTitle,
       trailing: IconButton(
         tooltip: l.progDaySleep,
-        icon: const Icon(Icons.bedtime_outlined, size: 20),
+        icon: const Icon(Symbols.bedtime_rounded, size: 20),
         onPressed: () => push(context, const SleepLogScreen()),
       ),
       child: ref.watch(sleepDaysProvider).when(
@@ -649,7 +650,7 @@ class SleepRecoveryCard extends ConsumerWidget {
             data: (days) {
               final sleep = [for (final d in days) if (d.hours != null) DatedValue(d.date, d.hours!)];
               final rec = [for (final d in days) if (d.recovery != null) DatedValue(d.date, d.recovery!.toDouble())];
-              if (sleep.isEmpty && rec.isEmpty) return CardEmpty(icon: Icons.bedtime, text: l.progNoSleepData);
+              if (sleep.isEmpty && rec.isEmpty) return CardEmpty(icon: Symbols.bedtime_rounded, text: l.progNoSleepData);
               final avgSleep = Stats.mean(sleep.map((s) => s.value));
               final avgRec = Stats.mean(rec.map((s) => s.value));
               final sleepBars = _maybeWeekly(sleep);

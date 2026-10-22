@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../core/providers.dart';
 import '../../core/theme/app_theme.dart';
@@ -24,7 +25,7 @@ class CoachSuggestionsView extends ConsumerWidget {
       padding: const EdgeInsets.fromLTRB(12, 8, 12, 24),
       children: [
         if (pending.isEmpty)
-          EmptyState(icon: Icons.task_alt, text: l.coachNoPending)
+          EmptyState(icon: Symbols.task_alt_rounded, text: l.coachNoPending)
         else
           for (final p in pending) ProposalCard(proposal: p),
         if (resolved.isNotEmpty)

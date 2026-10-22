@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 /// Full-screen diagnostic shown when startup fails, so the problem is visible
 /// (and can be screenshotted) instead of the app hanging on the splash screen.
@@ -36,7 +37,7 @@ class StartupErrorView extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Icon(Icons.error_outline, color: Color(0xFFFF4D4D), size: 48),
+              const Icon(Symbols.error_rounded, color: Color(0xFFFF4D4D), size: 48),
               const SizedBox(height: 12),
               const Text(
                 'حصلت مشكلة وأنا بفتح الأبلكيشن\nIronMind failed to start',

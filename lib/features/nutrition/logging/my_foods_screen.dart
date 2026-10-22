@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../../core/providers.dart';
 import '../../../core/theme/app_theme.dart';
@@ -52,7 +53,7 @@ class _MyFoodsScreenState extends ConsumerState<MyFoodsScreen> {
               onTap: () => Navigator.pop(c, p),
             ),
           ListTile(
-            leading: Icon(f.isFavorite ? Icons.star : Icons.star_border, color: AppColors.warning),
+            leading: Icon(Symbols.star_rounded, fill: f.isFavorite ? 1 : 0, color: AppColors.warning),
             title: Text(f.isFavorite ? l.nutUnfavorite : l.nutFavorite),
             onTap: () {
               ref.read(nutritionRepositoryProvider).setMyFoodFavorite(f.id, !f.isFavorite);
@@ -60,7 +61,7 @@ class _MyFoodsScreenState extends ConsumerState<MyFoodsScreen> {
             },
           ),
           ListTile(
-            leading: const Icon(Icons.delete_outline, color: AppColors.danger),
+            leading: const Icon(Symbols.delete_rounded, color: AppColors.danger),
             title: Text(l.delete),
             onTap: () {
               ref.read(nutritionRepositoryProvider).deleteMyFood(f.id);
@@ -89,14 +90,14 @@ class _MyFoodsScreenState extends ConsumerState<MyFoodsScreen> {
         loading: () => const Center(child: CircularProgressIndicator()),
         error: (e, _) => Center(child: Text('${l.errorGeneric}: $e')),
         data: (all) {
-          if (all.isEmpty) return EmptyState(icon: Icons.bookmark_border, text: l.nutMyFoodsEmpty);
+          if (all.isEmpty) return EmptyState(icon: Symbols.bookmark_rounded, text: l.nutMyFoodsEmpty);
           final q = normalizeFoodName(_q);
           final list = q.isEmpty ? all : all.where((f) => normalizeFoodName(f.name).contains(q)).toList();
           return Column(children: [
             Padding(
               padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 16, 4),
               child: TextField(
-                decoration: InputDecoration(prefixIcon: const Icon(Icons.search), hintText: l.search),
+                decoration: InputDecoration(prefixIcon: const Icon(Symbols.search_rounded), hintText: l.search),
                 onChanged: (v) => setState(() => _q = v),
               ),
             ),
@@ -117,7 +118,8 @@ class _MyFoodsScreenState extends ConsumerState<MyFoodsScreen> {
                     margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                     child: ListTile(
                       minVerticalPadding: 12,
-                      leading: Icon(f.isFavorite ? Icons.star : Icons.bookmark,
+                      leading: Icon(f.isFavorite ? Symbols.star_rounded : Symbols.bookmark_rounded,
+                          fill: 1,
                           color: f.isFavorite ? AppColors.warning : AppColors.primary),
                       title: Text(f.name, style: const TextStyle(fontWeight: FontWeight.w600)),
                       subtitle: Column(
@@ -135,7 +137,7 @@ class _MyFoodsScreenState extends ConsumerState<MyFoodsScreen> {
                       ),
                       trailing: IconButton(
                         tooltip: l.nutMore,
-                        icon: const Icon(Icons.more_vert),
+                        icon: const Icon(Symbols.more_vert_rounded),
                         onPressed: () => _logPortion(f),
                       ),
                       onTap: () => _log(f),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../app/home_shell.dart' show homeTabProvider;
 import '../../core/navigation.dart';
@@ -62,12 +63,12 @@ class _CoachTabScreenState extends ConsumerState<CoachTabScreen> {
           actions: [
             IconButton(
               tooltip: l.coachMemoryTitle,
-              icon: const Icon(Icons.psychology_outlined),
+              icon: const Icon(Symbols.psychology_rounded),
               onPressed: () => push(context, const CoachMemoryScreen()),
             ),
             IconButton(
               tooltip: l.settings,
-              icon: const Icon(Icons.settings_outlined),
+              icon: const Icon(Symbols.settings_rounded),
               onPressed: () => openSettings(context),
             ),
           ],

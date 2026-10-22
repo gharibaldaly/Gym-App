@@ -7,6 +7,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -58,10 +59,10 @@ Future<void> showReportExportSheet(BuildContext context, WidgetRef ref) async {
             child: Text(l.progReportChoose, style: ctx.text.titleMedium?.copyWith(fontWeight: FontWeight.w700)),
           ),
           for (final (r, label, icon) in [
-            (ReportRange.thisWeek, l.progReportThisWeek, Icons.view_week),
-            (ReportRange.lastWeek, l.progReportLastWeek, Icons.history),
-            (ReportRange.thisMonth, l.progReportThisMonth, Icons.calendar_month),
-            (ReportRange.lastMonth, l.progReportLastMonth, Icons.event_repeat),
+            (ReportRange.thisWeek, l.progReportThisWeek, Symbols.view_week_rounded),
+            (ReportRange.lastWeek, l.progReportLastWeek, Symbols.history_rounded),
+            (ReportRange.thisMonth, l.progReportThisMonth, Symbols.calendar_month_rounded),
+            (ReportRange.lastMonth, l.progReportLastMonth, Symbols.event_repeat_rounded),
           ])
             ListTile(
               minTileHeight: 56,

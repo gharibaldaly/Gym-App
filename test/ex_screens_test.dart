@@ -11,6 +11,7 @@ import 'package:ironmind/features/exercises/add_exercise_screen.dart';
 import 'package:ironmind/features/exercises/exercise_detail_screen.dart';
 import 'package:ironmind/features/exercises/exercise_library_screen.dart';
 import 'package:ironmind/l10n/gen/app_localizations.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<AppDatabase> _db() async {
@@ -104,7 +105,8 @@ void main() {
     expect(find.text('رو ماكينة'), findsNothing);
     expect(find.text('تشيست بريس ماكينة'), findsOneWidget);
 
-    await tester.tap(find.byIcon(Icons.star_outline_rounded).first);
+    // The filter chip also shows a star; the exercise's favorite button is the last one.
+    await tester.tap(find.byIcon(Symbols.star_rounded).last);
     await _settle(tester);
     final ex = await (db.select(db.exercises)..where((t) => t.id.equals('custom_press'))).getSingle();
     expect(ex.isFavorite, isTrue);
@@ -132,6 +134,7 @@ void main() {
     addTearDown(db.close);
     await _pump(tester, db, const AddExerciseScreen(), lang: 'en');
     await _settle(tester);
+    await tester.scrollUntilVisible(find.text('Fill in manually'), 200, scrollable: find.byType(Scrollable).first);
     await tester.tap(find.text('Fill in manually'));
     await _settle(tester);
     expect(find.text('Name (English)'), findsOneWidget);

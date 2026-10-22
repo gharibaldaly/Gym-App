@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../app/home_shell.dart';
 import '../../core/calc/recovery.dart';
@@ -32,7 +33,7 @@ class TodayScreen extends ConsumerWidget {
             Text(dateLabel, style: context.text.bodySmall?.copyWith(color: AppColors.textMuted)),
           ],
         ),
-        actions: [IconButton(icon: const Icon(Icons.settings_outlined), onPressed: () => openSettings(context))],
+        actions: [IconButton(icon: const Icon(Symbols.settings_rounded), onPressed: () => openSettings(context))],
       ),
       body: RefreshIndicator(
         onRefresh: () async {
@@ -63,7 +64,7 @@ class _CoachCard extends ConsumerWidget {
     final l = context.l10n;
     return SectionCard(
       title: l.todayCoachTitle,
-      trailing: const Icon(Icons.forum_outlined, color: AppColors.primary),
+      trailing: const Icon(Symbols.forum_rounded, color: AppColors.primary),
       onTap: () => ref.read(homeTabProvider.notifier).select(3),
       child: msg == null
           ? Column(
@@ -144,7 +145,7 @@ class _WorkoutCard extends ConsumerWidget {
         title: l.todayWorkoutTitle,
         child: Row(
           children: [
-            const Icon(Icons.self_improvement, color: AppColors.textMuted),
+            const Icon(Symbols.self_improvement_rounded, color: AppColors.textMuted),
             const SizedBox(width: 12),
             Expanded(child: Text(l.todayRestDay)),
           ],
@@ -167,14 +168,14 @@ class _WorkoutCard extends ConsumerWidget {
           if (done)
             Row(
               children: [
-                const Icon(Icons.check_circle, color: AppColors.primary),
+                const Icon(Symbols.check_circle_rounded, fill: 1, color: AppColors.primary),
                 const SizedBox(width: 8),
                 Text(l.todayWorkoutDone),
               ],
             )
           else
             FilledButton.icon(
-              icon: const Icon(Icons.play_arrow_rounded, size: 28),
+              icon: const Icon(Symbols.play_arrow_rounded, size: 28),
               label: Text(status == 'in_progress' ? l.todayResumeWorkout : l.todayStartWorkout),
               onPressed: () => push(
                 context,
@@ -273,7 +274,7 @@ class _RingsCard extends ConsumerWidget {
             children: [
               Expanded(
                 child: OutlinedButton.icon(
-                  icon: const Icon(Icons.local_drink_outlined),
+                  icon: const Icon(Symbols.water_full_rounded),
                   label: Text(l.todayAddCup),
                   onPressed: () async {
                     HapticFeedback.lightImpact();
@@ -300,7 +301,7 @@ class _SupplementsCard extends ConsumerWidget {
     return SectionCard(
       title: l.todaySupplementsTitle,
       trailing: IconButton(
-        icon: const Icon(Icons.edit_outlined, size: 20),
+        icon: const Icon(Symbols.edit_rounded, size: 20),
         onPressed: () => push(context, const SupplementsScreen()),
       ),
       child: items.isEmpty
@@ -337,7 +338,7 @@ class _WeightCard extends ConsumerWidget {
       title: l.todayWeightTitle,
       onTap: () => showWeightQuickLog(context, ref),
       trailing: IconButton(
-        icon: const Icon(Icons.show_chart, color: AppColors.textMuted),
+        icon: const Icon(Symbols.show_chart_rounded, color: AppColors.textMuted),
         onPressed: () => push(context, const BodyWeightScreen()),
       ),
       child: w?.weight == null

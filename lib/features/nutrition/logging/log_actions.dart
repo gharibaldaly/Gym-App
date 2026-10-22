@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../../ai/ai_queue.dart';
 import '../../../ai/ai_service.dart';
@@ -34,10 +35,10 @@ Future<void> showLogFoodSheet(BuildContext context, WidgetRef ref, {int? mealInd
               child: Text(l.nutLogFood, style: c.text.titleLarge?.copyWith(fontWeight: FontWeight.w800)),
             ),
           ),
-          _OptionTile(icon: Icons.photo_camera, title: l.nutLogPhoto, subtitle: l.nutLogPhotoHint, value: 'photo'),
-          _OptionTile(icon: Icons.keyboard_voice, title: l.nutLogText, subtitle: l.nutLogTextHint, value: 'text'),
-          _OptionTile(icon: Icons.bookmark, title: l.nutMyFoods, subtitle: l.nutMyFoodsHint, value: 'mine'),
-          _OptionTile(icon: Icons.list_alt, title: l.nutLogManual, subtitle: l.nutLogManualHint, value: 'manual'),
+          _OptionTile(icon: Symbols.photo_camera_rounded, title: l.nutLogPhoto, subtitle: l.nutLogPhotoHint, value: 'photo'),
+          _OptionTile(icon: Symbols.keyboard_voice_rounded, title: l.nutLogText, subtitle: l.nutLogTextHint, value: 'text'),
+          _OptionTile(icon: Symbols.bookmark_rounded, title: l.nutMyFoods, subtitle: l.nutMyFoodsHint, value: 'mine'),
+          _OptionTile(icon: Symbols.list_alt_rounded, title: l.nutLogManual, subtitle: l.nutLogManualHint, value: 'manual'),
           const SizedBox(height: 8),
         ],
       ),
@@ -88,12 +89,12 @@ Future<void> logFromPhoto(BuildContext context, WidgetRef ref, {int? mealIndex})
     builder: (c) => SafeArea(
       child: Column(mainAxisSize: MainAxisSize.min, children: [
         ListTile(
-          leading: const Icon(Icons.photo_camera),
+          leading: const Icon(Symbols.photo_camera_rounded, fill: 1),
           title: Text(l.nutTakePhoto),
           onTap: () => Navigator.pop(c, ImageSource.camera),
         ),
         ListTile(
-          leading: const Icon(Icons.photo_library),
+          leading: const Icon(Symbols.photo_library_rounded, fill: 1),
           title: Text(l.nutFromGallery),
           onTap: () => Navigator.pop(c, ImageSource.gallery),
         ),

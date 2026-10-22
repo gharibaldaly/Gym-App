@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../../core/providers.dart';
 import '../../../core/theme/app_theme.dart';
@@ -10,14 +11,14 @@ import '../coach_repository.dart';
 import 'markdown_lite.dart';
 
 IconData proposalIcon(String type) => switch (type) {
-      ProposalTypes.planChange => Icons.edit_calendar,
-      ProposalTypes.swapExercise => Icons.swap_horiz,
-      ProposalTypes.logMeal => Icons.restaurant,
-      ProposalTypes.logSet => Icons.fitness_center,
-      ProposalTypes.adjustMacros => Icons.pie_chart_outline,
-      ProposalTypes.recoveryAdjust => Icons.battery_charging_full,
-      ProposalTypes.deload => Icons.trending_down,
-      _ => Icons.lightbulb_outline,
+      ProposalTypes.planChange => Symbols.edit_calendar_rounded,
+      ProposalTypes.swapExercise => Symbols.swap_horiz_rounded,
+      ProposalTypes.logMeal => Symbols.restaurant_rounded,
+      ProposalTypes.logSet => Symbols.fitness_center_rounded,
+      ProposalTypes.adjustMacros => Symbols.pie_chart_rounded,
+      ProposalTypes.recoveryAdjust => Symbols.battery_charging_full_rounded,
+      ProposalTypes.deload => Symbols.trending_down_rounded,
+      _ => Symbols.lightbulb_rounded,
     };
 
 /// Approve / reject card for a coach proposal (chat + Suggestions tab).
@@ -126,7 +127,7 @@ class _ProposalCardState extends ConsumerState<ProposalCard> {
                         side: const BorderSide(color: AppColors.border),
                       ),
                       onPressed: () => _resolve(false),
-                      icon: const Icon(Icons.close),
+                      icon: const Icon(Symbols.close_rounded),
                       label: Text(l.reject),
                     ),
                   ),
@@ -135,7 +136,7 @@ class _ProposalCardState extends ConsumerState<ProposalCard> {
                     child: FilledButton.icon(
                       style: FilledButton.styleFrom(minimumSize: const Size(64, 48)),
                       onPressed: () => _resolve(true),
-                      icon: const Icon(Icons.check),
+                      icon: const Icon(Symbols.check_rounded),
                       label: Text(l.accept),
                     ),
                   ),

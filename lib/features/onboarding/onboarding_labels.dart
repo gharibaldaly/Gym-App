@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../l10n/gen/app_localizations.dart';
 import 'onboarding_logic.dart';
@@ -25,30 +26,30 @@ String? labelOf<T>(List<OnbOption<T>> options, T? code) {
 // ---------------------------------------------------------------------------
 
 IconData stepIcon(OnbStep s) => switch (s) {
-      OnbStep.language => Icons.translate,
-      OnbStep.body => Icons.accessibility_new,
-      OnbStep.bodyFat => Icons.water_drop_outlined,
-      OnbStep.measurements => Icons.straighten,
-      OnbStep.goal => Icons.flag_outlined,
-      OnbStep.level => Icons.trending_up,
-      OnbStep.days => Icons.calendar_month,
-      OnbStep.sessionLength => Icons.timer_outlined,
-      OnbStep.split => Icons.view_week_outlined,
-      OnbStep.focus => Icons.center_focus_strong,
-      OnbStep.location => Icons.location_on_outlined,
-      OnbStep.injuries => Icons.healing_outlined,
-      OnbStep.job => Icons.work_outline,
-      OnbStep.sleep => Icons.bedtime_outlined,
-      OnbStep.trainingTime => Icons.schedule,
-      OnbStep.cardio => Icons.directions_run,
-      OnbStep.meals => Icons.restaurant,
-      OnbStep.foods => Icons.favorite_border,
-      OnbStep.budget => Icons.payments_outlined,
-      OnbStep.supplements => Icons.medication_outlined,
-      OnbStep.water => Icons.local_drink_outlined,
-      OnbStep.healthConnect => Icons.watch_outlined,
-      OnbStep.apiKey => Icons.key_outlined,
-      OnbStep.summary => Icons.fact_check_outlined,
+      OnbStep.language => Symbols.translate_rounded,
+      OnbStep.body => Symbols.accessibility_new_rounded,
+      OnbStep.bodyFat => Symbols.water_drop_rounded,
+      OnbStep.measurements => Symbols.straighten_rounded,
+      OnbStep.goal => Symbols.flag_rounded,
+      OnbStep.level => Symbols.trending_up_rounded,
+      OnbStep.days => Symbols.calendar_month_rounded,
+      OnbStep.sessionLength => Symbols.timer_rounded,
+      OnbStep.split => Symbols.view_week_rounded,
+      OnbStep.focus => Symbols.center_focus_strong_rounded,
+      OnbStep.location => Symbols.location_on_rounded,
+      OnbStep.injuries => Symbols.healing_rounded,
+      OnbStep.job => Symbols.work_rounded,
+      OnbStep.sleep => Symbols.bedtime_rounded,
+      OnbStep.trainingTime => Symbols.schedule_rounded,
+      OnbStep.cardio => Symbols.sprint_rounded,
+      OnbStep.meals => Symbols.restaurant_rounded,
+      OnbStep.foods => Symbols.favorite_rounded,
+      OnbStep.budget => Symbols.payments_rounded,
+      OnbStep.supplements => Symbols.pill_rounded,
+      OnbStep.water => Symbols.water_full_rounded,
+      OnbStep.healthConnect => Symbols.watch_rounded,
+      OnbStep.apiKey => Symbols.key_rounded,
+      OnbStep.summary => Symbols.fact_check_rounded,
     };
 
 String stepTitle(AppLocalizations l, OnbStep s) => switch (s) {
@@ -170,14 +171,14 @@ String issueText(AppLocalizations l, OnbIssue issue, {int? daysPerWeek}) => swit
 // ---------------------------------------------------------------------------
 
 List<OnbOption<String>> sexOptions(AppLocalizations l) => [
-      OnbOption('male', l.onbSexMale, icon: Icons.male),
-      OnbOption('female', l.onbSexFemale, icon: Icons.female),
+      OnbOption('male', l.onbSexMale, icon: Symbols.male_rounded),
+      OnbOption('female', l.onbSexFemale, icon: Symbols.female_rounded),
     ];
 
 List<OnbOption<String>> bodyFatMethodOptions(AppLocalizations l) => [
-      OnbOption('number', l.onbBfNumber, subtitle: l.onbBfNumberSub, icon: Icons.percent),
-      OnbOption('shape', l.onbBfShape, subtitle: l.onbBfShapeSub, icon: Icons.accessibility),
-      OnbOption('unknown', l.onbBfUnknown, subtitle: l.onbBfUnknownSub, icon: Icons.help_outline),
+      OnbOption('number', l.onbBfNumber, subtitle: l.onbBfNumberSub, icon: Symbols.percent_rounded),
+      OnbOption('shape', l.onbBfShape, subtitle: l.onbBfShapeSub, icon: Symbols.accessibility_rounded),
+      OnbOption('unknown', l.onbBfUnknown, subtitle: l.onbBfUnknownSub, icon: Symbols.help_rounded),
     ];
 
 List<OnbOption<BodyShape>> bodyShapeOptions(AppLocalizations l) => [
@@ -199,18 +200,18 @@ String measurementLabel(AppLocalizations l, String key) => switch (key) {
     };
 
 List<OnbOption<String>> goalOptions(AppLocalizations l) => [
-      OnbOption('bulk', l.onbGoalBulk, subtitle: l.onbGoalBulkSub, icon: Icons.fitness_center),
-      OnbOption('cut', l.onbGoalCut, subtitle: l.onbGoalCutSub, icon: Icons.local_fire_department_outlined),
-      OnbOption('recomp', l.onbGoalRecomp, subtitle: l.onbGoalRecompSub, icon: Icons.autorenew),
-      OnbOption('strength', l.onbGoalStrength, subtitle: l.onbGoalStrengthSub, icon: Icons.bolt),
-      OnbOption('fitness', l.onbGoalFitness, subtitle: l.onbGoalFitnessSub, icon: Icons.favorite_outline),
+      OnbOption('bulk', l.onbGoalBulk, subtitle: l.onbGoalBulkSub, icon: Symbols.fitness_center_rounded),
+      OnbOption('cut', l.onbGoalCut, subtitle: l.onbGoalCutSub, icon: Symbols.local_fire_department_rounded),
+      OnbOption('recomp', l.onbGoalRecomp, subtitle: l.onbGoalRecompSub, icon: Symbols.autorenew_rounded),
+      OnbOption('strength', l.onbGoalStrength, subtitle: l.onbGoalStrengthSub, icon: Symbols.bolt_rounded),
+      OnbOption('fitness', l.onbGoalFitness, subtitle: l.onbGoalFitnessSub, icon: Symbols.favorite_rounded),
     ];
 
 List<OnbOption<String>> levelOptions(AppLocalizations l) => [
-      OnbOption('beginner', l.onbLevelBeginner, subtitle: l.onbLevelBeginnerSub, icon: Icons.signal_cellular_alt_1_bar),
+      OnbOption('beginner', l.onbLevelBeginner, subtitle: l.onbLevelBeginnerSub, icon: Symbols.signal_cellular_alt_1_bar_rounded),
       OnbOption('intermediate', l.onbLevelIntermediate,
-          subtitle: l.onbLevelIntermediateSub, icon: Icons.signal_cellular_alt_2_bar),
-      OnbOption('advanced', l.onbLevelAdvanced, subtitle: l.onbLevelAdvancedSub, icon: Icons.signal_cellular_alt),
+          subtitle: l.onbLevelIntermediateSub, icon: Symbols.signal_cellular_alt_2_bar_rounded),
+      OnbOption('advanced', l.onbLevelAdvanced, subtitle: l.onbLevelAdvancedSub, icon: Symbols.signal_cellular_alt_rounded),
     ];
 
 List<OnbOption<String>> experienceOptions(AppLocalizations l) => [
@@ -224,12 +225,12 @@ List<OnbOption<String>> experienceOptions(AppLocalizations l) => [
 const sessionMinuteOptions = [30, 45, 60, 75, 90];
 
 List<OnbOption<String>> splitOptions(AppLocalizations l) => [
-      OnbOption('muscle_group', l.onbSplitMuscleGroup, subtitle: l.onbSplitMuscleGroupSub, icon: Icons.grid_view),
-      OnbOption('bro', l.onbSplitBro, subtitle: l.onbSplitBroSub, icon: Icons.looks_one_outlined),
-      OnbOption('full_body', l.onbSplitFullBody, subtitle: l.onbSplitFullBodySub, icon: Icons.accessibility_new),
-      OnbOption('ppl', l.onbSplitPpl, subtitle: l.onbSplitPplSub, icon: Icons.swap_vert),
-      OnbOption('upper_lower', l.onbSplitUpperLower, subtitle: l.onbSplitUpperLowerSub, icon: Icons.unfold_more),
-      OnbOption('ai', l.onbSplitAi, subtitle: l.onbSplitAiSub, icon: Icons.auto_awesome),
+      OnbOption('muscle_group', l.onbSplitMuscleGroup, subtitle: l.onbSplitMuscleGroupSub, icon: Symbols.grid_view_rounded),
+      OnbOption('bro', l.onbSplitBro, subtitle: l.onbSplitBroSub, icon: Symbols.looks_one_rounded),
+      OnbOption('full_body', l.onbSplitFullBody, subtitle: l.onbSplitFullBodySub, icon: Symbols.accessibility_new_rounded),
+      OnbOption('ppl', l.onbSplitPpl, subtitle: l.onbSplitPplSub, icon: Symbols.swap_vert_rounded),
+      OnbOption('upper_lower', l.onbSplitUpperLower, subtitle: l.onbSplitUpperLowerSub, icon: Symbols.unfold_more_rounded),
+      OnbOption('ai', l.onbSplitAi, subtitle: l.onbSplitAiSub, icon: Symbols.auto_awesome_rounded),
     ];
 
 List<OnbOption<String>> muscleOptions(AppLocalizations l) => [
@@ -248,9 +249,9 @@ List<OnbOption<String>> muscleOptions(AppLocalizations l) => [
     ];
 
 List<OnbOption<String>> locationOptions(AppLocalizations l) => [
-      OnbOption('full_gym', l.onbLocFullGym, subtitle: l.onbLocFullGymSub, icon: Icons.fitness_center),
-      OnbOption('limited_gym', l.onbLocLimitedGym, subtitle: l.onbLocLimitedGymSub, icon: Icons.sports_gymnastics),
-      OnbOption('home', l.onbLocHome, subtitle: l.onbLocHomeSub, icon: Icons.home_outlined),
+      OnbOption('full_gym', l.onbLocFullGym, subtitle: l.onbLocFullGymSub, icon: Symbols.fitness_center_rounded),
+      OnbOption('limited_gym', l.onbLocLimitedGym, subtitle: l.onbLocLimitedGymSub, icon: Symbols.sports_gymnastics_rounded),
+      OnbOption('home', l.onbLocHome, subtitle: l.onbLocHomeSub, icon: Symbols.home_rounded),
     ];
 
 List<OnbOption<String>> jointInjuryOptions(AppLocalizations l) => [
@@ -273,29 +274,29 @@ List<OnbOption<String>> healthConditionOptions(AppLocalizations l) => [
     ];
 
 List<OnbOption<String>> jobOptions(AppLocalizations l) => [
-      OnbOption('desk', l.onbJobDesk, subtitle: l.onbJobDeskSub, icon: Icons.computer),
-      OnbOption('mobile', l.onbJobMobile, subtitle: l.onbJobMobileSub, icon: Icons.directions_walk),
-      OnbOption('physical', l.onbJobPhysical, subtitle: l.onbJobPhysicalSub, icon: Icons.construction),
-      OnbOption('none', l.onbJobNone, subtitle: l.onbJobNoneSub, icon: Icons.school_outlined),
+      OnbOption('desk', l.onbJobDesk, subtitle: l.onbJobDeskSub, icon: Symbols.computer_rounded),
+      OnbOption('mobile', l.onbJobMobile, subtitle: l.onbJobMobileSub, icon: Symbols.directions_walk_rounded),
+      OnbOption('physical', l.onbJobPhysical, subtitle: l.onbJobPhysicalSub, icon: Symbols.construction_rounded),
+      OnbOption('none', l.onbJobNone, subtitle: l.onbJobNoneSub, icon: Symbols.school_rounded),
     ];
 
 List<OnbOption<String>> trainingTimeOptions(AppLocalizations l) => [
-      OnbOption('morning', l.onbTimeMorning, icon: Icons.wb_sunny_outlined),
-      OnbOption('after_work', l.onbTimeAfterWork, icon: Icons.wb_twilight),
-      OnbOption('night', l.onbTimeNight, icon: Icons.nightlight_outlined),
+      OnbOption('morning', l.onbTimeMorning, icon: Symbols.wb_sunny_rounded),
+      OnbOption('after_work', l.onbTimeAfterWork, icon: Symbols.wb_twilight_rounded),
+      OnbOption('night', l.onbTimeNight, icon: Symbols.nightlight_rounded),
     ];
 
 List<OnbOption<String>> cardioOptions(AppLocalizations l) => [
-      OnbOption('none', l.onbCardioNone, icon: Icons.block),
-      OnbOption('walking', l.onbCardioWalking, icon: Icons.directions_walk),
-      OnbOption('running', l.onbCardioRunning, icon: Icons.directions_run),
-      OnbOption('cycling', l.onbCardioCycling, icon: Icons.directions_bike),
-      OnbOption('elliptical', l.onbCardioElliptical, icon: Icons.elevator_outlined),
-      OnbOption('swimming', l.onbCardioSwimming, icon: Icons.pool),
-      OnbOption('hiit', l.onbCardioHiit, icon: Icons.flash_on),
-      OnbOption('stairs', l.onbCardioStairs, icon: Icons.stairs_outlined),
-      OnbOption('jump_rope', l.onbCardioJumpRope, icon: Icons.cable),
-      OnbOption('football', l.onbCardioFootball, icon: Icons.sports_soccer),
+      OnbOption('none', l.onbCardioNone, icon: Symbols.block_rounded),
+      OnbOption('walking', l.onbCardioWalking, icon: Symbols.directions_walk_rounded),
+      OnbOption('running', l.onbCardioRunning, icon: Symbols.sprint_rounded),
+      OnbOption('cycling', l.onbCardioCycling, icon: Symbols.directions_bike_rounded),
+      OnbOption('elliptical', l.onbCardioElliptical, icon: Symbols.elevator_rounded),
+      OnbOption('swimming', l.onbCardioSwimming, icon: Symbols.pool_rounded),
+      OnbOption('hiit', l.onbCardioHiit, icon: Symbols.flash_on_rounded),
+      OnbOption('stairs', l.onbCardioStairs, icon: Symbols.stairs_rounded),
+      OnbOption('jump_rope', l.onbCardioJumpRope, icon: Symbols.cable_rounded),
+      OnbOption('football', l.onbCardioFootball, icon: Symbols.sports_soccer_rounded),
     ];
 
 String foodLabel(AppLocalizations l, String code) => switch (code) {
@@ -337,10 +338,10 @@ String allergyLabel(AppLocalizations l, String code) => switch (code) {
     };
 
 List<OnbOption<String>> budgetOptions(AppLocalizations l) => [
-      OnbOption('low', l.onbBudgetLow, subtitle: l.onbBudgetLowSub, icon: Icons.savings_outlined),
-      OnbOption('medium', l.onbBudgetMedium, subtitle: l.onbBudgetMediumSub, icon: Icons.account_balance_wallet_outlined),
-      OnbOption('open', l.onbBudgetOpen, subtitle: l.onbBudgetOpenSub, icon: Icons.all_inclusive),
-      OnbOption('custom', l.onbBudgetCustom, subtitle: l.onbBudgetCustomSub, icon: Icons.edit_outlined),
+      OnbOption('low', l.onbBudgetLow, subtitle: l.onbBudgetLowSub, icon: Symbols.savings_rounded),
+      OnbOption('medium', l.onbBudgetMedium, subtitle: l.onbBudgetMediumSub, icon: Symbols.account_balance_wallet_rounded),
+      OnbOption('open', l.onbBudgetOpen, subtitle: l.onbBudgetOpenSub, icon: Symbols.all_inclusive_rounded),
+      OnbOption('custom', l.onbBudgetCustom, subtitle: l.onbBudgetCustomSub, icon: Symbols.edit_rounded),
     ];
 
 String supplementName(AppLocalizations l, String key) => switch (key) {

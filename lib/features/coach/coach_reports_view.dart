@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../ai/ai_service.dart';
 import '../../core/providers.dart';
@@ -54,14 +55,14 @@ class _CoachReportsViewState extends ConsumerState<CoachReportsView> {
           icon: _generating
               ? const SizedBox(
                   width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2.5, color: AppColors.onPrimary))
-              : const Icon(Icons.assessment_outlined),
+              : const Icon(Symbols.assessment_rounded),
           label: Text(_generating ? l.coachGenerating : l.coachGenerateWeekly),
         ),
         const SizedBox(height: 8),
         if (reports.isLoading && list.isEmpty)
           const Padding(padding: EdgeInsets.all(32), child: Center(child: CircularProgressIndicator()))
         else if (list.isEmpty)
-          EmptyState(icon: Icons.description_outlined, text: l.coachReportsEmpty)
+          EmptyState(icon: Symbols.description_rounded, text: l.coachReportsEmpty)
         else
           for (final m in list) _ReportCard(message: m),
       ],
@@ -104,7 +105,7 @@ class _ReportCardState extends State<_ReportCard> {
               ),
               IconButton(
                 tooltip: l.coachCopy,
-                icon: const Icon(Icons.copy, size: 18),
+                icon: const Icon(Symbols.content_copy_rounded, size: 18),
                 onPressed: () {
                   Clipboard.setData(ClipboardData(text: m.content));
                   context.snack(l.coachCopied);

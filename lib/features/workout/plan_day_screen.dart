@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../core/navigation.dart';
 import '../../core/theme/app_theme.dart';
@@ -33,7 +34,7 @@ class PlanDayScreen extends ConsumerWidget {
         children: [
           Row(
             children: [
-              Pill(weekdayName(context, day.weekday ?? 1), icon: Icons.event),
+              Pill(weekdayName(context, day.weekday ?? 1), icon: Symbols.event_rounded),
               if (isToday) ...[const SizedBox(width: 8), Pill(l.today, color: AppColors.info)],
             ],
           ),
@@ -43,7 +44,7 @@ class PlanDayScreen extends ConsumerWidget {
           ],
           const SizedBox(height: 8),
           if (day.isRest)
-            EmptyState(icon: Icons.bedtime_outlined, text: l.woRestDayBody)
+            EmptyState(icon: Symbols.bedtime_rounded, text: l.woRestDayBody)
           else ...[
             if (warmup.isNotEmpty) SectionCard(title: l.woWarmup, child: StepsList(steps: warmup)),
             SectionCard(title: l.woExercises, child: PlanDayEditor(dayId: dayId)),
@@ -56,7 +57,7 @@ class PlanDayScreen extends ConsumerWidget {
           : SafeArea(
               minimum: const EdgeInsets.fromLTRB(16, 8, 16, 16),
               child: FilledButton.icon(
-                icon: const Icon(Icons.play_arrow),
+                icon: const Icon(Symbols.play_arrow_rounded, fill: 1),
                 label: Text(isToday ? l.woStartToday : l.woStartThisWorkout),
                 onPressed: () => push(context, LiveWorkoutScreen(planDayId: dayId)),
               ),

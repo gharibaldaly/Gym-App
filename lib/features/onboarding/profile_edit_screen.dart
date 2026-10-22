@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../core/navigation.dart';
 import '../../core/providers.dart';
@@ -41,9 +42,9 @@ class ProfileEditScreen extends ConsumerWidget {
       appBar: AppBar(title: Text(l.onbProfileTitle)),
       body: profile.when(
         loading: () => const Center(child: CircularProgressIndicator()),
-        error: (e, _) => EmptyState(icon: Icons.error_outline, text: l.errorGeneric),
+        error: (e, _) => EmptyState(icon: Symbols.error_rounded, text: l.errorGeneric),
         data: (p) {
-          if (p == null) return EmptyState(icon: Icons.person_outline, text: l.empty);
+          if (p == null) return EmptyState(icon: Symbols.person_rounded, text: l.empty);
           final sections = buildProfileSummary(p, l, exclude: excluded);
           return ListView(
             padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
@@ -173,7 +174,7 @@ class _ProfileQuestionPageState extends ConsumerState<ProfileQuestionPage> {
                           Padding(
                             padding: const EdgeInsets.only(bottom: 10),
                             child: Row(children: [
-                              const Icon(Icons.error_outline, color: AppColors.danger, size: 20),
+                              const Icon(Symbols.error_rounded, color: AppColors.danger, size: 20),
                               const SizedBox(width: 8),
                               Expanded(
                                 child: Text(issueText(l, _issue!, daysPerWeek: draft.daysPerWeek),
@@ -188,7 +189,7 @@ class _ProfileQuestionPageState extends ConsumerState<ProfileQuestionPage> {
                             icon: _saving
                                 ? const SizedBox(
                                     width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2.5))
-                                : const Icon(Icons.check),
+                                : const Icon(Symbols.check_rounded),
                             label: Text(l.save),
                           ),
                         ),

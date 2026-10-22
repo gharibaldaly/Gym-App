@@ -4,6 +4,7 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart' show DateFormat;
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../../core/theme/app_theme.dart';
 import '../../../core/utils/context_ext.dart';
@@ -120,7 +121,7 @@ class DateField extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListTile(
       contentPadding: EdgeInsets.zero,
-      leading: const Icon(Icons.event),
+      leading: const Icon(Symbols.event_rounded),
       title: Text(label),
       trailing: Text(fmtDayLong(context, value), style: context.text.titleSmall),
       onTap: () async {

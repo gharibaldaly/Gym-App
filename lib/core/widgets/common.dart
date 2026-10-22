@@ -2,57 +2,97 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../ai/ai_service.dart';
 import '../providers.dart';
 import '../theme/app_theme.dart';
 import '../navigation.dart';
 import '../utils/context_ext.dart';
+import 'motion.dart';
+
+export 'motion.dart';
+
+/// Tinted rounded-square icon holder used as a leading visual in cards and rows.
+class IconBadge extends StatelessWidget {
+  final IconData icon;
+  final Color color;
+  final double size;
+  const IconBadge(this.icon, {super.key, this.color = AppColors.primary, this.size = 36});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: size,
+      height: size,
+      decoration: BoxDecoration(
+        color: color.withValues(alpha: 0.14),
+        borderRadius: BorderRadius.circular(size * 0.32),
+      ),
+      alignment: Alignment.center,
+      child: Icon(icon, size: size * 0.55, color: color),
+    );
+  }
+}
 
 /// Rounded dark card with optional title row.
 class SectionCard extends StatelessWidget {
   final String? title;
+  final IconData? icon;
+  final Color? iconColor;
   final Widget? trailing;
   final Widget child;
   final EdgeInsetsGeometry padding;
   final VoidCallback? onTap;
+  final Color? color;
   const SectionCard({
     super.key,
     this.title,
+    this.icon,
+    this.iconColor,
     this.trailing,
     required this.child,
-    this.padding = const EdgeInsets.all(16),
+    this.padding = const EdgeInsets.all(AppSpace.lg),
     this.onTap,
+    this.color,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      clipBehavior: Clip.antiAlias,
-      child: InkWell(
-        onTap: onTap,
-        child: Padding(
-          padding: padding,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (title != null || trailing != null)
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  child: Row(
-                    children: [
-                      if (title != null)
-                        Expanded(
-                          child: Text(title!,
-                              style: context.text.titleMedium?.copyWith(fontWeight: FontWeight.w700)),
-                        ),
-                      ?trailing,
-                    ],
+    return Pressable(
+      enabled: onTap != null,
+      child: Card(
+        color: color,
+        clipBehavior: Clip.antiAlias,
+        child: InkWell(
+          onTap: onTap,
+          child: Padding(
+            padding: padding,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                if (title != null || trailing != null)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: AppSpace.md),
+                    child: Row(
+                      children: [
+                        if (icon != null) ...[
+                          IconBadge(icon!, color: iconColor ?? AppColors.primary, size: 30),
+                          const SizedBox(width: AppSpace.sm + 2),
+                        ],
+                        if (title != null)
+                          Expanded(
+                            child: Text(title!,
+                                style: context.text.titleMedium?.copyWith(fontWeight: FontWeight.w700)),
+                          ),
+                        ?trailing,
+                      ],
+                    ),
                   ),
-                ),
-              child,
-            ],
+                child,
+              ],
+            ),
           ),
         ),
       ),
@@ -60,7 +100,7 @@ class SectionCard extends StatelessWidget {
   }
 }
 
-/// Circular progress ring (calories, water, recovery…).
+/// Circular progress ring (calories, water, recovery…). Animates to new values.
 class ProgressRing extends StatelessWidget {
   final double value;
   final double max;
@@ -84,8 +124,11 @@ class ProgressRing extends StatelessWidget {
     return SizedBox(
       width: size,
       height: size,
-      child: CustomPaint(
-        painter: _RingPainter(p, color, stroke),
+      child: TweenAnimationBuilder<double>(
+        tween: Tween(end: p),
+        duration: (MediaQuery.maybeDisableAnimationsOf(context) ?? false) ? Duration.zero : AppMotion.reveal,
+        curve: AppMotion.emphasized,
+        builder: (context, v, child) => CustomPaint(painter: _RingPainter(v, color, stroke), child: child),
         child: Center(child: center),
       ),
     );
@@ -102,20 +145,28 @@ class _RingPainter extends CustomPainter {
   void paint(Canvas canvas, Size size) {
     final rect = Offset(stroke / 2, stroke / 2) & Size(size.width - stroke, size.height - stroke);
     final bg = Paint()
-      ..color = AppColors.cardHigh
+      ..color = AppColors.cardHighest
       ..style = PaintingStyle.stroke
       ..strokeWidth = stroke;
+    canvas.drawArc(rect, 0, 2 * math.pi, false, bg);
+    if (progress <= 0) return;
+    final sweep = 2 * math.pi * progress;
     final fg = Paint()
-      ..color = color
+      ..shader = SweepGradient(
+        startAngle: 0,
+        endAngle: math.max(sweep, 0.01),
+        colors: [Color.lerp(color, Colors.black, 0.25)!, color],
+        transform: const GradientRotation(-math.pi / 2),
+      ).createShader(rect)
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round
       ..strokeWidth = stroke;
-    canvas.drawArc(rect, 0, 2 * math.pi, false, bg);
-    if (progress > 0) canvas.drawArc(rect, -math.pi / 2, 2 * math.pi * progress, false, fg);
+    canvas.drawArc(rect, -math.pi / 2, sweep, false, fg);
   }
 
   @override
-  bool shouldRepaint(_RingPainter old) => old.progress != progress || old.color != color;
+  bool shouldRepaint(_RingPainter old) =>
+      old.progress != progress || old.color != color || old.stroke != stroke;
 }
 
 /// Labeled horizontal bar "Protein 120 / 180 g".
@@ -138,23 +189,39 @@ class MacroBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final p = target <= 0 ? 0.0 : (value / target).clamp(0.0, 1.0);
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4),
+      padding: const EdgeInsets.symmetric(vertical: 5),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Row(children: [
-            Expanded(child: Text(label, style: context.text.bodyMedium)),
-            Text('${fmtNum(value)} / ${fmtNum(target)} $unit',
-                style: context.text.bodySmall?.copyWith(color: AppColors.textMuted)),
+            Container(
+              width: 8,
+              height: 8,
+              decoration: BoxDecoration(color: color, shape: BoxShape.circle),
+            ),
+            const SizedBox(width: AppSpace.sm),
+            Expanded(child: Text(label, style: context.text.bodyMedium?.copyWith(fontWeight: FontWeight.w600))),
+            Text.rich(
+              TextSpan(children: [
+                TextSpan(text: fmtNum(value), style: const TextStyle(color: AppColors.text, fontWeight: FontWeight.w700)),
+                TextSpan(text: ' / ${fmtNum(target)} $unit'),
+              ]),
+              style: context.text.bodySmall?.copyWith(fontFeatures: const [FontFeature.tabularFigures()]),
+            ),
           ]),
-          const SizedBox(height: 4),
+          const SizedBox(height: 6),
           ClipRRect(
-            borderRadius: BorderRadius.circular(6),
-            child: LinearProgressIndicator(
-              value: p,
-              minHeight: 8,
-              color: color,
-              backgroundColor: AppColors.cardHigh,
+            borderRadius: BorderRadius.circular(AppRadius.pill),
+            child: TweenAnimationBuilder<double>(
+              tween: Tween(end: p),
+              duration: (MediaQuery.maybeDisableAnimationsOf(context) ?? false) ? Duration.zero : AppMotion.reveal,
+              curve: AppMotion.emphasized,
+              builder: (context, v, _) => LinearProgressIndicator(
+                value: v,
+                minHeight: 8,
+                color: color,
+                backgroundColor: AppColors.cardHighest,
+              ),
             ),
           ),
         ],
@@ -190,7 +257,14 @@ class BigStepper extends StatelessWidget {
           height: 56,
           child: IconButton.filledTonal(
             iconSize: 28,
-            onPressed: () => onChanged(math.max(min, value + delta)),
+            style: IconButton.styleFrom(
+              backgroundColor: AppColors.cardHighest,
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppRadius.md + 2)),
+            ),
+            onPressed: () {
+              tick();
+              onChanged(math.max(min, value + delta));
+            },
             icon: Icon(icon),
           ),
         );
@@ -202,19 +276,24 @@ class BigStepper extends StatelessWidget {
         Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            btn(Icons.remove, -step),
+            btn(Symbols.remove_rounded, -step),
             InkWell(
               onTap: onTapValue,
               child: SizedBox(
                 width: 72,
-                child: Text(
-                  fmtNum(value, maxDecimals: decimals),
-                  textAlign: TextAlign.center,
-                  style: context.text.headlineSmall?.copyWith(fontWeight: FontWeight.w800),
+                child: AnimatedSwitcher(
+                  duration: AppMotion.fast,
+                  transitionBuilder: (c, a) => ScaleTransition(scale: Tween(begin: 0.8, end: 1.0).animate(a), child: FadeTransition(opacity: a, child: c)),
+                  child: Text(
+                    fmtNum(value, maxDecimals: decimals),
+                    key: ValueKey(value),
+                    textAlign: TextAlign.center,
+                    style: context.text.headlineSmall?.copyWith(fontWeight: FontWeight.w800),
+                  ),
                 ),
               ),
             ),
-            btn(Icons.add, step),
+            btn(Symbols.add_rounded, step),
           ],
         ),
       ],
@@ -231,16 +310,32 @@ class EmptyState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(32),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(icon, size: 56, color: AppColors.textMuted),
-            const SizedBox(height: 12),
-            Text(text, textAlign: TextAlign.center, style: const TextStyle(color: AppColors.textMuted)),
-            if (action != null) ...[const SizedBox(height: 16), action!],
-          ],
+      child: Reveal(
+        child: Padding(
+          padding: const EdgeInsets.all(AppSpace.xxl),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 88,
+                height: 88,
+                decoration: BoxDecoration(
+                  color: AppColors.cardHigh,
+                  shape: BoxShape.circle,
+                  border: Border.all(color: AppColors.border),
+                ),
+                child: Icon(icon, size: 40, color: AppColors.textMuted),
+              ),
+              const SizedBox(height: AppSpace.lg),
+              ConstrainedBox(
+                constraints: const BoxConstraints(maxWidth: 300),
+                child: Text(text,
+                    textAlign: TextAlign.center,
+                    style: context.text.bodyMedium?.copyWith(color: AppColors.textMuted)),
+              ),
+              if (action != null) ...[const SizedBox(height: AppSpace.lg + 4), action!],
+            ],
+          ),
         ),
       ),
     );
@@ -265,7 +360,7 @@ class AiUnavailableBanner extends ConsumerWidget {
         padding: const EdgeInsets.all(14),
         child: Row(
           children: [
-            Icon(hasKey ? Icons.wifi_off : Icons.key_off, color: AppColors.warning),
+            IconBadge(hasKey ? Symbols.wifi_off_rounded : Symbols.key_off_rounded, color: AppColors.warning),
             const SizedBox(width: 12),
             Expanded(
               child: Column(
@@ -303,37 +398,65 @@ class ChoiceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 150),
-      margin: const EdgeInsets.symmetric(vertical: 6),
-      decoration: BoxDecoration(
-        color: selected ? AppColors.primary.withValues(alpha: 0.12) : AppColors.card,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: selected ? AppColors.primary : AppColors.border, width: selected ? 2 : 1),
-      ),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(16),
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-          child: Row(
-            children: [
-              if (icon != null) ...[
-                Icon(icon, color: selected ? AppColors.primary : AppColors.textMuted),
-                const SizedBox(width: 12),
-              ],
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(label, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
-                    if (subtitle != null)
-                      Text(subtitle!, style: const TextStyle(color: AppColors.textMuted, fontSize: 13)),
-                  ],
+    final fg = selected ? AppColors.primary : AppColors.textMuted;
+    return Pressable(
+      child: AnimatedContainer(
+        duration: AppMotion.base,
+        curve: AppMotion.standard,
+        margin: const EdgeInsets.symmetric(vertical: 5),
+        decoration: BoxDecoration(
+          color: selected ? AppColors.primary.withValues(alpha: 0.10) : AppColors.card,
+          borderRadius: BorderRadius.circular(AppRadius.lg),
+          border: Border.all(color: selected ? AppColors.primary : AppColors.border, width: selected ? 1.5 : 1),
+        ),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(AppRadius.lg),
+          onTap: () {
+            tick();
+            onTap();
+          },
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+            child: Row(
+              children: [
+                if (icon != null) ...[
+                  AnimatedContainer(
+                    duration: AppMotion.base,
+                    width: 40,
+                    height: 40,
+                    decoration: BoxDecoration(
+                      color: selected ? AppColors.primary.withValues(alpha: 0.16) : AppColors.cardHigh,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: Icon(icon, color: fg, size: 22),
+                  ),
+                  const SizedBox(width: 14),
+                ],
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(label, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w700)),
+                      if (subtitle != null)
+                        Padding(
+                          padding: const EdgeInsets.only(top: 2),
+                          child: Text(subtitle!, style: const TextStyle(color: AppColors.textMuted, fontSize: 13)),
+                        ),
+                    ],
+                  ),
                 ),
-              ),
-              if (selected) const Icon(Icons.check_circle, color: AppColors.primary),
-            ],
+                AnimatedSwitcher(
+                  duration: AppMotion.base,
+                  transitionBuilder: (c, a) => ScaleTransition(
+                    scale: CurvedAnimation(parent: a, curve: AppMotion.overshoot),
+                    child: FadeTransition(opacity: a, child: c),
+                  ),
+                  child: selected
+                      ? const Icon(Symbols.check_circle_rounded, fill: 1, key: ValueKey(true), color: AppColors.primary)
+                      : const SizedBox(key: ValueKey(false), width: 24, height: 24),
+                ),
+              ],
+            ),
           ),
         ),
       ),

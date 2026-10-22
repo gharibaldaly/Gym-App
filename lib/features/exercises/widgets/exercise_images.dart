@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../../core/providers.dart';
 import '../../../core/theme/app_theme.dart';
@@ -23,7 +24,7 @@ class _Fallback extends StatelessWidget {
         color: AppColors.cardHigh,
         alignment: Alignment.center,
         child: Icon(
-          error ? Icons.image_not_supported_outlined : Icons.fitness_center,
+          error ? Symbols.image_not_supported_rounded : Symbols.fitness_center_rounded,
           color: AppColors.textMuted,
           size: size == null ? 32 : size! * 0.42,
         ),
@@ -165,7 +166,7 @@ class _ExerciseStepImagesState extends State<ExerciseStepImages> {
                     alignment: Alignment.center,
                     padding: const EdgeInsets.all(16),
                     child: Column(mainAxisSize: MainAxisSize.min, children: [
-                      const Icon(Icons.cloud_off, color: AppColors.textMuted, size: 36),
+                      const Icon(Symbols.cloud_off_rounded, color: AppColors.textMuted, size: 36),
                       const SizedBox(height: 8),
                       Text(context.l10n.exImageOffline,
                           textAlign: TextAlign.center, style: const TextStyle(color: AppColors.textMuted)),
@@ -180,7 +181,7 @@ class _ExerciseStepImagesState extends State<ExerciseStepImages> {
                   padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                   decoration: BoxDecoration(color: Colors.black54, borderRadius: BorderRadius.circular(12)),
                   child: Row(mainAxisSize: MainAxisSize.min, children: [
-                    Icon(_playing ? Icons.pause : Icons.play_arrow, size: 16, color: Colors.white),
+                    Icon(_playing ? Symbols.pause_rounded : Symbols.play_arrow_rounded, size: 16, color: Colors.white),
                     const SizedBox(width: 4),
                     Text(context.l10n.exStepOf(_index + 1, _urls.length),
                         style: const TextStyle(color: Colors.white, fontSize: 12)),

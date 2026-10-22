@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../core/navigation.dart';
 import '../../core/providers.dart';
@@ -98,7 +99,7 @@ class _ExerciseLibraryScreenState extends ConsumerState<ExerciseLibraryScreen> {
       floatingActionButton: FloatingActionButton.extended(
         heroTag: 'ex_add_fab',
         onPressed: _add,
-        icon: const Icon(Icons.auto_awesome),
+        icon: const Icon(Symbols.auto_awesome_rounded),
         label: Text(l.exAddWithAi),
       ),
       body: Column(
@@ -111,11 +112,11 @@ class _ExerciseLibraryScreenState extends ConsumerState<ExerciseLibraryScreen> {
               textInputAction: TextInputAction.search,
               decoration: InputDecoration(
                 hintText: l.exSearchHint,
-                prefixIcon: const Icon(Icons.search),
+                prefixIcon: const Icon(Symbols.search_rounded),
                 suffixIcon: _search.text.isEmpty
                     ? null
                     : IconButton(
-                        icon: const Icon(Icons.close),
+                        icon: const Icon(Symbols.close_rounded),
                         onPressed: () {
                           _search.clear();
                           _onQuery('');
@@ -131,7 +132,7 @@ class _ExerciseLibraryScreenState extends ConsumerState<ExerciseLibraryScreen> {
               padding: const EdgeInsetsDirectional.symmetric(horizontal: 12),
               children: [
                 _ToggleChip(
-                  icon: Icons.star_rounded,
+                  icon: Symbols.star_rounded,
                   label: l.exFavoritesOnly,
                   selected: f.favoritesOnly,
                   onTap: () => _set((
@@ -143,7 +144,7 @@ class _ExerciseLibraryScreenState extends ConsumerState<ExerciseLibraryScreen> {
                   )),
                 ),
                 _ToggleChip(
-                  icon: Icons.person_outline,
+                  icon: Symbols.person_rounded,
                   label: l.exMyCustom,
                   selected: f.customOnly,
                   onTap: () => _set((
@@ -155,7 +156,7 @@ class _ExerciseLibraryScreenState extends ConsumerState<ExerciseLibraryScreen> {
                   )),
                 ),
                 _MenuChip(
-                  icon: Icons.accessibility_new,
+                  icon: Symbols.accessibility_new_rounded,
                   label: f.muscle == null ? l.exMuscleFilter : muscleShortLabel(f.muscle!, lang),
                   selected: f.muscle != null,
                   options: [for (final m in kMuscles) (m, muscleLabel(m, lang))],
@@ -169,7 +170,7 @@ class _ExerciseLibraryScreenState extends ConsumerState<ExerciseLibraryScreen> {
                   )),
                 ),
                 _MenuChip(
-                  icon: Icons.fitness_center,
+                  icon: Symbols.fitness_center_rounded,
                   label: f.equipment == null ? l.exEquipmentFilter : equipmentLabel(f.equipment, lang),
                   selected: f.equipment != null,
                   options: [for (final e in kEquipment) (e, equipmentLabel(e, lang))],
@@ -187,7 +188,7 @@ class _ExerciseLibraryScreenState extends ConsumerState<ExerciseLibraryScreen> {
                     padding: const EdgeInsetsDirectional.only(start: 4),
                     child: TextButton.icon(
                       onPressed: _clear,
-                      icon: const Icon(Icons.filter_alt_off, size: 18),
+                      icon: const Icon(Symbols.filter_alt_off_rounded, size: 18),
                       label: Text(l.exClearFilters),
                     ),
                   ),
@@ -197,17 +198,17 @@ class _ExerciseLibraryScreenState extends ConsumerState<ExerciseLibraryScreen> {
           Expanded(
             child: results.when(
               loading: () => const Center(child: CircularProgressIndicator()),
-              error: (e, _) => EmptyState(icon: Icons.error_outline, text: '${l.errorGeneric}\n$e'),
+              error: (e, _) => EmptyState(icon: Symbols.error_rounded, text: '${l.errorGeneric}\n$e'),
               data: (list) {
                 if (list.isEmpty) {
                   return EmptyState(
-                    icon: Icons.search_off,
+                    icon: Symbols.search_off_rounded,
                     text: l.exNoResults,
                     action: Wrap(spacing: 8, alignment: WrapAlignment.center, children: [
                       if (_hasFilters) OutlinedButton(onPressed: _clear, child: Text(l.exClearFilters)),
                       FilledButton.icon(
                         onPressed: _add,
-                        icon: const Icon(Icons.auto_awesome),
+                        icon: const Icon(Symbols.auto_awesome_rounded),
                         label: Text(l.exAddWithAi),
                       ),
                     ]),
@@ -296,7 +297,7 @@ class _MenuChip extends StatelessWidget {
             shrinkWrap: true,
             children: [
               ListTile(
-                leading: const Icon(Icons.all_inclusive),
+                leading: const Icon(Symbols.all_inclusive_rounded),
                 title: Text(allLabel),
                 onTap: () => Navigator.pop(ctx, (null,)),
               ),
@@ -320,7 +321,7 @@ class _MenuChip extends StatelessWidget {
           avatar: Icon(icon, size: 18, color: selected ? AppColors.onPrimary : AppColors.textMuted),
           label: Row(mainAxisSize: MainAxisSize.min, children: [
             Text(label),
-            Icon(Icons.arrow_drop_down, size: 18, color: selected ? AppColors.onPrimary : AppColors.textMuted),
+            Icon(Symbols.arrow_drop_down_rounded, size: 18, color: selected ? AppColors.onPrimary : AppColors.textMuted),
           ]),
           selected: selected,
           showCheckmark: false,
@@ -385,7 +386,8 @@ class ExerciseTile extends ConsumerWidget {
               tooltip: e.isFavorite ? context.l10n.exFavoriteRemove : context.l10n.exFavoriteAdd,
               iconSize: 28,
               icon: Icon(
-                e.isFavorite ? Icons.star_rounded : Icons.star_outline_rounded,
+                Symbols.star_rounded,
+                fill: e.isFavorite ? 1 : 0,
                 color: e.isFavorite ? AppColors.warning : AppColors.textMuted,
               ),
               onPressed: () {
@@ -394,7 +396,7 @@ class ExerciseTile extends ConsumerWidget {
               },
             ),
             if (trailingInfo != null)
-              IconButton(icon: const Icon(Icons.info_outline), onPressed: trailingInfo, color: AppColors.textMuted),
+              IconButton(icon: const Icon(Symbols.info_rounded), onPressed: trailingInfo, color: AppColors.textMuted),
           ],
         ),
       ),

@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart' show DateFormat;
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../core/navigation.dart';
 import '../../core/providers.dart';
@@ -58,10 +59,10 @@ class ExerciseDetailScreen extends ConsumerWidget {
     final async = ref.watch(exerciseByIdProvider(exerciseId));
     return async.when(
       loading: () => Scaffold(appBar: AppBar(), body: const Center(child: CircularProgressIndicator())),
-      error: (e, _) => Scaffold(appBar: AppBar(), body: EmptyState(icon: Icons.error_outline, text: '$e')),
+      error: (e, _) => Scaffold(appBar: AppBar(), body: EmptyState(icon: Symbols.error_rounded, text: '$e')),
       data: (e) {
         if (e == null) {
-          return Scaffold(appBar: AppBar(), body: EmptyState(icon: Icons.search_off, text: l.exNotFound));
+          return Scaffold(appBar: AppBar(), body: EmptyState(icon: Symbols.search_off_rounded, text: l.exNotFound));
         }
         return Scaffold(
           appBar: AppBar(
@@ -71,7 +72,8 @@ class ExerciseDetailScreen extends ConsumerWidget {
                 tooltip: e.isFavorite ? l.exFavoriteRemove : l.exFavoriteAdd,
                 iconSize: 28,
                 icon: Icon(
-                  e.isFavorite ? Icons.star_rounded : Icons.star_outline_rounded,
+                  Symbols.star_rounded,
+                  fill: e.isFavorite ? 1 : 0,
                   color: e.isFavorite ? AppColors.warning : null,
                 ),
                 onPressed: () {
@@ -125,12 +127,12 @@ class _DetailBody extends StatelessWidget {
           spacing: 8,
           runSpacing: 8,
           children: [
-            if (e.equipment != null) _InfoChip(icon: Icons.fitness_center, label: equipmentLabel(e.equipment, lang)),
+            if (e.equipment != null) _InfoChip(icon: Symbols.fitness_center_rounded, label: equipmentLabel(e.equipment, lang)),
             if (e.movementPattern != null)
-              _InfoChip(icon: Icons.swap_vert, label: movementPatternLabel(e.movementPattern, lang)),
-            if (e.mechanic != null) _InfoChip(icon: Icons.hub_outlined, label: mechanicLabel(e.mechanic, lang)),
-            if (e.level != null) _InfoChip(icon: Icons.signal_cellular_alt, label: levelLabel(e.level, lang)),
-            if (e.isCustom) _InfoChip(icon: Icons.person_outline, label: l.exCustomBadge),
+              _InfoChip(icon: Symbols.swap_vert_rounded, label: movementPatternLabel(e.movementPattern, lang)),
+            if (e.mechanic != null) _InfoChip(icon: Symbols.hub_rounded, label: mechanicLabel(e.mechanic, lang)),
+            if (e.level != null) _InfoChip(icon: Symbols.signal_cellular_alt_rounded, label: levelLabel(e.level, lang)),
+            if (e.isCustom) _InfoChip(icon: Symbols.person_rounded, label: l.exCustomBadge),
           ],
         ),
         const SizedBox(height: 16),
@@ -175,7 +177,7 @@ class _DetailBody extends StatelessWidget {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Icon(Icons.warning_amber_rounded, color: AppColors.warning, size: 20),
+                        const Icon(Symbols.warning_rounded, color: AppColors.warning, size: 20),
                         const SizedBox(width: 10),
                         Expanded(child: Text(m, style: const TextStyle(height: 1.4))),
                       ],
@@ -260,7 +262,7 @@ class _HistorySection extends ConsumerWidget {
         data: (h) {
           if (h.isEmpty) {
             return Row(children: [
-              const Icon(Icons.history, color: AppColors.textMuted),
+              const Icon(Symbols.history_rounded, color: AppColors.textMuted),
               const SizedBox(width: 10),
               Expanded(child: Text(l.exNoHistory, style: const TextStyle(color: AppColors.textMuted))),
             ]);
@@ -364,7 +366,7 @@ class _PrGrid extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(children: [
-                  const Icon(Icons.emoji_events, color: AppColors.primary, size: 16),
+                  const Icon(Symbols.trophy_rounded, fill: 1, color: AppColors.primary, size: 16),
                   const SizedBox(width: 4),
                   Expanded(
                     child: Text(title,

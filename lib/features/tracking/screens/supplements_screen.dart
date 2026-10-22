@@ -2,6 +2,7 @@ import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../../core/providers.dart';
 import '../../../core/theme/app_theme.dart';
@@ -50,7 +51,7 @@ class SupplementsScreen extends ConsumerWidget {
       appBar: AppBar(title: Text(l.trkSupplementsTitle)),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => showSupplementEditor(context, ref),
-        icon: const Icon(Icons.add),
+        icon: const Icon(Symbols.add_rounded),
         label: Text(l.trkSuppAdd),
       ),
       body: all.when(
@@ -59,7 +60,7 @@ class SupplementsScreen extends ConsumerWidget {
         data: (supps) {
           if (supps.isEmpty) {
             return EmptyState(
-              icon: Icons.medication_outlined,
+              icon: Symbols.pill_rounded,
               text: '${l.trkSuppEmpty}\n\n${l.trkSuppNote}',
               action: profileSupps.isEmpty
                   ? null
@@ -68,7 +69,7 @@ class SupplementsScreen extends ConsumerWidget {
                         final n = await ref.read(trackingRepositoryProvider).importSupplementsFromProfile();
                         if (context.mounted) context.snack(l.trkSuppImported(n));
                       },
-                      icon: const Icon(Icons.download),
+                      icon: const Icon(Symbols.download_rounded),
                       label: Text(l.trkSuppImport),
                     ),
             );
@@ -122,7 +123,7 @@ class SupplementsScreen extends ConsumerWidget {
                     for (final s in supps)
                       ListTile(
                         contentPadding: const EdgeInsets.symmetric(horizontal: 4),
-                        leading: Icon(Icons.medication,
+                        leading: Icon(Symbols.pill_rounded, fill: 1,
                             color: s.active ? AppColors.primary : AppColors.textMuted),
                         title: Text(s.name),
                         subtitle: Text([
@@ -285,7 +286,7 @@ class _SupplementEditorState extends ConsumerState<_SupplementEditor> {
                   IconButton(
                     tooltip: l.delete,
                     onPressed: _delete,
-                    icon: const Icon(Icons.delete_outline, color: AppColors.danger),
+                    icon: const Icon(Symbols.delete_rounded, color: AppColors.danger),
                   ),
                 const Spacer(),
                 TextButton(onPressed: () => Navigator.pop(context), child: Text(l.cancel)),

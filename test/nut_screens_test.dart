@@ -14,6 +14,7 @@ import 'package:ironmind/features/nutrition/nutrition_logic.dart';
 import 'package:ironmind/features/nutrition/nutrition_providers.dart';
 import 'package:ironmind/features/nutrition/nutrition_tab_screen.dart';
 import 'package:ironmind/l10n/gen/app_localizations.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 Future<AppDatabase> _db({bool withPlan = true}) async {
@@ -96,7 +97,7 @@ void main() {
     final logs = await db.select(db.mealLogs).get();
     expect(logs.single.source, 'plan');
     expect(logs.single.mealIndex, 0);
-    expect(find.byIcon(Icons.check_circle), findsOneWidget);
+    expect(find.byIcon(Symbols.check_circle_rounded), findsOneWidget);
     await _end(tester);
   });
 
@@ -165,7 +166,7 @@ void main() {
     );
     await _settle(tester);
     expect(find.text('260 kcal'), findsWidgets);
-    await tester.tap(find.byIcon(Icons.add).last);
+    await tester.tap(find.byIcon(Symbols.add_rounded).last);
     await _settle(tester);
     expect(find.text('225 g'), findsOneWidget); // 25 g steps from 200 g
     await tester.tap(find.text('Save meal'));

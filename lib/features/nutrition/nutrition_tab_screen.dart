@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../core/navigation.dart';
 import '../../core/utils/context_ext.dart';
@@ -40,7 +41,7 @@ class _NutritionTabScreenState extends ConsumerState<NutritionTabScreen> with Si
       appBar: AppBar(
         title: Text(l.nutTitle),
         actions: [
-          IconButton(tooltip: l.settings, icon: const Icon(Icons.settings_outlined), onPressed: () => openSettings(context)),
+          IconButton(tooltip: l.settings, icon: const Icon(Symbols.settings_rounded), onPressed: () => openSettings(context)),
         ],
         bottom: TabBar(
           controller: _tabs,
@@ -64,7 +65,7 @@ class _NutritionTabScreenState extends ConsumerState<NutritionTabScreen> with Si
           : FloatingActionButton.extended(
               heroTag: 'nut_log_fab',
               onPressed: () => showLogFoodSheet(context, ref),
-              icon: const Icon(Icons.add_a_photo),
+              icon: const Icon(Symbols.add_a_photo_rounded, fill: 1),
               label: Text(l.nutLogFood),
             ),
     );

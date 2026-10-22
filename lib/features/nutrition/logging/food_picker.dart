@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../../core/theme/app_theme.dart';
 import '../../../core/utils/context_ext.dart';
@@ -48,7 +49,7 @@ class _FoodSearchSheetState extends State<_FoodSearchSheet> {
             padding: const EdgeInsetsDirectional.fromSTEB(16, 16, 16, 8),
             child: TextField(
               autofocus: true,
-              decoration: InputDecoration(prefixIcon: const Icon(Icons.search), hintText: l.nutSearchFoods),
+              decoration: InputDecoration(prefixIcon: const Icon(Symbols.search_rounded), hintText: l.nutSearchFoods),
               onChanged: (v) => setState(() => _q = v),
             ),
           ),
@@ -63,7 +64,7 @@ class _FoodSearchSheetState extends State<_FoodSearchSheet> {
                       return ListTile(
                         title: Text(f.name(context.lang)),
                         subtitle: Text(l.nutPer100g(macroLine(context, f.macrosFor(100)))),
-                        trailing: const Icon(Icons.add_circle_outline, color: AppColors.primary),
+                        trailing: const Icon(Symbols.add_circle_rounded, color: AppColors.primary),
                         onTap: () => Navigator.pop(context, f),
                       );
                     },

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../ai/ai_service.dart';
 import '../../core/navigation.dart';
@@ -107,7 +108,7 @@ class _SessionSummaryScreenState extends ConsumerState<SessionSummaryScreen> {
             itemBuilder: (_) => [
               PopupMenuItem(
                 value: 'delete',
-                child: ListTile(leading: const Icon(Icons.delete_outline, color: AppColors.danger), title: Text(l.woDeleteSession)),
+                child: ListTile(leading: const Icon(Symbols.delete_rounded, color: AppColors.danger), title: Text(l.woDeleteSession)),
               ),
             ],
           ),
@@ -123,13 +124,13 @@ class _SessionSummaryScreenState extends ConsumerState<SessionSummaryScreen> {
             runSpacing: 6,
             children: [
               Pill(sessionStatusLabel(context, s.status), color: sessionStatusColor(s.status), icon: sessionStatusIcon(s.status)),
-              if (s.isDeload) Pill(l.woDeloadBadge, color: AppColors.info, icon: Icons.south),
+              if (s.isDeload) Pill(l.woDeloadBadge, color: AppColors.info, icon: Symbols.south_rounded),
               if (s.name != null && widget.justFinished) Pill(s.name!, color: AppColors.textMuted),
             ],
           ),
           if (s.status == SessionStatus.missed) ...[
             const SizedBox(height: 24),
-            EmptyState(icon: Icons.event_busy, text: l.woMissedBody),
+            EmptyState(icon: Symbols.event_busy_rounded, text: l.woMissedBody),
           ] else ...[
             const SizedBox(height: 12),
             GridView.count(
@@ -140,16 +141,16 @@ class _SessionSummaryScreenState extends ConsumerState<SessionSummaryScreen> {
               crossAxisSpacing: 8,
               childAspectRatio: 1.9,
               children: [
-                StatTile(label: l.woDuration, value: duration == null ? '—' : fmtDuration(duration), icon: Icons.timer_outlined),
-                StatTile(label: l.woTotalVolume, value: '${fmtNum(volume, maxDecimals: 0)} ${l.kg}', icon: Icons.stacked_bar_chart),
-                StatTile(label: l.woWorkingSets, value: '${working.length}', icon: Icons.format_list_numbered),
-                StatTile(label: l.woPrs, value: '${prs.length}', icon: Icons.emoji_events_outlined, color: AppColors.warning),
+                StatTile(label: l.woDuration, value: duration == null ? '—' : fmtDuration(duration), icon: Symbols.timer_rounded),
+                StatTile(label: l.woTotalVolume, value: '${fmtNum(volume, maxDecimals: 0)} ${l.kg}', icon: Symbols.stacked_bar_chart_rounded),
+                StatTile(label: l.woWorkingSets, value: '${working.length}', icon: Symbols.format_list_numbered_rounded),
+                StatTile(label: l.woPrs, value: '${prs.length}', icon: Symbols.trophy_rounded, color: AppColors.warning),
               ],
             ),
             if (prs.isNotEmpty)
               SectionCard(
                 title: l.woNewRecords,
-                trailing: const Icon(Icons.emoji_events, color: AppColors.warning),
+                trailing: const Icon(Symbols.trophy_rounded, fill: 1, color: AppColors.warning),
                 child: Column(
                   children: [
                     for (final p in prs)
@@ -174,7 +175,7 @@ class _SessionSummaryScreenState extends ConsumerState<SessionSummaryScreen> {
                       ListTile(
                         dense: true,
                         contentPadding: EdgeInsets.zero,
-                        leading: const Icon(Icons.directions_run, color: AppColors.primary),
+                        leading: const Icon(Symbols.sprint_rounded, color: AppColors.primary),
                         title: Text(cardioTypeLabel(context, c.type)),
                         subtitle: Text(cardioDetails(context, c)),
                       ),
@@ -185,7 +186,7 @@ class _SessionSummaryScreenState extends ConsumerState<SessionSummaryScreen> {
             if (isToday) ...[
               const SizedBox(height: 8),
               OutlinedButton.icon(
-                icon: const Icon(Icons.play_arrow),
+                icon: const Icon(Symbols.play_arrow_rounded, fill: 1),
                 label: Text(l.woContinueWorkout),
                 onPressed: () => Navigator.of(context).pushReplacement(
                   MaterialPageRoute(builder: (_) => LiveWorkoutScreen(sessionId: s.id, planDayId: s.planDayId)),
@@ -219,13 +220,13 @@ class _CoachCard extends ConsumerWidget {
         children: [
           Text(l.woCoachNeedsKey, style: const TextStyle(color: AppColors.textMuted)),
           const SizedBox(height: 8),
-          TextButton.icon(onPressed: () => openSettings(context), icon: const Icon(Icons.key), label: Text(l.addApiKey)),
+          TextButton.icon(onPressed: () => openSettings(context), icon: const Icon(Symbols.key_rounded, fill: 1), label: Text(l.addApiKey)),
         ],
       );
     } else if (!online) {
       body = Row(
         children: [
-          const Icon(Icons.cloud_queue, color: AppColors.warning),
+          const Icon(Symbols.cloud_queue_rounded, color: AppColors.warning),
           const SizedBox(width: 8),
           Expanded(child: Text(l.woCoachQueued, style: const TextStyle(color: AppColors.textMuted))),
         ],
@@ -241,12 +242,12 @@ class _CoachCard extends ConsumerWidget {
     } else {
       body = Align(
         alignment: AlignmentDirectional.centerStart,
-        child: OutlinedButton.icon(onPressed: onAsk, icon: const Icon(Icons.auto_awesome), label: Text(l.woAskCoach)),
+        child: OutlinedButton.icon(onPressed: onAsk, icon: const Icon(Symbols.auto_awesome_rounded), label: Text(l.woAskCoach)),
       );
     }
     return SectionCard(
       title: l.woCoachEvaluation,
-      trailing: const Icon(Icons.sports, color: AppColors.primary),
+      trailing: const Icon(Symbols.sports_rounded, color: AppColors.primary),
       child: body,
     );
   }
@@ -261,7 +262,7 @@ class _ExerciseSummaryCard extends StatelessWidget {
     if (pct == null) return const SizedBox.shrink();
     final up = pct > 0.5, down = pct < -0.5;
     final color = up ? AppColors.primary : (down ? AppColors.danger : AppColors.textMuted);
-    final icon = up ? Icons.arrow_upward : (down ? Icons.arrow_downward : Icons.remove);
+    final icon = up ? Symbols.arrow_upward_rounded : (down ? Symbols.arrow_downward_rounded : Symbols.remove_rounded);
     return Padding(
       padding: const EdgeInsetsDirectional.only(end: 12),
       child: Row(
@@ -291,7 +292,7 @@ class _ExerciseSummaryCard extends StatelessWidget {
               for (final s in c.sets)
                 Chip(
                   visualDensity: VisualDensity.compact,
-                  avatar: s.isPr ? const Icon(Icons.emoji_events, size: 16, color: AppColors.warning) : null,
+                  avatar: s.isPr ? const Icon(Symbols.trophy_rounded, fill: 1, size: 16, color: AppColors.warning) : null,
                   label: Text(
                     '${setText(context, s.weightKg, s.reps)}${s.rpe != null ? ' @${fmtNum(s.rpe!)}' : ''}'
                     '${s.setType != SetType.normal ? ' (${setTypeLabel(context, s.setType)})' : ''}',
@@ -320,7 +321,7 @@ class _ExerciseSummaryCard extends StatelessWidget {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Icon(Icons.sticky_note_2_outlined, size: 16, color: AppColors.info),
+                const Icon(Symbols.sticky_note_2_rounded, size: 16, color: AppColors.info),
                 const SizedBox(width: 6),
                 Expanded(child: Text(note!, style: const TextStyle(color: AppColors.info, fontSize: 13))),
               ],

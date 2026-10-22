@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../../core/calc/stats.dart';
 import '../../../core/providers.dart';
@@ -28,7 +29,7 @@ class CardioSection extends ConsumerWidget {
     final logs = sessionId == null ? const <CardioLog>[] : (ref.watch(sessionCardioProvider(sessionId!)).value ?? const []);
     return SectionCard(
       title: l.woCardio,
-      trailing: const Icon(Icons.directions_run, color: AppColors.primary),
+      trailing: const Icon(Symbols.sprint_rounded, color: AppColors.primary),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -38,12 +39,12 @@ class CardioSection extends ConsumerWidget {
               title: Text(cardioTypeLabel(context, c.type)),
               subtitle: Text(cardioDetails(context, c)),
               trailing: IconButton(
-                icon: const Icon(Icons.delete_outline),
+                icon: const Icon(Symbols.delete_rounded),
                 onPressed: () => ref.read(workoutRepositoryProvider).deleteCardio(c.id),
               ),
             ),
           OutlinedButton.icon(
-            icon: const Icon(Icons.add),
+            icon: const Icon(Symbols.add_rounded),
             label: Text(l.woAddCardio),
             onPressed: () async {
               final sid = await ensureSession();
@@ -210,7 +211,7 @@ class _CardioSheetState extends ConsumerState<_CardioSheet> {
                 helperText: l.woCaloriesAuto,
                 suffixIcon: _caloriesEdited
                     ? IconButton(
-                        icon: const Icon(Icons.refresh),
+                        icon: const Icon(Symbols.refresh_rounded),
                         onPressed: () => _set(() => _caloriesEdited = false),
                       )
                     : null,

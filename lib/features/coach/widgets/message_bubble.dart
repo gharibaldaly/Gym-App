@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../../core/theme/app_theme.dart';
 import '../../../core/utils/context_ext.dart';
@@ -8,12 +9,12 @@ import '../coach_repository.dart';
 import 'markdown_lite.dart';
 
 IconData kindIcon(String kind) => switch (kind) {
-      CoachKinds.morning => Icons.wb_sunny_outlined,
-      CoachKinds.workoutSummary => Icons.fitness_center,
-      CoachKinds.plateau => Icons.trending_flat,
-      CoachKinds.weekly => Icons.assessment_outlined,
-      CoachKinds.recovery => Icons.battery_alert_outlined,
-      _ => Icons.chat_bubble_outline,
+      CoachKinds.morning => Symbols.wb_sunny_rounded,
+      CoachKinds.workoutSummary => Symbols.fitness_center_rounded,
+      CoachKinds.plateau => Symbols.trending_flat_rounded,
+      CoachKinds.weekly => Symbols.assessment_rounded,
+      CoachKinds.recovery => Symbols.battery_alert_rounded,
+      _ => Symbols.chat_bubble_rounded,
     };
 
 String kindLabel(BuildContext context, String kind) {
@@ -126,7 +127,7 @@ class MessageBubble extends StatelessWidget {
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Icon(Icons.wifi_off, color: AppColors.warning, size: 20),
+                      const Icon(Symbols.wifi_off_rounded, color: AppColors.warning, size: 20),
                       const SizedBox(width: 8),
                       Expanded(child: Text(text, style: style)),
                     ],

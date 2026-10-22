@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../../core/calc/strength_calc.dart';
 import '../../../core/providers.dart';
@@ -31,10 +32,10 @@ String sessionStatusLabel(BuildContext context, String status) {
 }
 
 IconData sessionStatusIcon(String status) => switch (status) {
-      SessionStatus.completed => Icons.check_circle,
-      SessionStatus.partial => Icons.timelapse,
-      SessionStatus.missed => Icons.cancel,
-      _ => Icons.play_circle,
+      SessionStatus.completed => Symbols.check_circle_rounded,
+      SessionStatus.partial => Symbols.timelapse_rounded,
+      SessionStatus.missed => Symbols.cancel_rounded,
+      _ => Symbols.play_circle_rounded,
     };
 
 String setTypeLabel(BuildContext context, String type) {
@@ -121,7 +122,7 @@ class StepsList extends StatelessWidget {
                 children: [
                   const Padding(
                     padding: EdgeInsetsDirectional.only(top: 7, end: 8),
-                    child: Icon(Icons.circle, size: 6, color: AppColors.primary),
+                    child: Icon(Symbols.circle_rounded, fill: 1, size: 6, color: AppColors.primary),
                   ),
                   Expanded(child: Text(steps[i])),
                 ],

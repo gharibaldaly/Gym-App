@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../core/providers.dart';
 import '../../core/theme/app_theme.dart';
@@ -58,7 +59,7 @@ class CoachMemoryScreen extends ConsumerWidget {
                   child: Text(l.coachMemoryHint, style: const TextStyle(color: AppColors.textMuted)),
                 ),
                 if (mems.isEmpty)
-                  EmptyState(icon: Icons.psychology_outlined, text: l.coachMemoryEmpty)
+                  EmptyState(icon: Symbols.psychology_rounded, text: l.coachMemoryEmpty)
                 else
                   for (final m in mems)
                     Dismissible(
@@ -68,7 +69,7 @@ class CoachMemoryScreen extends ConsumerWidget {
                         alignment: AlignmentDirectional.centerStart,
                         padding: const EdgeInsets.symmetric(horizontal: 20),
                         color: AppColors.danger.withValues(alpha: 0.25),
-                        child: const Icon(Icons.delete_outline, color: AppColors.danger),
+                        child: const Icon(Symbols.delete_rounded, color: AppColors.danger),
                       ),
                       onDismissed: (_) {
                         ref.read(coachRepositoryProvider).deleteMemory(m.id);
@@ -76,13 +77,13 @@ class CoachMemoryScreen extends ConsumerWidget {
                       },
                       child: Card(
                         child: ListTile(
-                          leading: const Icon(Icons.push_pin_outlined, color: AppColors.primary),
+                          leading: const Icon(Symbols.push_pin_rounded, color: AppColors.primary),
                           title: Text(m.content),
                           subtitle: Text(formatMessageTime(context, m.createdAt),
                               style: const TextStyle(color: AppColors.textMuted, fontSize: 12)),
                           trailing: IconButton(
                             tooltip: l.delete,
-                            icon: const Icon(Icons.delete_outline),
+                            icon: const Icon(Symbols.delete_rounded),
                             onPressed: () => ref.read(coachRepositoryProvider).deleteMemory(m.id),
                           ),
                         ),

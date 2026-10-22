@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:local_auth/local_auth.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../app/home_shell.dart' show homeTabProvider;
@@ -290,7 +291,7 @@ class _LockScreen extends StatelessWidget {
                         color: AppColors.primary.withValues(alpha: 0.12),
                         border: Border.all(color: AppColors.primary, width: 2),
                       ),
-                      child: const Icon(Icons.lock_outline, size: 44, color: AppColors.primary),
+                      child: const Icon(Symbols.lock_rounded, size: 44, color: AppColors.primary),
                     ),
                     const SizedBox(height: 24),
                     Text(l.appName, style: context.text.headlineSmall?.copyWith(fontWeight: FontWeight.w800)),
@@ -305,7 +306,7 @@ class _LockScreen extends StatelessWidget {
                       width: double.infinity,
                       child: FilledButton.icon(
                         onPressed: s == _LockViewState.authenticating ? null : onUnlock,
-                        icon: const Icon(Icons.fingerprint),
+                        icon: const Icon(Symbols.fingerprint_rounded),
                         label: Text(l.setLockUnlock),
                       ),
                     ),

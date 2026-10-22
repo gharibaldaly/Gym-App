@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:speech_to_text/speech_recognition_result.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 
@@ -173,7 +174,7 @@ class _FoodTextScreenState extends ConsumerState<FoodTextScreen> {
                 ),
                 tooltip: _listening ? l.nutStopListening : l.nutSpeak,
                 onPressed: _busy ? null : _toggleMic,
-                icon: Icon(_listening ? Icons.stop : Icons.mic),
+                icon: Icon(_listening ? Symbols.stop_rounded : Symbols.mic_rounded),
               ),
             ),
           ),
@@ -195,13 +196,13 @@ class _FoodTextScreenState extends ConsumerState<FoodTextScreen> {
                   onPressed: _busy || _c.text.trim().isEmpty ? null : _analyze,
                   icon: _busy
                       ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2))
-                      : const Icon(Icons.auto_awesome),
+                      : const Icon(Symbols.auto_awesome_rounded),
                   label: Text(_busy ? l.nutAnalyzing : l.nutAnalyze),
                 )
               : OutlinedButton.icon(
                   style: OutlinedButton.styleFrom(minimumSize: const Size.fromHeight(56)),
                   onPressed: _c.text.trim().isEmpty ? null : _saveForLater,
-                  icon: const Icon(Icons.schedule),
+                  icon: const Icon(Symbols.schedule_rounded),
                   label: Text(l.nutAnalyzeLater),
                 ),
         ),

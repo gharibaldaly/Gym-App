@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../../core/calc/nutrition_calc.dart';
 import '../../../core/providers.dart';
@@ -41,7 +42,7 @@ class MealsStep extends StatelessWidget {
           FieldHeading(
             l.onbMealsSubtitle,
             trailing: TextButton.icon(
-              icon: const Icon(Icons.auto_awesome, size: 18),
+              icon: const Icon(Symbols.auto_awesome_rounded, size: 18),
               label: Text(l.onbMealsReset),
               onPressed: () =>
                   setTimes(suggestMealTimes(p.mealsPerDay!, wake: p.wakeTime, sleep: p.sleepTime)),
@@ -52,7 +53,7 @@ class MealsStep extends StatelessWidget {
               key: ValueKey('meal$i'),
               label: l.onbMealN('${i + 1}'),
               value: times[i],
-              icon: Icons.restaurant_outlined,
+              icon: Symbols.restaurant_rounded,
               onChanged: (v) => setTimes([...times]..[i] = v),
             ),
         ],
@@ -104,7 +105,7 @@ class FoodsStep extends StatelessWidget {
         TextAnswerField(
           label: l.onbFoodsOther,
           value: liked.other,
-          icon: Icons.thumb_up_outlined,
+          icon: Symbols.thumb_up_rounded,
           onChanged: (t) => onChanged(UserProfilesCompanion(
             likedFoods: Value(joinChipText(liked.codes, t, order: egyptianFoods)),
           )),
@@ -119,7 +120,7 @@ class FoodsStep extends StatelessWidget {
         TextAnswerField(
           label: l.onbFoodsOther,
           value: disliked.other,
-          icon: Icons.thumb_down_outlined,
+          icon: Symbols.thumb_down_rounded,
           onChanged: (t) => onChanged(UserProfilesCompanion(
             dislikedFoods: Value(joinChipText(disliked.codes, t, order: egyptianFoods)),
           )),
@@ -140,7 +141,7 @@ class FoodsStep extends StatelessWidget {
         TextAnswerField(
           label: l.onbFoodsOther,
           value: allergies.other,
-          icon: Icons.warning_amber_outlined,
+          icon: Symbols.warning_rounded,
           onChanged: (t) => onChanged(UserProfilesCompanion(
             allergies: Value(joinChipText(allergies.codes, t, order: commonAllergies)),
           )),
@@ -188,7 +189,7 @@ class _BudgetStepState extends State<BudgetStep> {
             unit: l.onbEgp,
             min: OnbLimits.budgetMin,
             max: OnbLimits.budgetMax,
-            icon: Icons.payments_outlined,
+            icon: Symbols.payments_rounded,
             action: TextInputAction.done,
             onChanged: (v) => widget.onChanged(UserProfilesCompanion(budgetEgp: Value(v?.round()))),
           ),
@@ -251,7 +252,7 @@ class _SupplementsStepState extends State<SupplementsStep> {
           children: [
             for (final t in supplementTemplates)
               ActionChip(
-                avatar: Icon(usedKeys.contains(t.key) ? Icons.check : Icons.add,
+                avatar: Icon(usedKeys.contains(t.key) ? Symbols.check_rounded : Symbols.add_rounded,
                     size: 18, color: usedKeys.contains(t.key) ? AppColors.primary : null),
                 label: Text(supplementName(l, t.key)),
                 padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
@@ -261,7 +262,7 @@ class _SupplementsStepState extends State<SupplementsStep> {
                         name: supplementName(l, t.key), dose: supplementDefaultDose(l, t))),
               ),
             ActionChip(
-              avatar: const Icon(Icons.add, size: 18),
+              avatar: const Icon(Symbols.add_rounded, size: 18),
               label: Text(l.onbSuppOther),
               padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
               onPressed: () => _add(const SupplementEntry(name: '')),
@@ -270,7 +271,7 @@ class _SupplementsStepState extends State<SupplementsStep> {
         ),
         const SizedBox(height: 12),
         if (_rows.isEmpty)
-          InfoNote(l.onbSuppEmpty, icon: Icons.check_circle_outline, color: AppColors.primary)
+          InfoNote(l.onbSuppEmpty, icon: Symbols.check_circle_rounded, color: AppColors.primary)
         else
           for (final r in _rows)
             _SupplementCard(
@@ -314,7 +315,7 @@ class _SupplementCardState extends State<_SupplementCard> {
         children: [
           Row(
             children: [
-              const Icon(Icons.medication_outlined, color: AppColors.primary),
+              const Icon(Symbols.pill_rounded, color: AppColors.primary),
               const SizedBox(width: 10),
               Expanded(
                 child: isCustom
@@ -327,7 +328,7 @@ class _SupplementCardState extends State<_SupplementCard> {
               ),
               IconButton(
                 tooltip: l.onbSuppRemove,
-                icon: const Icon(Icons.close, color: AppColors.textMuted),
+                icon: const Icon(Symbols.close_rounded, color: AppColors.textMuted),
                 onPressed: widget.onRemove,
               ),
             ],
@@ -358,7 +359,7 @@ class _SupplementCardState extends State<_SupplementCard> {
             Align(
               alignment: AlignmentDirectional.centerStart,
               child: TextButton.icon(
-                icon: const Icon(Icons.add_chart, size: 18),
+                icon: const Icon(Symbols.add_chart_rounded, size: 18),
                 label: Text(l.onbSuppAddMacros),
                 onPressed: () => setState(() => _showMacros = true),
               ),
@@ -440,7 +441,7 @@ class WaterStep extends StatelessWidget {
             center: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(Icons.water_drop, color: AppColors.water, size: 30),
+                const Icon(Symbols.water_drop_rounded, fill: 1, color: AppColors.water, size: 30),
                 Text(l.onbWaterLiters(fmtNum(ml / 1000, maxDecimals: 2)),
                     style: context.text.titleLarge?.copyWith(fontWeight: FontWeight.w800)),
               ],
@@ -467,7 +468,7 @@ class WaterStep extends StatelessWidget {
         ),
         if (suggested != null) ...[
           const SizedBox(height: 12),
-          InfoNote(l.onbWaterSuggested('$suggested'), icon: Icons.auto_awesome, color: AppColors.water),
+          InfoNote(l.onbWaterSuggested('$suggested'), icon: Symbols.auto_awesome_rounded, color: AppColors.water),
           if (p.waterGoalMl != suggested)
             Align(
               alignment: AlignmentDirectional.centerEnd,
