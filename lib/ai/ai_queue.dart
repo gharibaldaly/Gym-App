@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:drift/drift.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/widgets.dart' show AppLifecycleListener;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../core/providers.dart';
@@ -27,9 +28,9 @@ class AiQueueService {
 
   /// Adds a job and tries to run it immediately when online.
   Future<int> enqueue(String feature, Map<String, dynamic> payload) async {
-    final id = await _db.into(_db.aiQueue).insert(
-          AiQueueCompanion.insert(feature: feature, payloadJson: jsonEncode(payload)),
-        );
+    final id = await _db
+        .into(_db.aiQueue)
+        .insert(AiQueueCompanion.insert(feature: feature, payloadJson: jsonEncode(payload)));
     unawaited(process());
     return id;
   }
@@ -47,25 +48,29 @@ class AiQueueService {
     if (!await ref.read(aiServiceProvider).hasKey) return;
     _running = true;
     try {
-      final jobs = await (_db.select(_db.aiQueue)
-            ..where((t) => t.status.equals('pending'))
-            ..orderBy([(t) => OrderingTerm.asc(t.createdAt)]))
-          .get();
+      final jobs =
+          await (_db.select(_db.aiQueue)
+                ..where((t) => t.status.equals('pending'))
+                ..orderBy([(t) => OrderingTerm.asc(t.createdAt)]))
+              .get();
       for (final job in jobs) {
         final handler = _handlers[job.feature];
         if (handler == null) continue;
         try {
           await handler(ref, jsonDecode(job.payloadJson) as Map<String, dynamic>);
-          await (_db.update(_db.aiQueue)..where((t) => t.id.equals(job.id)))
-              .write(const AiQueueCompanion(status: Value('done')));
+          await (_db.update(
+            _db.aiQueue,
+          )..where((t) => t.id.equals(job.id))).write(const AiQueueCompanion(status: Value('done')));
         } catch (e) {
           final attempts = job.attempts + 1;
           final offline = e is AiOfflineException;
-          await (_db.update(_db.aiQueue)..where((t) => t.id.equals(job.id))).write(AiQueueCompanion(
-            attempts: Value(attempts),
-            lastError: Value(e.toString()),
-            status: Value(!offline && attempts >= 5 ? 'failed' : 'pending'),
-          ));
+          await (_db.update(_db.aiQueue)..where((t) => t.id.equals(job.id))).write(
+            AiQueueCompanion(
+              attempts: Value(attempts),
+              lastError: Value(e.toString()),
+              status: Value(!offline && attempts >= 5 ? 'failed' : 'pending'),
+            ),
+          );
           debugPrint('AI queue job ${job.id} (${job.feature}) failed: $e');
           if (offline) break;
         }
@@ -82,5 +87,12 @@ final aiQueueProvider = Provider<AiQueueService>((ref) {
   ref.listen<bool>(isOnlineProvider, (prev, next) {
     if (next && prev != true) unawaited(q.process());
   });
+  // …and whenever the user comes back to the app (work interrupted in the background).
+  try {
+    final listener = AppLifecycleListener(onResume: () => unawaited(q.process()));
+    ref.onDispose(listener.dispose);
+  } catch (_) {
+    // No widgets binding (background isolate): connectivity trigger only.
+  }
   return q;
 });

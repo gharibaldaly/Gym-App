@@ -78,7 +78,7 @@ class ClaudeClient {
   final Duration timeout;
 
   ClaudeClient(this.apiKey, {http.Client? httpClient, this.timeout = const Duration(minutes: 5)})
-      : _http = httpClient ?? http.Client();
+    : _http = httpClient ?? http.Client();
 
   Map<String, String> _headers(Map<String, dynamic> body) {
     final betas = <String>[];
@@ -103,6 +103,10 @@ class ClaudeClient {
       throw AiException('Network error: ${e.message}');
     } on TimeoutException {
       throw AiException('Request timed out');
+    } on HandshakeException catch (e) {
+      throw AiException('Network error: ${e.message}');
+    } on HttpException catch (e) {
+      throw AiException('Network error: ${e.message}');
     }
     final decoded = _decode(res.bodyBytes);
     if (res.statusCode != 200) {

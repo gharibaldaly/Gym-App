@@ -172,5 +172,8 @@
   "setWidgetKcalOver": "زيادة {kcal}",
   "setWidgetWaterLabel": "الميه",
   "setWidgetWaterText": "{ml} / {goal} مل",
-  "setWidgetAddCup": "+ كوباية"
+  "setWidgetAddCup": "+ كوباية",
+  "setChannelWork": "شغل في الخلفية",
+  "setWorkNotifTitle": "IronMind شغال…",
+  "setWorkNotifBody": "بيخلّص طلبك — تقدر تقفل الشاشة عادي."
 }

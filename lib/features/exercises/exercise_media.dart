@@ -12,6 +12,7 @@ import 'package:path_provider/path_provider.dart';
 
 import '../../core/providers.dart';
 import '../../data/repositories/exercise_repository.dart';
+import '../../services/keep_alive/keep_alive.dart';
 
 const String _cacheKey = 'ironmindExerciseImages';
 
@@ -63,13 +64,15 @@ class _LongLivedResponse implements FileServiceResponse {
 }
 
 /// Cache used for every exercise image (thumbnails, detail carousel, offline pack).
-final CacheManager exerciseCacheManager = CacheManager(Config(
-  _cacheKey,
-  stalePeriod: const Duration(days: 3650),
-  maxNrOfCacheObjects: 5000,
-  fileSystem: _PersistentFileSystem(),
-  fileService: _LongLivedFileService(),
-));
+final CacheManager exerciseCacheManager = CacheManager(
+  Config(
+    _cacheKey,
+    stalePeriod: const Duration(days: 3650),
+    maxNrOfCacheObjects: 5000,
+    fileSystem: _PersistentFileSystem(),
+    fileService: _LongLivedFileService(),
+  ),
+);
 
 /// Approximate size of the full image pack (≈ 1750 jpgs × ~40 KB).
 const int kExerciseMediaApproxMb = 70;
@@ -136,6 +139,10 @@ class ExerciseMediaDownloader extends Notifier<MediaDownloadState> {
   /// Downloads all missing images ([concurrency] parallel requests).
   Future<void> start({int concurrency = 6}) async {
     if (state.running) return;
+    await KeepAlive.run(() => _download(concurrency));
+  }
+
+  Future<void> _download(int concurrency) async {
     _cancel = false;
     final urls = await _allUrls();
     state = MediaDownloadState(phase: MediaDownloadPhase.downloading, total: urls.length);
@@ -181,8 +188,9 @@ class ExerciseMediaDownloader extends Notifier<MediaDownloadState> {
   }
 }
 
-final exerciseMediaDownloaderProvider =
-    NotifierProvider<ExerciseMediaDownloader, MediaDownloadState>(ExerciseMediaDownloader.new);
+final exerciseMediaDownloaderProvider = NotifierProvider<ExerciseMediaDownloader, MediaDownloadState>(
+  ExerciseMediaDownloader.new,
+);
 
 /// Folder for user photos of custom exercises (inside the private app documents dir).
 Future<io.Directory> customExerciseMediaDir() async {

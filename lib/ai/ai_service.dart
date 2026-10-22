@@ -1,11 +1,15 @@
 import 'dart:async';
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:drift/drift.dart' show Value;
+import 'package:flutter/foundation.dart' show visibleForTesting;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:http/http.dart' as http;
 
 import '../core/providers.dart';
+import '../services/keep_alive/keep_alive.dart';
 import 'ai_config.dart';
 import 'claude_client.dart';
 import 'json_schema.dart';
@@ -69,26 +73,29 @@ class AiService {
     };
   }
 
-  bool get _fallbacksEnabled =>
-      ref.read(sharedPrefsProvider).getBool(SettingsKeys.useRefusalFallbacks) ?? true;
+  bool get _fallbacksEnabled => ref.read(sharedPrefsProvider).getBool(SettingsKeys.useRefusalFallbacks) ?? true;
 
   Future<ClaudeClient> _client() async {
     final k = await _key();
     if (k == null) throw AiNoKeyException();
     if (!ref.read(isOnlineProvider)) throw AiOfflineException();
-    return ClaudeClient(k);
+    return ClaudeClient(k, httpClient: debugHttpClientFactory?.call());
   }
+
+  /// Test hook: supplies the HTTP client used for API calls.
+  @visibleForTesting
+  static http.Client Function()? debugHttpClientFactory;
 
   /// System prompt as cacheable blocks: [stable] is cached (persona, profile…),
   /// [dynamic] (dates, latest logs) goes after the breakpoint.
   static List<Map<String, dynamic>> systemBlocks(String stable, {String? dynamic}) => [
-        {
-          'type': 'text',
-          'text': stable,
-          'cache_control': {'type': 'ephemeral'},
-        },
-        if (dynamic != null && dynamic.isNotEmpty) {'type': 'text', 'text': dynamic},
-      ];
+    {
+      'type': 'text',
+      'text': stable,
+      'cache_control': {'type': 'ephemeral'},
+    },
+    if (dynamic != null && dynamic.isNotEmpty) {'type': 'text', 'text': dynamic},
+  ];
 
   Map<String, dynamic> buildBody({
     required AiFeature feature,
@@ -121,28 +128,67 @@ class AiService {
       cacheReadTok: u.cacheReadTokens,
       cacheWriteTok: u.cacheWriteTokens,
     );
-    await _db.into(_db.aiUsage).insert(AiUsageCompanion.insert(
-          feature: feature.key,
-          model: model,
-          inputTokens: Value(u.inputTokens),
-          outputTokens: Value(u.outputTokens),
-          cacheReadTokens: Value(u.cacheReadTokens),
-          cacheWriteTokens: Value(u.cacheWriteTokens),
-          costUsd: Value(cost),
-        ));
+    await _db
+        .into(_db.aiUsage)
+        .insert(
+          AiUsageCompanion.insert(
+            feature: feature.key,
+            model: model,
+            inputTokens: Value(u.inputTokens),
+            outputTokens: Value(u.outputTokens),
+            cacheReadTokens: Value(u.cacheReadTokens),
+            cacheWriteTokens: Value(u.cacheWriteTokens),
+            costUsd: Value(cost),
+          ),
+        );
   }
 
   /// Raw call with usage logging. Throws [AiException] on refusal.
-  Future<ClaudeResponse> create(AiFeature feature, Map<String, dynamic> body) async {
-    final client = await _client();
-    try {
-      final res = await client.create(body);
-      await _logUsage(feature, res.model, res.usage);
-      if (res.isRefusal) throw AiException('The request was declined by the model.');
-      return res;
-    } finally {
-      client.close();
+  ///
+  /// Runs under [KeepAlive] so locking the screen / leaving the app doesn't
+  /// kill the request, and retries when the connection drops (e.g. the OS
+  /// froze the app anyway) once the app is back in the foreground.
+  Future<ClaudeResponse> create(AiFeature feature, Map<String, dynamic> body) {
+    return KeepAlive.run(() async {
+      for (var attempt = 0; ; attempt++) {
+        final client = await _client();
+        try {
+          final res = await client.create(body);
+          await _logUsage(feature, res.model, res.usage);
+          if (res.isRefusal) throw AiException('The request was declined by the model.');
+          return res;
+        } catch (e) {
+          final err = _asAiException(e);
+          if (err == null || !await _shouldRetry(err, attempt)) {
+            if (err != null && !identical(err, e)) throw err;
+            rethrow;
+          }
+        } finally {
+          client.close();
+        }
+      }
+    });
+  }
+
+  static const _maxRetries = 3;
+
+  /// Normalizes errors thrown mid-request (a connection killed while the app
+  /// was in the background surfaces as a raw socket/http error).
+  static AiException? _asAiException(Object e) {
+    if (e is AiException) return e;
+    if (e is IOException || e is http.ClientException || e is TimeoutException) {
+      return AiException('Network error: $e');
     }
+    return null;
+  }
+
+  /// Network drops (offline/connection reset/timeout) and 429/5xx/529 are retried:
+  /// first wait for the app to be in the foreground, then back off.
+  Future<bool> _shouldRetry(AiException e, int attempt) async {
+    if (attempt >= _maxRetries || e is AiNoKeyException || e.isAuth || !e.isRetryable) return false;
+    await AppForeground.waitUntilForeground();
+    await Future<void>.delayed(Duration(seconds: 2 << attempt));
+    return true;
   }
 
   /// Plain text answer.
@@ -162,8 +208,11 @@ class AiService {
         messages: [
           {
             'role': 'user',
-            'content': [...?extraContent, {'type': 'text', 'text': prompt}],
-          }
+            'content': [
+              ...?extraContent,
+              {'type': 'text', 'text': prompt},
+            ],
+          },
         ],
       ),
     );
@@ -185,19 +234,16 @@ class AiService {
     final messages = <Map<String, dynamic>>[
       {
         'role': 'user',
-        'content': [...?extraContent, {'type': 'text', 'text': prompt}],
-      }
+        'content': [
+          ...?extraContent,
+          {'type': 'text', 'text': prompt},
+        ],
+      },
     ];
     for (var attempt = 0; attempt < 2; attempt++) {
       final res = await create(
         feature,
-        buildBody(
-          feature: feature,
-          system: system,
-          messages: messages,
-          outputSchema: schema,
-          maxTokens: maxTokens,
-        ),
+        buildBody(feature: feature, system: system, messages: messages, outputSchema: schema, maxTokens: maxTokens),
       );
       final raw = res.text.trim();
       List<String> errors;
@@ -214,7 +260,8 @@ class AiService {
           ..add({'role': 'assistant', 'content': raw.isEmpty ? '{}' : raw})
           ..add({
             'role': 'user',
-            'content': 'Your JSON was invalid:\n${errors.take(10).join('\n')}\n'
+            'content':
+                'Your JSON was invalid:\n${errors.take(10).join('\n')}\n'
                 'Return the corrected JSON only.',
           });
       } else {
@@ -224,19 +271,46 @@ class AiService {
     throw AiException('unreachable');
   }
 
-  /// Streaming call (chat). Logs usage when the stream completes.
-  Stream<ClaudeStreamEvent> stream(AiFeature feature, Map<String, dynamic> body) async* {
-    final client = await _client();
-    try {
-      await for (final ev in client.stream(body)) {
-        if (ev is StreamDone) {
-          await _logUsage(feature, ev.response.model, ev.response.usage);
-        }
-        yield ev;
-      }
-    } finally {
-      client.close();
-    }
+  /// Streaming call (chat). Logs usage when the stream completes. Kept alive in
+  /// the background like [create]; retried after a dropped connection as long
+  /// as no text has been shown yet (a half-shown answer can't be resumed).
+  Stream<ClaudeStreamEvent> stream(AiFeature feature, Map<String, dynamic> body) {
+    final controller = StreamController<ClaudeStreamEvent>();
+    controller.onListen = () {
+      unawaited(
+        KeepAlive.run(() async {
+          for (var attempt = 0; ; attempt++) {
+            var yielded = false;
+            final ClaudeClient client;
+            try {
+              client = await _client(); // no key / offline: fail fast, no retry
+            } catch (e, st) {
+              controller.addError(e, st);
+              break;
+            }
+            try {
+              await for (final ev in client.stream(body)) {
+                if (controller.isClosed) return;
+                if (ev is StreamDone) await _logUsage(feature, ev.response.model, ev.response.usage);
+                if (ev is TextDelta) yielded = true;
+                controller.add(ev);
+              }
+              break;
+            } catch (e, st) {
+              final err = _asAiException(e);
+              if (err == null || yielded || !await _shouldRetry(err, attempt)) {
+                controller.addError(err ?? e, st);
+                break;
+              }
+            } finally {
+              client.close();
+            }
+          }
+          await controller.close();
+        }),
+      );
+    };
+    return controller.stream;
   }
 
   /// Cheap request used by Settings → "Test key".
@@ -247,7 +321,7 @@ class AiService {
         'model': modelFor(ModelTier.haiku),
         'max_tokens': 16,
         'messages': [
-          {'role': 'user', 'content': 'Reply with OK'}
+          {'role': 'user', 'content': 'Reply with OK'},
         ],
       });
       await _logUsage(AiFeature.keyTest, res.model, res.usage);
@@ -270,7 +344,9 @@ class AiService {
 /// Human-readable message for an AI error (bilingual).
 String aiErrorText(Object e, {required bool ar}) {
   if (e is AiNoKeyException) {
-    return ar ? 'ضيف مفتاح Claude API من الإعدادات عشان الميزة دي تشتغل.' : 'Add your Claude API key in Settings to use this feature.';
+    return ar
+        ? 'ضيف مفتاح Claude API من الإعدادات عشان الميزة دي تشتغل.'
+        : 'Add your Claude API key in Settings to use this feature.';
   }
   if (e is AiOfflineException) {
     return ar ? 'مفيش نت دلوقتي.' : 'No internet connection.';

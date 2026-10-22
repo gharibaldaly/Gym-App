@@ -316,5 +316,8 @@
       }
     }
   },
-  "setWidgetAddCup": "+ Cup"
+  "setWidgetAddCup": "+ Cup",
+  "setChannelWork": "Background work",
+  "setWorkNotifTitle": "IronMind is working…",
+  "setWorkNotifBody": "Finishing your request — you can lock the screen."
 }

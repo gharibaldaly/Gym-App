@@ -25,8 +25,7 @@ class ModelPrice {
   const ModelPrice(this.input, this.output, this.cacheRead, this.cacheWrite);
 
   double cost({int inTok = 0, int outTok = 0, int cacheReadTok = 0, int cacheWriteTok = 0}) =>
-      (inTok * input + outTok * output + cacheReadTok * cacheRead + cacheWriteTok * cacheWrite) /
-      1000000.0;
+      (inTok * input + outTok * output + cacheReadTok * cacheRead + cacheWriteTok * cacheWrite) / 1000000.0;
 }
 
 const Map<String, ModelPrice> modelPrices = {

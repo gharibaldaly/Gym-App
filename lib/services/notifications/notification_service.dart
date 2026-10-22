@@ -125,6 +125,7 @@ class NotificationService {
         NotifChannel.coach => l.setChannelCoach,
         NotifChannel.restTimer => l.setChannelRestTimer,
         NotifChannel.backup => l.setChannelBackup,
+        NotifChannel.work => l.setChannelWork,
       };
 
   static final Int64List _restVibration = Int64List.fromList([0, 600, 250, 600, 250, 900]);
@@ -162,6 +163,46 @@ class NotificationService {
       ),
       iOS: const DarwinNotificationDetails(presentAlert: true, presentSound: true),
     );
+  }
+
+  /// Starts (or updates) the "working…" foreground service so Android doesn't
+  /// freeze the app while an AI request runs with the screen off / app in background.
+  static Future<void> startWorkService({required String title, required String body}) async {
+    if (!Platform.isAndroid || !await _ensureInit()) return;
+    try {
+      final l = _l10n(await SharedPreferences.getInstance());
+      await _android?.startForegroundService(
+        id: NotifIds.keepAliveWork,
+        title: title,
+        body: body,
+        notificationDetails: AndroidNotificationDetails(
+          NotifChannel.work.id,
+          _channelName(NotifChannel.work, l),
+          importance: Importance.low,
+          priority: Priority.low,
+          ongoing: true,
+          onlyAlertOnce: true,
+          showProgress: true,
+          indeterminate: true,
+          playSound: false,
+          enableVibration: false,
+          color: const Color(0xFF39FF14),
+        ),
+        startType: AndroidServiceStartType.startNotSticky,
+        foregroundServiceTypes: {AndroidServiceForegroundType.foregroundServiceTypeDataSync},
+      );
+    } catch (e) {
+      debugPrint('startWorkService failed: $e');
+    }
+  }
+
+  static Future<void> stopWorkService() async {
+    if (!Platform.isAndroid || !await _ensureInit()) return;
+    try {
+      await _android?.stopForegroundService();
+    } catch (e) {
+      debugPrint('stopWorkService failed: $e');
+    }
   }
 
   /// Requests the Android 13+ notification permission. Returns whether notifications are allowed.

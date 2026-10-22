@@ -1906,6 +1906,9 @@
     }
   },
   "setWidgetAddCup": "+ Cup",
+  "setChannelWork": "Background work",
+  "setWorkNotifTitle": "IronMind is working…",
+  "setWorkNotifBody": "Finishing your request — you can lock the screen.",
   "todayCoachTitle": "Coach",
   "todayCoachEmpty": "Your coach's morning message will appear here.",
   "todayRecoveryTitle": "Recovery",

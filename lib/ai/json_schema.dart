@@ -29,15 +29,15 @@ List<String> validateJson(dynamic value, Map<String, dynamic> schema, [String pa
   final types = type is List ? type.cast<String>() : (type == null ? <String>[] : [type as String]);
 
   bool matches(String t) => switch (t) {
-        'object' => value is Map,
-        'array' => value is List,
-        'string' => value is String,
-        'number' => value is num,
-        'integer' => value is int || (value is num && value == value.roundToDouble()),
-        'boolean' => value is bool,
-        'null' => value == null,
-        _ => true,
-      };
+    'object' => value is Map,
+    'array' => value is List,
+    'string' => value is String,
+    'number' => value is num,
+    'integer' => value is int || (value is num && value == value.roundToDouble()),
+    'boolean' => value is bool,
+    'null' => value == null,
+    _ => true,
+  };
 
   if (types.isNotEmpty && !types.any(matches)) {
     errors.add('$path: expected ${types.join('|')}, got ${value.runtimeType}');

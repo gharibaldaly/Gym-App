@@ -6697,6 +6697,24 @@ abstract class AppLocalizations {
   /// **'+ Cup'**
   String get setWidgetAddCup;
 
+  /// No description provided for @setChannelWork.
+  ///
+  /// In en, this message translates to:
+  /// **'Background work'**
+  String get setChannelWork;
+
+  /// No description provided for @setWorkNotifTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'IronMind is working…'**
+  String get setWorkNotifTitle;
+
+  /// No description provided for @setWorkNotifBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Finishing your request — you can lock the screen.'**
+  String get setWorkNotifBody;
+
   /// No description provided for @todayCoachTitle.
   ///
   /// In en, this message translates to:

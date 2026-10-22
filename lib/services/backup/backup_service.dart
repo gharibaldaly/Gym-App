@@ -17,6 +17,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../core/providers.dart';
 import '../notifications/reminder_planner.dart' show NotificationPrefs;
 import 'backup_manifest.dart';
+import '../keep_alive/keep_alive.dart';
 
 export 'backup_manifest.dart';
 
@@ -59,10 +60,7 @@ class BackupService {
   };
 
   /// SharedPreferences keys never restored from a backup (device-specific).
-  static const Set<String> _prefsNotRestored = {
-    SettingsKeys.lastHealthSync,
-    NotificationPrefs.backupReminderShownKey,
-  };
+  static const Set<String> _prefsNotRestored = {SettingsKeys.lastHealthSync, NotificationPrefs.backupReminderShownKey};
 
   static String get dbFileName => '${AppDatabase.dbName}.sqlite';
 
@@ -108,7 +106,9 @@ class BackupService {
   }
 
   /// Builds the backup zip in the temp folder and returns it.
-  Future<File> createBackup() async {
+  Future<File> createBackup() => KeepAlive.run(_createBackup);
+
+  Future<File> _createBackup() async {
     final docs = (await getApplicationDocumentsDirectory()).path;
     final tmpRoot = Directory(p.join((await getTemporaryDirectory()).path, 'backup_tmp'));
     if (tmpRoot.existsSync()) await tmpRoot.delete(recursive: true);
@@ -147,18 +147,18 @@ class BackupService {
     List<String> files,
     String manifestJson,
     String prefsJson,
-  ) =>
-      Isolate.run(() => _writeZip(
-            zipPath: zipPath,
-            dbSnapshot: snap,
-            docs: docs,
-            files: files,
-            manifestJson: manifestJson,
-            prefsJson: prefsJson,
-          ));
+  ) => Isolate.run(
+    () => _writeZip(
+      zipPath: zipPath,
+      dbSnapshot: snap,
+      docs: docs,
+      files: files,
+      manifestJson: manifestJson,
+      prefsJson: prefsJson,
+    ),
+  );
 
-  static Future<void> _extractInIsolate(String zip, String outDir) =>
-      Isolate.run(() => extractFileToDisk(zip, outDir));
+  static Future<void> _extractInIsolate(String zip, String outDir) => Isolate.run(() => extractFileToDisk(zip, outDir));
 
   static String _pad2(int v) => v.toString().padLeft(2, '0');
 
@@ -195,11 +195,13 @@ class BackupService {
   /// time unless the user dismissed the sheet.
   Future<bool> exportAndShare({String? subject}) async {
     final zip = await createBackup();
-    final res = await SharePlus.instance.share(ShareParams(
-      files: [XFile(zip.path, mimeType: 'application/zip')],
-      subject: subject ?? p.basename(zip.path),
-      title: subject ?? p.basename(zip.path),
-    ));
+    final res = await SharePlus.instance.share(
+      ShareParams(
+        files: [XFile(zip.path, mimeType: 'application/zip')],
+        subject: subject ?? p.basename(zip.path),
+        title: subject ?? p.basename(zip.path),
+      ),
+    );
     if (res.status == ShareResultStatus.dismissed) return false;
     await prefs.setString(SettingsKeys.lastBackupAt, DateTime.now().toIso8601String());
     return true;
@@ -244,7 +246,9 @@ class BackupService {
 
   /// Replaces ALL local data with the staged backup. Closes [db] – the app must
   /// be restarted afterwards.
-  Future<void> applyRestore(PreparedRestore r) async {
+  Future<void> applyRestore(PreparedRestore r) => KeepAlive.run(() => _applyRestore(r));
+
+  Future<void> _applyRestore(PreparedRestore r) async {
     final docs = (await getApplicationDocumentsDirectory()).path;
     final stagedDb = p.join(r.stagingDir, r.manifest.db);
 
@@ -257,22 +261,25 @@ class BackupService {
         for (final row in await staged.select(staged.mealLogs).get()) {
           final np = rebasePath(row.photoPath, from, docs);
           if (np != row.photoPath) {
-            await (staged.update(staged.mealLogs)..where((t) => t.id.equals(row.id)))
-                .write(MealLogsCompanion(photoPath: Value(np)));
+            await (staged.update(
+              staged.mealLogs,
+            )..where((t) => t.id.equals(row.id))).write(MealLogsCompanion(photoPath: Value(np)));
           }
         }
         for (final row in await staged.select(staged.exercises).get()) {
           final np = rebasePath(row.mediaPath, from, docs);
           if (np != row.mediaPath) {
-            await (staged.update(staged.exercises)..where((t) => t.id.equals(row.id)))
-                .write(ExercisesCompanion(mediaPath: Value(np)));
+            await (staged.update(
+              staged.exercises,
+            )..where((t) => t.id.equals(row.id))).write(ExercisesCompanion(mediaPath: Value(np)));
           }
         }
         for (final row in await staged.select(staged.progressPhotos).get()) {
           final np = rebasePath(row.path, from, docs);
           if (np != row.path) {
-            await (staged.update(staged.progressPhotos)..where((t) => t.id.equals(row.id)))
-                .write(ProgressPhotosCompanion(path: Value(np!)));
+            await (staged.update(
+              staged.progressPhotos,
+            )..where((t) => t.id.equals(row.id))).write(ProgressPhotosCompanion(path: Value(np!)));
           }
         }
       }
@@ -364,5 +371,4 @@ final backupServiceProvider = Provider<BackupService>(
 );
 
 /// Last successful backup time (null → never).
-DateTime? lastBackupAt(SharedPreferences prefs) =>
-    DateTime.tryParse(prefs.getString(SettingsKeys.lastBackupAt) ?? '');
+DateTime? lastBackupAt(SharedPreferences prefs) => DateTime.tryParse(prefs.getString(SettingsKeys.lastBackupAt) ?? '');

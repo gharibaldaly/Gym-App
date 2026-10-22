@@ -3616,6 +3616,15 @@ class AppLocalizationsAr extends AppLocalizations {
   String get setWidgetAddCup => '+ كوباية';
 
   @override
+  String get setChannelWork => 'شغل في الخلفية';
+
+  @override
+  String get setWorkNotifTitle => 'IronMind شغال…';
+
+  @override
+  String get setWorkNotifBody => 'بيخلّص طلبك — تقدر تقفل الشاشة عادي.';
+
+  @override
   String get todayCoachTitle => 'المدرب';
 
   @override

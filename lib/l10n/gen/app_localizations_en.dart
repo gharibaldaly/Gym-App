@@ -3639,6 +3639,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get setWidgetAddCup => '+ Cup';
 
   @override
+  String get setChannelWork => 'Background work';
+
+  @override
+  String get setWorkNotifTitle => 'IronMind is working…';
+
+  @override
+  String get setWorkNotifBody =>
+      'Finishing your request — you can lock the screen.';
+
+  @override
   String get todayCoachTitle => 'Coach';
 
   @override

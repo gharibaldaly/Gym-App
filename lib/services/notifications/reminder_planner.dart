@@ -14,7 +14,8 @@ enum NotifChannel {
   weight('weight'),
   coach('coach'),
   restTimer('rest_timer'),
-  backup('backup');
+  backup('backup'),
+  work('ai_work');
 
   final String id;
   const NotifChannel(this.id);
@@ -29,6 +30,7 @@ enum ReminderRepeat { daily, weekly }
 class NotifIds {
   static const restTimer = 1;
   static const backupReminder = 2;
+  static const keepAliveWork = 3;
 
   /// Every scheduled reminder lives in [remindersStart, remindersEnd).
   static const remindersStart = 10000;
