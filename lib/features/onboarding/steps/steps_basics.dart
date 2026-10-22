@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../../core/calc/nutrition_calc.dart';
 import '../../../core/providers.dart';
@@ -29,8 +30,8 @@ class LanguageStep extends ConsumerWidget {
 
     return OptionCards<String>(
       options: [
-        OnbOption('ar', l.arabic, icon: Icons.language),
-        OnbOption('en', l.english, icon: Icons.translate),
+        OnbOption('ar', l.arabic, icon: Symbols.language_rounded),
+        OnbOption('en', l.english, icon: Symbols.translate_rounded),
       ],
       selected: current,
       onSelect: pick,
@@ -80,7 +81,7 @@ class BodyStatsStep extends StatelessWidget {
           unit: l.onbYears,
           min: OnbLimits.ageMin,
           max: OnbLimits.ageMax,
-          icon: Icons.cake_outlined,
+          icon: Symbols.cake_rounded,
           onChanged: (v) => onChanged(UserProfilesCompanion(age: Value(v?.round()))),
         ),
         NumField(
@@ -90,7 +91,7 @@ class BodyStatsStep extends StatelessWidget {
           min: OnbLimits.heightMin,
           max: OnbLimits.heightMax,
           decimal: true,
-          icon: Icons.height,
+          icon: Symbols.height_rounded,
           onChanged: (v) => onChanged(UserProfilesCompanion(heightCm: Value(v))),
         ),
         NumField(
@@ -100,7 +101,7 @@ class BodyStatsStep extends StatelessWidget {
           min: OnbLimits.weightMin,
           max: OnbLimits.weightMax,
           decimal: true,
-          icon: Icons.monitor_weight_outlined,
+          icon: Symbols.monitor_weight_rounded,
           action: TextInputAction.done,
           onChanged: (v) {
             // Keep the water goal in sync while it still equals the old suggestion.
@@ -162,7 +163,7 @@ class BodyFatStep extends StatelessWidget {
                   min: OnbLimits.bodyFatMin,
                   max: OnbLimits.bodyFatMax,
                   decimal: true,
-                  icon: Icons.percent,
+                  icon: Symbols.percent_rounded,
                   action: TextInputAction.done,
                   onChanged: (v) => onChanged(UserProfilesCompanion(bodyFatPct: Value(v))),
                 ),
@@ -177,7 +178,7 @@ class BodyFatStep extends StatelessWidget {
                       label: o.label,
                       subtitle:
                           '${o.subtitle} · ${l.onbShapeEstimate(fmtNum(bodyFatForShape(o.code, p.sex)))}',
-                      icon: Icons.accessibility_new,
+                      icon: Symbols.accessibility_new_rounded,
                       selected: shape == o.code,
                       onTap: () =>
                           onChanged(UserProfilesCompanion(bodyFatPct: Value(bodyFatForShape(o.code, p.sex)))),
@@ -232,7 +233,7 @@ class MeasurementsStep extends StatelessWidget {
               Expanded(child: field(measurementKeys[i + 1])),
             ],
           ),
-        InfoNote(l.onbMeasHint, icon: Icons.straighten),
+        InfoNote(l.onbMeasHint, icon: Symbols.straighten_rounded),
       ],
     );
   }
@@ -291,7 +292,7 @@ class GoalStep extends StatelessWidget {
           Align(
             alignment: AlignmentDirectional.centerStart,
             child: TextButton.icon(
-              icon: const Icon(Icons.auto_awesome, size: 18),
+              icon: const Icon(Symbols.auto_awesome_rounded, size: 18),
               label: Text(l.onbGoalWeeksSuggest('$suggestedWeeks')),
               onPressed: () => onChanged(UserProfilesCompanion(goalWeeks: Value(suggestedWeeks))),
             ),
@@ -299,7 +300,7 @@ class GoalStep extends StatelessWidget {
         if (warning != null)
           InfoNote(
             warning == GoalWarning.cutTargetAbove ? l.onbWarnCutTarget : l.onbWarnBulkTarget,
-            icon: Icons.warning_amber_rounded,
+            icon: Symbols.warning_rounded,
             color: AppColors.warning,
           ),
       ],

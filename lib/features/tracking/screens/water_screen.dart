@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../../core/theme/app_theme.dart';
 import '../../../core/utils/context_ext.dart';
@@ -14,7 +15,7 @@ class WaterScreen extends ConsumerWidget {
   Future<void> _add(BuildContext context, WidgetRef ref, int ml) async {
     HapticFeedback.lightImpact();
     await addWater(ref, ml);
-    if (context.mounted) context.snack(context.l10n.trkWaterAdded(ml));
+    if (context.mounted) context.snack(context.l10n.trkWaterAdded(ml), kind: ToastKind.success);
   }
 
   Future<void> _undo(BuildContext context, WidgetRef ref) async {
@@ -41,7 +42,7 @@ class WaterScreen extends ConsumerWidget {
           children: [
             Text(l.trkWaterSizes, style: ctx.text.titleMedium),
             ListTile(
-              leading: const Icon(Icons.local_drink_outlined),
+              leading: const Icon(Symbols.water_full_rounded),
               title: Text(l.trkCupSize),
               trailing: Text('${sizes.cup}'),
               onTap: () async {
@@ -52,7 +53,7 @@ class WaterScreen extends ConsumerWidget {
               },
             ),
             ListTile(
-              leading: const Icon(Icons.water_drop_outlined),
+              leading: const Icon(Symbols.water_drop_rounded),
               title: Text(l.trkBottleSize),
               trailing: Text('${sizes.bottle}'),
               onTap: () async {
@@ -84,7 +85,7 @@ class WaterScreen extends ConsumerWidget {
       appBar: AppBar(
         title: Text(l.trkWaterTitle),
         actions: [
-          IconButton(tooltip: l.trkWaterSizes, icon: const Icon(Icons.tune), onPressed: () => _sizes(context, ref)),
+          IconButton(tooltip: l.trkWaterSizes, icon: const Icon(Symbols.tune_rounded), onPressed: () => _sizes(context, ref)),
         ],
       ),
       body: ListView(
@@ -102,7 +103,7 @@ class WaterScreen extends ConsumerWidget {
                   center: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(Icons.water_drop, color: AppColors.water, size: 28),
+                      const Icon(Symbols.water_drop_rounded, fill: 1, color: AppColors.water, size: 28),
                       Text('${goal <= 0 ? 0 : (drunk * 100 / goal).round()}%',
                           style: context.text.headlineMedium?.copyWith(fontWeight: FontWeight.w800)),
                       Text(l.trkWaterProgress(drunk, goal),
@@ -122,7 +123,7 @@ class WaterScreen extends ConsumerWidget {
                       child: FilledButton.icon(
                         style: FilledButton.styleFrom(minimumSize: const Size(0, 64)),
                         onPressed: () => _add(context, ref, sizes.cup),
-                        icon: const Icon(Icons.local_drink),
+                        icon: const Icon(Symbols.water_full_rounded, fill: 1),
                         label: Text(l.trkAddCup(sizes.cup)),
                       ),
                     ),
@@ -134,7 +135,7 @@ class WaterScreen extends ConsumerWidget {
                           backgroundColor: AppColors.water,
                         ),
                         onPressed: () => _add(context, ref, sizes.bottle),
-                        icon: const Icon(Icons.water_drop),
+                        icon: const Icon(Symbols.water_drop_rounded, fill: 1),
                         label: Text(l.trkAddBottle(sizes.bottle)),
                       ),
                     ),
@@ -146,7 +147,7 @@ class WaterScreen extends ConsumerWidget {
                     Expanded(
                       child: OutlinedButton.icon(
                         onPressed: () => _custom(context, ref),
-                        icon: const Icon(Icons.edit),
+                        icon: const Icon(Symbols.edit_rounded, fill: 1),
                         label: Text(l.trkAddCustom),
                       ),
                     ),
@@ -154,7 +155,7 @@ class WaterScreen extends ConsumerWidget {
                     Expanded(
                       child: OutlinedButton.icon(
                         onPressed: drunk > 0 ? () => _undo(context, ref) : null,
-                        icon: const Icon(Icons.undo),
+                        icon: const Icon(Symbols.undo_rounded),
                         label: Text(l.trkUndoLast),
                       ),
                     ),
@@ -195,12 +196,12 @@ class WaterScreen extends ConsumerWidget {
                               alignment: AlignmentDirectional.centerEnd,
                               padding: const EdgeInsetsDirectional.only(end: 16),
                               color: AppColors.danger.withValues(alpha: 0.3),
-                              child: const Icon(Icons.delete),
+                              child: const Icon(Symbols.delete_rounded, fill: 1),
                             ),
                             onDismissed: (_) => ref.read(trackingRepositoryProvider).deleteWater(w.id),
                             child: ListTile(
                               contentPadding: EdgeInsets.zero,
-                              leading: const Icon(Icons.water_drop_outlined, color: AppColors.water),
+                              leading: const Icon(Symbols.water_drop_rounded, color: AppColors.water),
                               title: Text('${w.amountMl} ${l.mlShort}'),
                               trailing: Text(fmtTime(context, w.timestamp),
                                   style: const TextStyle(color: AppColors.textMuted)),

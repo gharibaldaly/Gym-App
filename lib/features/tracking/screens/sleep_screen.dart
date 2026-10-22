@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../../core/calc/recovery.dart';
 import '../../../core/navigation.dart';
@@ -68,17 +69,17 @@ class SleepLogScreen extends ConsumerWidget {
         title: Text(l.trkSleepTitle),
         actions: [
           if (hcEnabled)
-            IconButton(tooltip: l.trkSyncNow, icon: const Icon(Icons.sync), onPressed: () => runHealthSync(context, ref)),
+            IconButton(tooltip: l.trkSyncNow, icon: const Icon(Symbols.sync_rounded), onPressed: () => runHealthSync(context, ref)),
           IconButton(
             tooltip: l.trkHealthConnectTitle,
-            icon: const Icon(Icons.watch_outlined),
+            icon: const Icon(Symbols.watch_rounded),
             onPressed: () => push(context, const HealthConnectSettingsScreen()),
           ),
         ],
       ),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => showSleepEntrySheet(context, ref, existing: lastNight?.source == 'manual' ? lastNight : null),
-        icon: const Icon(Icons.bedtime),
+        icon: const Icon(Symbols.bedtime_rounded, fill: 1),
         label: Text(l.trkSleepLog),
       ),
       body: logs.when(
@@ -92,7 +93,7 @@ class SleepLogScreen extends ConsumerWidget {
             children: [
               if (!hcEnabled)
                 InfoBanner(
-                  icon: Icons.watch,
+                  icon: Symbols.watch_rounded,
                   text: l.trkSleepConnectHint,
                   action: TextButton(
                     onPressed: () => push(context, const HealthConnectSettingsScreen()),
@@ -236,7 +237,8 @@ class _QualityStars extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           for (var i = 1; i <= 5; i++)
-            Icon(i <= quality ? Icons.star_rounded : Icons.star_outline_rounded,
+            Icon(Symbols.star_rounded,
+                fill: i <= quality ? 1 : 0,
                 size: 18, color: i <= quality ? AppColors.warning : AppColors.textMuted),
           const SizedBox(width: 6),
           Text(qualityLabel(context, quality), style: context.text.bodySmall),
@@ -259,7 +261,7 @@ class _SourceChip extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
       ),
       child: Row(mainAxisSize: MainAxisSize.min, children: [
-        Icon(hc ? Icons.watch : Icons.edit, size: 14, color: hc ? AppColors.info : AppColors.textMuted),
+        Icon(hc ? Symbols.watch_rounded : Symbols.edit_rounded, size: 14, color: hc ? AppColors.info : AppColors.textMuted),
         const SizedBox(width: 4),
         Text(hc ? l.trkSourceHealthConnect : l.trkSourceManual, style: context.text.labelSmall),
       ]),
@@ -287,13 +289,13 @@ class _SleepTile extends ConsumerWidget {
         alignment: AlignmentDirectional.centerEnd,
         padding: const EdgeInsetsDirectional.only(end: 16),
         color: AppColors.danger.withValues(alpha: 0.3),
-        child: const Icon(Icons.delete),
+        child: const Icon(Symbols.delete_rounded, fill: 1),
       ),
       confirmDismiss: (_) => confirmDelete(context, l.trkDeleteConfirm(fmtDayLong(context, s.date))),
       onDismissed: (_) => ref.read(trackingRepositoryProvider).deleteSleep(s.id),
       child: ListTile(
         contentPadding: const EdgeInsets.symmetric(horizontal: 4),
-        leading: Icon(s.source == 'health_connect' ? Icons.watch : Icons.bedtime_outlined,
+        leading: Icon(s.source == 'health_connect' ? Symbols.watch_rounded : Symbols.bedtime_rounded,
             color: s.source == 'health_connect' ? AppColors.info : AppColors.textMuted),
         title: Text(fmtDayLong(context, s.date)),
         subtitle: details.isEmpty ? null : Text(details.join(' · ')),
@@ -439,7 +441,7 @@ class _SleepEntrySheetState extends ConsumerState<_SleepEntrySheet> {
                 Expanded(
                   child: OutlinedButton.icon(
                     onPressed: () => _pickTime(true),
-                    icon: const Icon(Icons.bedtime_outlined),
+                    icon: const Icon(Symbols.bedtime_rounded),
                     label: Text(_bed == null ? l.trkBedTime : '${l.trkBedTime} ${hm(_bed!)}'),
                   ),
                 ),
@@ -447,7 +449,7 @@ class _SleepEntrySheetState extends ConsumerState<_SleepEntrySheet> {
                 Expanded(
                   child: OutlinedButton.icon(
                     onPressed: () => _pickTime(false),
-                    icon: const Icon(Icons.wb_sunny_outlined),
+                    icon: const Icon(Symbols.wb_sunny_rounded),
                     label: Text(_wake == null ? l.trkWakeTime : '${l.trkWakeTime} ${hm(_wake!)}'),
                   ),
                 ),

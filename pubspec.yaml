@@ -63,6 +63,7 @@ dependencies:
   # Backup
   archive: ^4.5.2
   file_picker: ^13.1.0
+  material_symbols_icons: ^4.2960.0
 
 dev_dependencies:
   flutter_test:

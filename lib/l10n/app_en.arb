@@ -1906,6 +1906,9 @@
     }
   },
   "setWidgetAddCup": "+ Cup",
+  "setChannelRestLive": "Rest countdown",
+  "setNotifRestLiveTitle": "Resting",
+  "setNotifRestLiveBody": "Next set when the countdown ends",
   "todayCoachTitle": "Coach",
   "todayCoachEmpty": "Your coach's morning message will appear here.",
   "todayRecoveryTitle": "Recovery",
@@ -1942,6 +1945,9 @@
       }
     }
   },
+  "todayGreetMorning": "Good morning",
+  "todayGreetAfternoon": "Good afternoon",
+  "todayGreetEvening": "Good evening",
   "trkWaterTitle": "Water",
   "trkSupplementsTitle": "Supplements",
   "trkSleepTitle": "Sleep",

@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../core/providers.dart';
 import '../core/theme/app_theme.dart';
+import '../core/widgets/brand_mark.dart';
 import '../data/repositories/profile_repository.dart';
 import '../features/onboarding/onboarding_flow.dart';
 import '../l10n/gen/app_localizations.dart';
@@ -50,7 +51,7 @@ class _AppGate extends ConsumerWidget {
     final boot = ref.watch(bootstrapProvider);
     final profile = ref.watch(profileProvider);
     if (boot.isLoading || profile.isLoading) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
+      return const BrandSplash();
     }
     // The database is required; show the real error instead of a broken app.
     if (profile.hasError) {

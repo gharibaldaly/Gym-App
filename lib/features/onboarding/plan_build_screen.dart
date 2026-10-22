@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../ai/ai_service.dart';
 import '../../core/navigation.dart';
@@ -96,7 +97,7 @@ Future<void> offerPlanRegeneration(
     await showDialog<void>(
       context: context,
       builder: (ctx) => AlertDialog(
-        icon: Icon(availability == AiAvailability.noKey ? Icons.key_off : Icons.wifi_off, color: AppColors.warning),
+        icon: Icon(availability == AiAvailability.noKey ? Symbols.key_off_rounded : Symbols.wifi_off_rounded, color: AppColors.warning),
         title: Text(l.onbRegenResultTitle),
         content: Text(availability == AiAvailability.noKey ? l.onbRegenNoKey : l.onbRegenOffline),
         actions: [
@@ -159,7 +160,7 @@ Future<void> offerPlanRegeneration(
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 6),
               child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Icon(ok ? Icons.check_circle : Icons.error_outline,
+                Icon(ok ? Symbols.check_circle_rounded : Symbols.error_rounded,
                     color: ok ? AppColors.primary : AppColors.warning),
                 const SizedBox(width: 10),
                 Expanded(child: Text(text)),
@@ -208,7 +209,7 @@ class _RegenerateDialogState extends State<_RegenerateDialog> {
   Widget build(BuildContext context) {
     final l = context.l10n;
     return AlertDialog(
-      icon: const Icon(Icons.auto_awesome, color: AppColors.primary),
+      icon: const Icon(Symbols.auto_awesome_rounded, color: AppColors.primary),
       title: Text(l.onbRegenTitle),
       content: Column(
         mainAxisSize: MainAxisSize.min,
@@ -219,14 +220,14 @@ class _RegenerateDialogState extends State<_RegenerateDialog> {
             value: _workout,
             onChanged: (v) => setState(() => _workout = v ?? false),
             title: Text(l.onbRegenWorkout),
-            secondary: const Icon(Icons.fitness_center),
+            secondary: const Icon(Symbols.fitness_center_rounded, fill: 1),
             contentPadding: EdgeInsets.zero,
           ),
           CheckboxListTile(
             value: _meals,
             onChanged: (v) => setState(() => _meals = v ?? false),
             title: Text(l.onbRegenMeals),
-            secondary: const Icon(Icons.restaurant),
+            secondary: const Icon(Symbols.restaurant_rounded, fill: 1),
             contentPadding: EdgeInsets.zero,
           ),
         ],
@@ -317,13 +318,13 @@ class TargetsCard extends StatelessWidget {
             ]),
             const SizedBox(height: 8),
             Row(children: [
-              tile(l.water, '${p.waterGoalMl ?? '—'} ${l.mlShort}', AppColors.water, icon: Icons.water_drop),
+              tile(l.water, '${p.waterGoalMl ?? '—'} ${l.mlShort}', AppColors.water, icon: Symbols.water_drop_rounded),
               const SizedBox(width: 8),
               tile(l.onbTrainingDayCarbs, '${p.trainingDayCarbsG ?? '—'} ${l.gramsShort}', AppColors.primary,
-                  icon: Icons.fitness_center),
+                  icon: Symbols.fitness_center_rounded),
               const SizedBox(width: 8),
               tile(l.onbRestDayCarbs, '${p.restDayCarbsG ?? '—'} ${l.gramsShort}', AppColors.rest,
-                  icon: Icons.weekend_outlined),
+                  icon: Symbols.weekend_rounded),
             ]),
           ],
         ),
@@ -514,7 +515,7 @@ class _PlanBuildScreenState extends ConsumerState<PlanBuildScreen> with SingleTi
                               BoxShadow(color: AppColors.primary.withValues(alpha: 0.3), blurRadius: 40),
                             ],
                           ),
-                          child: const Icon(Icons.auto_awesome, color: AppColors.primary, size: 48),
+                          child: const Icon(Symbols.auto_awesome_rounded, color: AppColors.primary, size: 48),
                         ),
                       ),
                     ),
@@ -535,25 +536,25 @@ class _PlanBuildScreenState extends ConsumerState<PlanBuildScreen> with SingleTi
                           style: context.text.bodyMedium?.copyWith(color: AppColors.textMuted)),
                     ],
                     const SizedBox(height: 20),
-                    _TaskRow(icon: Icons.calculate_outlined, label: l.onbBuildTargets, state: _JobState.done),
+                    _TaskRow(icon: Symbols.calculate_rounded, label: l.onbBuildTargets, state: _JobState.done),
                     _TaskRow(
-                      icon: Icons.fitness_center,
+                      icon: Symbols.fitness_center_rounded,
                       label: l.onbBuildWorkout,
                       state: _workout,
                       note: _note(_workoutErr, l.onbBuildWorkoutLater),
                       onRetry: _aiOk && !_reviewOpened ? () => _retry(_runWorkout) : null,
                     ),
                     _TaskRow(
-                      icon: Icons.restaurant,
+                      icon: Symbols.restaurant_rounded,
                       label: l.onbBuildMeals,
                       state: _meals,
                       note: _note(_mealErr, l.onbBuildMealsLater),
                       onRetry: _aiOk ? () => _retry(_runMeals) : null,
                     ),
                     if (_ai == AiAvailability.noKey)
-                      InfoNote(l.onbBuildNoKey, icon: Icons.key_off, color: AppColors.warning),
+                      InfoNote(l.onbBuildNoKey, icon: Symbols.key_off_rounded, color: AppColors.warning),
                     if (_ai == AiAvailability.offline)
-                      InfoNote(l.onbBuildOffline, icon: Icons.wifi_off, color: AppColors.warning),
+                      InfoNote(l.onbBuildOffline, icon: Symbols.wifi_off_rounded, color: AppColors.warning),
                     const SizedBox(height: 12),
                     if (profile != null) TargetsCard(profile: profile),
                   ],
@@ -572,13 +573,13 @@ class _PlanBuildScreenState extends ConsumerState<PlanBuildScreen> with SingleTi
                             if (_planId != null)
                               FilledButton.icon(
                                 onPressed: _openReview,
-                                icon: const Icon(Icons.checklist),
+                                icon: const Icon(Symbols.checklist_rounded),
                                 label: Text(l.onbReviewPlan),
                               )
                             else
                               FilledButton.icon(
                                 onPressed: _finish,
-                                icon: const Icon(Icons.rocket_launch_outlined),
+                                icon: const Icon(Symbols.rocket_launch_rounded),
                                 label: Text(l.onbStartApp),
                               ),
                           ],
@@ -626,13 +627,13 @@ class _TaskRow extends StatelessWidget {
                 child: switch (state) {
                   _JobState.running => const SizedBox(
                       key: ValueKey('r'), width: 22, height: 22, child: CircularProgressIndicator(strokeWidth: 2.5)),
-                  _JobState.done => const Icon(Icons.check_circle, key: ValueKey('d'), color: AppColors.primary),
+                  _JobState.done => const Icon(Symbols.check_circle_rounded, fill: 1, key: ValueKey('d'), color: AppColors.primary),
                   _JobState.template =>
-                    const Icon(Icons.inventory_2_outlined, key: ValueKey('t'), color: AppColors.primary),
+                    const Icon(Symbols.inventory_2_rounded, key: ValueKey('t'), color: AppColors.primary),
                   _JobState.failed =>
-                    const Icon(Icons.error_outline, key: ValueKey('f'), color: AppColors.warning),
+                    const Icon(Symbols.error_rounded, key: ValueKey('f'), color: AppColors.warning),
                   _JobState.waiting =>
-                    const Icon(Icons.hourglass_empty, key: ValueKey('w'), color: AppColors.textMuted),
+                    const Icon(Symbols.hourglass_empty_rounded, key: ValueKey('w'), color: AppColors.textMuted),
                 },
               ),
             ]),
@@ -648,7 +649,7 @@ class _TaskRow extends StatelessWidget {
               if (onRetry != null)
                 Align(
                   alignment: AlignmentDirectional.centerEnd,
-                  child: TextButton.icon(onPressed: onRetry, icon: const Icon(Icons.refresh), label: Text(l.retry)),
+                  child: TextButton.icon(onPressed: onRetry, icon: const Icon(Symbols.refresh_rounded), label: Text(l.retry)),
                 ),
             ],
           ],

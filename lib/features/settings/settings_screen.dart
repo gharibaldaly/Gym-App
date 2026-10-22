@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../ai/ai_service.dart';
 import '../../core/navigation.dart';
@@ -52,7 +53,7 @@ class SettingsScreen extends ConsumerWidget {
         children: [
           if (backupDue && profile?.onboardingComplete == true) const _BackupBanner(),
           _NavTile(
-            icon: Icons.person_outline,
+            icon: Symbols.person_rounded,
             title: l.setProfile,
             subtitle: l.setProfileSub,
             onTap: () => push(context, const ProfileEditScreen()),
@@ -66,39 +67,39 @@ class SettingsScreen extends ConsumerWidget {
           const SizedBox(height: 8),
           _SectionLabel(l.setSectionApp),
           _NavTile(
-            icon: Icons.notifications_outlined,
+            icon: Symbols.notifications_rounded,
             title: l.setNotifications,
             subtitle: l.setNotificationsSub,
             onTap: () => push(context, const NotificationSettingsScreen()),
           ),
           _NavTile(
-            icon: Icons.favorite_outline,
+            icon: Symbols.favorite_rounded,
             title: l.setHealthConnect,
             subtitle: l.setHealthConnectSub,
             onTap: () => push(context, const HealthConnectSettingsScreen()),
           ),
           _NavTile(
-            icon: Icons.psychology_outlined,
+            icon: Symbols.psychology_rounded,
             title: l.setCoachMemory,
             subtitle: l.setCoachMemorySub,
             onTap: () => push(context, const CoachMemoryScreen()),
           ),
           _NavTile(
-            icon: Icons.backup_outlined,
+            icon: Symbols.backup_rounded,
             title: l.setBackup,
             subtitle: l.setBackupSub,
             onTap: () => push(context, const BackupScreen()),
           ),
           const _LockCard(),
           _NavTile(
-            icon: Icons.image_outlined,
+            icon: Symbols.image_rounded,
             title: l.setExerciseImages,
             subtitle: l.setExerciseImagesSub,
             onTap: () => push(context, const ExerciseOfflineDownloadScreen()),
           ),
           const SizedBox(height: 8),
           _NavTile(
-            icon: Icons.info_outline,
+            icon: Symbols.info_rounded,
             title: l.setAbout,
             subtitle: l.setAboutSub,
             onTap: () => push(context, const AboutScreen()),
@@ -135,7 +136,7 @@ class _NavTile extends StatelessWidget {
           leading: Icon(icon, color: AppColors.primary),
           title: Text(title, style: const TextStyle(fontWeight: FontWeight.w600)),
           subtitle: subtitle == null ? null : Text(subtitle!, style: const TextStyle(color: AppColors.textMuted)),
-          trailing: Icon(context.isAr ? Icons.chevron_left : Icons.chevron_right, color: AppColors.textMuted),
+          trailing: const Icon(Symbols.chevron_right_rounded, color: AppColors.textMuted), // mirrors in RTL
           onTap: onTap,
         ),
       );
@@ -157,7 +158,7 @@ class _BackupBanner extends StatelessWidget {
         padding: const EdgeInsets.all(14),
         child: Row(
           children: [
-            const Icon(Icons.warning_amber_rounded, color: AppColors.warning),
+            const Icon(Symbols.warning_rounded, color: AppColors.warning),
             const SizedBox(width: 12),
             Expanded(child: Text(l.setBackupBanner)),
             TextButton(onPressed: () => push(context, const BackupScreen()), child: Text(l.setBackupNow)),
@@ -247,7 +248,7 @@ class _ApiKeyCardState extends ConsumerState<_ApiKeyCard> {
       _editing = false;
       _test = _TestState.idle;
     });
-    context.snack(context.l10n.setApiKeySaved);
+    context.snack(context.l10n.setApiKeySaved, kind: ToastKind.success);
   }
 
   Future<void> _runTest(String key) async {
@@ -298,7 +299,7 @@ class _ApiKeyCardState extends ConsumerState<_ApiKeyCard> {
     final showField = key == null || _editing;
     return SectionCard(
       title: l.setApiKey,
-      trailing: Icon(key != null ? Icons.check_circle : Icons.key_off,
+      trailing: Icon(key != null ? Symbols.check_circle_rounded : Symbols.key_off_rounded,
           color: key != null ? AppColors.primary : AppColors.textMuted),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -320,7 +321,7 @@ class _ApiKeyCardState extends ConsumerState<_ApiKeyCard> {
               children: [
                 FilledButton.icon(
                   onPressed: _test == _TestState.running ? null : () => _runTest(key),
-                  icon: const Icon(Icons.network_check),
+                  icon: const Icon(Symbols.network_check_rounded),
                   label: Text(l.setApiKeyTest),
                 ),
                 OutlinedButton(onPressed: () => setState(() => _editing = true), child: Text(l.setApiKeyChange)),
@@ -341,7 +342,7 @@ class _ApiKeyCardState extends ConsumerState<_ApiKeyCard> {
               decoration: InputDecoration(
                 hintText: 'sk-ant-…',
                 suffixIcon: IconButton(
-                  icon: Icon(_obscure ? Icons.visibility : Icons.visibility_off),
+                  icon: Icon(_obscure ? Symbols.visibility_rounded : Symbols.visibility_off_rounded),
                   onPressed: () => setState(() => _obscure = !_obscure),
                 ),
               ),
@@ -360,7 +361,7 @@ class _ApiKeyCardState extends ConsumerState<_ApiKeyCard> {
                           final k = _ctrl.text.trim();
                           if (k.isNotEmpty) _runTest(k);
                         },
-                  icon: const Icon(Icons.network_check),
+                  icon: const Icon(Symbols.network_check_rounded),
                   label: Text(l.setApiKeyTest),
                 ),
                 if (key != null)
@@ -387,9 +388,9 @@ class _TestResult extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = context.l10n;
     final (IconData icon, Color color, String text) = switch (state) {
-      _TestState.running => (Icons.hourglass_top, AppColors.textMuted, l.setApiKeyTesting),
-      _TestState.ok => (Icons.check_circle, AppColors.primary, l.setApiKeyValid),
-      _ => (Icons.error_outline, AppColors.danger, error ?? l.setApiKeyInvalid),
+      _TestState.running => (Symbols.hourglass_top_rounded, AppColors.textMuted, l.setApiKeyTesting),
+      _TestState.ok => (Symbols.check_circle_rounded, AppColors.primary, l.setApiKeyValid),
+      _ => (Symbols.error_rounded, AppColors.danger, error ?? l.setApiKeyInvalid),
     };
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -449,7 +450,7 @@ class _ModelsCardState extends ConsumerState<_ModelsCard> {
     await put(SettingsKeys.modelHaiku, _haiku.text, AiDefaults.haiku);
     await put(SettingsKeys.modelSonnet, _sonnet.text, AiDefaults.sonnet);
     await put(SettingsKeys.modelOpus, _opus.text, AiDefaults.opus);
-    if (mounted) context.snack(context.l10n.setModelsSaved);
+    if (mounted) context.snack(context.l10n.setModelsSaved, kind: ToastKind.success);
   }
 
   Future<void> _reset() async {
@@ -462,7 +463,7 @@ class _ModelsCardState extends ConsumerState<_ModelsCard> {
       _sonnet.text = AiDefaults.sonnet;
       _opus.text = AiDefaults.opus;
     });
-    if (mounted) context.snack(context.l10n.setModelsResetDone);
+    if (mounted) context.snack(context.l10n.setModelsResetDone, kind: ToastKind.success);
   }
 
   Widget _field(String label, String help, TextEditingController c) => Padding(
@@ -694,13 +695,13 @@ class _LockCardState extends ConsumerState<_LockCard> {
     setState(() => _busy = true);
     try {
       if (v && !await AppLockAuth.isSupported()) {
-        if (mounted) context.snack(l.setLockUnsupported);
+        if (mounted) context.snack(l.setLockUnsupported, kind: ToastKind.warning);
         return;
       }
       // Verify the user both when enabling (proves it works) and before disabling.
       final res = await AppLockAuth.authenticate(v ? l.setLockEnableReason : l.setLockDisableReason);
       if (res != LockAuthResult.success) {
-        if (mounted) context.snack(res == LockAuthResult.unavailable ? l.setLockUnsupported : l.setLockFailed);
+        if (mounted) context.snack(res == LockAuthResult.unavailable ? l.setLockUnsupported : l.setLockFailed, kind: ToastKind.error);
         return;
       }
       await prefs.setBool(SettingsKeys.lockEnabled, v);
@@ -728,7 +729,7 @@ class _LockCardState extends ConsumerState<_LockCard> {
       child: Column(
         children: [
           SwitchListTile(
-            secondary: const Icon(Icons.fingerprint, color: AppColors.primary),
+            secondary: const Icon(Symbols.fingerprint_rounded, color: AppColors.primary),
             title: Text(l.setLock, style: const TextStyle(fontWeight: FontWeight.w600)),
             subtitle: Text(l.setLockSub, style: const TextStyle(color: AppColors.textMuted)),
             value: enabled,
@@ -736,7 +737,7 @@ class _LockCardState extends ConsumerState<_LockCard> {
           ),
           if (enabled)
             ListTile(
-              leading: const Icon(Icons.timer_outlined, color: AppColors.textMuted),
+              leading: const Icon(Symbols.timer_rounded, color: AppColors.textMuted),
               title: Text(l.setLockTimeout),
               trailing: DropdownButton<int>(
                 value: timeout,

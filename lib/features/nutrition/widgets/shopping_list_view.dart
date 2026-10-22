@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../../core/providers.dart';
@@ -58,7 +59,7 @@ class ShoppingListView extends ConsumerWidget {
     final all = ref.watch(activePlannedMealsProvider).value ?? const <PlannedMeal>[];
     final profile = ref.watch(profileProvider).value;
     if (plan == null || all.isEmpty) {
-      return EmptyState(icon: Icons.shopping_cart_outlined, text: l.nutShoppingNoPlan);
+      return EmptyState(icon: Symbols.shopping_cart_rounded, text: l.nutShoppingNoPlan);
     }
     final trainingDays = (profile?.trainingDays.isNotEmpty ?? false)
         ? profile!.trainingDays.toSet().length.clamp(0, 7)
@@ -102,7 +103,7 @@ class ShoppingListView extends ConsumerWidget {
           title: l.nutShoppingTitle,
           trailing: IconButton(
             tooltip: l.nutShare,
-            icon: const Icon(Icons.share),
+            icon: const Icon(Symbols.share_rounded),
             onPressed: () => SharePlus.instance.share(ShareParams(text: shareText(), subject: l.nutShoppingTitle)),
           ),
           child: Column(

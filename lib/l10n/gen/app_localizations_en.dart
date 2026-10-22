@@ -3639,6 +3639,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get setWidgetAddCup => '+ Cup';
 
   @override
+  String get setChannelRestLive => 'Rest countdown';
+
+  @override
+  String get setNotifRestLiveTitle => 'Resting';
+
+  @override
+  String get setNotifRestLiveBody => 'Next set when the countdown ends';
+
+  @override
   String get todayCoachTitle => 'Coach';
 
   @override
@@ -3719,6 +3728,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String todayWeightAvg(String avg) {
     return '7-day avg $avg';
   }
+
+  @override
+  String get todayGreetMorning => 'Good morning';
+
+  @override
+  String get todayGreetAfternoon => 'Good afternoon';
+
+  @override
+  String get todayGreetEvening => 'Good evening';
 
   @override
   String get trkWaterTitle => 'Water';

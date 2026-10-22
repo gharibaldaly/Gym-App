@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../core/theme/app_theme.dart';
 import '../../core/utils/context_ext.dart';
@@ -68,7 +69,7 @@ class InfoNote extends StatelessWidget {
   final String text;
   final IconData icon;
   final Color color;
-  const InfoNote(this.text, {super.key, this.icon = Icons.info_outline, this.color = AppColors.info});
+  const InfoNote(this.text, {super.key, this.icon = Symbols.info_rounded, this.color = AppColors.info});
 
   @override
   Widget build(BuildContext context) {
@@ -186,7 +187,7 @@ class _ToggleTile extends StatelessWidget {
                   child: Text(label,
                       style: TextStyle(fontWeight: selected ? FontWeight.w700 : FontWeight.w500, fontSize: 14)),
                 ),
-                if (selected) const Icon(Icons.check_circle, size: 18, color: AppColors.primary),
+                if (selected) const Icon(Symbols.check_circle_rounded, fill: 1, size: 18, color: AppColors.primary),
               ],
             ),
           ),
@@ -491,7 +492,7 @@ class TimeTile extends StatelessWidget {
     required this.label,
     required this.value,
     required this.onChanged,
-    this.icon = Icons.schedule,
+    this.icon = Symbols.schedule_rounded,
     this.fallback = '08:00',
   });
 
@@ -517,7 +518,7 @@ class TimeTile extends StatelessWidget {
                 style: context.text.titleLarge?.copyWith(fontWeight: FontWeight.w800),
               ),
               const SizedBox(width: 4),
-              const Icon(Icons.edit_outlined, size: 16, color: AppColors.textMuted),
+              const Icon(Symbols.edit_rounded, size: 16, color: AppColors.textMuted),
             ],
           ),
         ),
@@ -548,7 +549,7 @@ class SummarySectionCard extends StatelessWidget {
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Icon(item.invalid ? Icons.error_outline : item.icon,
+                    Icon(item.invalid ? Symbols.error_rounded : item.icon,
                         size: 22, color: item.invalid ? AppColors.danger : AppColors.primary),
                     const SizedBox(width: 12),
                     Expanded(
@@ -566,7 +567,7 @@ class SummarySectionCard extends StatelessWidget {
                         ],
                       ),
                     ),
-                    const Icon(Icons.chevron_right, color: AppColors.textMuted),
+                    const Icon(Symbols.chevron_right_rounded, color: AppColors.textMuted),
                   ],
                 ),
               ),

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Status-bar icon for supplements notifications (Material Symbols Rounded, filled). Generated. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="960"
+    android:viewportHeight="960">
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M480 480Q480 480 480.0 480.0Q480 480 480 480Q480 480 480.0 480.0Q480 480 480 480Q480 480 480.0 480.0Q480 480 480 480Q480 480 480.0 480.0Q480 480 480 480Q480 480 480.0 480.0Q480 480 480 480Q480 480 480.0 480.0Q480 480 480 480ZM675 610 777 508Q810 475 827.5 433.0Q845 391 845 345Q845 249 778.0 182.0Q711 115 615 115Q569 115 527.0 132.5Q485 150 452 183L350 285ZM345 845Q391 845 433.0 827.5Q475 810 508 777L610 675L285 350L183 452Q150 485 132.5 527.0Q115 569 115 615Q115 711 182.0 778.0Q249 845 345 845Z" />
+</vector>

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../ai/ai_service.dart';
 import '../../core/navigation.dart';
@@ -39,7 +40,7 @@ class WorkoutTabScreen extends ConsumerWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text(l.tabWorkout),
-        actions: [IconButton(onPressed: () => openSettings(context), icon: const Icon(Icons.settings_outlined))],
+        actions: [IconButton(onPressed: () => openSettings(context), icon: const Icon(Symbols.settings_rounded))],
       ),
       body: Column(
         children: [
@@ -50,9 +51,9 @@ class WorkoutTabScreen extends ConsumerWidget {
               child: SegmentedButton<int>(
                 showSelectedIcon: false,
                 segments: [
-                  ButtonSegment(value: 0, label: Text(l.woWeeklyPlan), icon: const Icon(Icons.calendar_view_week)),
-                  ButtonSegment(value: 1, label: Text(l.woHistory), icon: const Icon(Icons.history)),
-                  ButtonSegment(value: 2, label: Text(l.woLibrary), icon: const Icon(Icons.menu_book)),
+                  ButtonSegment(value: 0, label: Text(l.woWeeklyPlan), icon: const Icon(Symbols.calendar_view_week_rounded)),
+                  ButtonSegment(value: 1, label: Text(l.woHistory), icon: const Icon(Symbols.history_rounded)),
+                  ButtonSegment(value: 2, label: Text(l.woLibrary), icon: const Icon(Symbols.menu_book_rounded)),
                 ],
                 selected: {seg},
                 onSelectionChanged: (s) => ref.read(workoutSegmentProvider.notifier).select(s.first),
@@ -85,7 +86,7 @@ Future<void> generatePlanWithAi(BuildContext context, WidgetRef ref, {bool confi
     final id = await runWithProgress(context, l.woGeneratingPlan, () => ref.read(workoutPlanGeneratorProvider).generateAndSave());
     if (context.mounted) await push(context, PlanReviewScreen(planId: id));
   } catch (e) {
-    if (context.mounted) context.snack(aiErrorText(e, ar: context.isAr));
+    if (context.mounted) context.snack(aiErrorText(e, ar: context.isAr), kind: ToastKind.error);
   }
 }
 
@@ -99,7 +100,7 @@ Future<void> buildTemplatePlan(BuildContext context, WidgetRef ref) async {
     final id = await ref.read(workoutPlanGeneratorProvider).buildTemplatePlan();
     if (context.mounted) await push(context, PlanReviewScreen(planId: id));
   } catch (e) {
-    if (context.mounted) context.snack('${l.errorGeneric}: $e');
+    if (context.mounted) context.snack('${l.errorGeneric}: $e', kind: ToastKind.error);
   }
 }
 
@@ -129,10 +130,10 @@ class _WeeklyPlanView extends ConsumerWidget {
               side: const BorderSide(color: AppColors.primary),
             ),
             child: ListTile(
-              leading: const Icon(Icons.fact_check, color: AppColors.primary),
+              leading: const Icon(Symbols.fact_check_rounded, fill: 1, color: AppColors.primary),
               title: Text(l.woPendingPlan),
               subtitle: Text(pending.first.name),
-              trailing: const Icon(Icons.chevron_right),
+              trailing: const Icon(Symbols.chevron_right_rounded),
               onTap: () => push(context, PlanReviewScreen(planId: pending.first.id)),
             ),
           ),
@@ -158,18 +159,18 @@ class _NoPlanCard extends ConsumerWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        EmptyState(icon: Icons.calendar_month, text: l.woNoPlan),
+        EmptyState(icon: Symbols.calendar_month_rounded, text: l.woNoPlan),
         const AiUnavailableBanner(),
         const SizedBox(height: 8),
         FilledButton.icon(
           onPressed: aiReady ? () => generatePlanWithAi(context, ref, confirm: false) : null,
-          icon: const Icon(Icons.auto_awesome),
+          icon: const Icon(Symbols.auto_awesome_rounded),
           label: Text(l.woGenerateWithAi),
         ),
         const SizedBox(height: 8),
         OutlinedButton.icon(
           onPressed: () => buildTemplatePlan(context, ref),
-          icon: const Icon(Icons.offline_bolt),
+          icon: const Icon(Symbols.bolt_rounded),
           label: Text(l.woBuildTemplate),
         ),
       ],
@@ -190,7 +191,7 @@ class _TodayCard extends ConsumerWidget {
     if (t.inProgress) {
       action = FilledButton.icon(
         onPressed: () => push(context, LiveWorkoutScreen(sessionId: s!.id, planDayId: s.planDayId)),
-        icon: const Icon(Icons.play_arrow),
+        icon: const Icon(Symbols.play_arrow_rounded, fill: 1),
         label: Text(l.woResumeWorkout),
       );
     } else if (t.finished) {
@@ -202,7 +203,7 @@ class _TodayCard extends ConsumerWidget {
     } else if (t.isRestDay) {
       action = OutlinedButton.icon(
         onPressed: () => push(context, const LiveWorkoutScreen()),
-        icon: const Icon(Icons.add),
+        icon: const Icon(Symbols.add_rounded),
         label: Text(l.woStartEmpty),
       );
     } else {
@@ -210,7 +211,7 @@ class _TodayCard extends ConsumerWidget {
         height: 60,
         child: FilledButton.icon(
           onPressed: () => push(context, LiveWorkoutScreen(planDayId: t.planDay?.id)),
-          icon: const Icon(Icons.play_arrow, size: 28),
+          icon: const Icon(Symbols.play_arrow_rounded, fill: 1, size: 28),
           label: Text(l.woStartToday, style: const TextStyle(fontSize: 18)),
         ),
       );
@@ -287,14 +288,17 @@ class _DayTile extends StatelessWidget {
     final l = context.l10n;
     final rest = day.isRest;
     final s = session;
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 3),
-      decoration: BoxDecoration(
+    // Material (not a decorated Container) so the ListTile's ink ripple is visible.
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 3),
+      child: Material(
         color: isToday ? AppColors.primary.withValues(alpha: 0.10) : AppColors.cardHigh,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: isToday ? AppColors.primary : Colors.transparent, width: 1.5),
-      ),
-      child: ListTile(
+        clipBehavior: Clip.antiAlias,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppRadius.md),
+          side: BorderSide(color: isToday ? AppColors.primary : AppColors.border, width: isToday ? 1.5 : 1),
+        ),
+        child: ListTile(
         onTap: () => push(context, PlanDayScreen(dayId: day.id)),
         leading: SizedBox(
           width: 44,
@@ -315,7 +319,8 @@ class _DayTile extends StatelessWidget {
                 maxLines: 1, overflow: TextOverflow.ellipsis),
         trailing: s != null
             ? Icon(sessionStatusIcon(s.status), color: sessionStatusColor(s.status))
-            : (rest ? const Icon(Icons.bedtime_outlined, color: AppColors.rest) : const Icon(Icons.chevron_right)),
+            : (rest ? const Icon(Symbols.bedtime_rounded, color: AppColors.rest) : const Icon(Symbols.chevron_right_rounded)),
+        ),
       ),
     );
   }
@@ -337,7 +342,7 @@ class _DeloadCard extends ConsumerWidget {
       return Card(
         color: AppColors.info.withValues(alpha: 0.12),
         child: ListTile(
-          leading: const Icon(Icons.south, color: AppColors.info),
+          leading: const Icon(Symbols.south_rounded, color: AppColors.info),
           title: Text(l.woDeloadActiveTitle(dayN.clamp(1, 7))),
           subtitle: Text(l.woDeloadActiveBody),
           trailing: TextButton(
@@ -353,7 +358,7 @@ class _DeloadCard extends ConsumerWidget {
     if (!st.showSuggestion) return const SizedBox.shrink();
     return SectionCard(
       title: l.woDeloadDueTitle,
-      trailing: const Icon(Icons.battery_charging_full, color: AppColors.info),
+      trailing: const Icon(Symbols.battery_charging_full_rounded, color: AppColors.info),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -407,20 +412,20 @@ class _PlanToolsCard extends ConsumerWidget {
           ],
           OutlinedButton.icon(
             onPressed: () => push(context, PlanReviewScreen(planId: plan.id)),
-            icon: const Icon(Icons.edit_calendar),
+            icon: const Icon(Symbols.edit_calendar_rounded),
             label: Text(l.woEditPlan),
           ),
           const SizedBox(height: 8),
           const AiUnavailableBanner(),
           FilledButton.icon(
             onPressed: aiReady ? () => generatePlanWithAi(context, ref) : null,
-            icon: const Icon(Icons.auto_awesome),
+            icon: const Icon(Symbols.auto_awesome_rounded),
             label: Text(l.woRegenerate),
           ),
           const SizedBox(height: 8),
           TextButton.icon(
             onPressed: () => buildTemplatePlan(context, ref),
-            icon: const Icon(Icons.offline_bolt),
+            icon: const Icon(Symbols.bolt_rounded),
             label: Text(l.woBuildTemplate),
           ),
         ],
@@ -442,7 +447,7 @@ class _HistoryView extends ConsumerWidget {
     final items = ref.watch(workoutHistoryProvider);
     final list = items.value;
     if (list == null) return const Center(child: CircularProgressIndicator());
-    if (list.isEmpty) return EmptyState(icon: Icons.history, text: l.woNoHistory);
+    if (list.isEmpty) return EmptyState(icon: Symbols.history_rounded, text: l.woNoHistory);
     final fmt = DateFormat.MMMEd(context.lang);
     return ListView.builder(
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 32),
@@ -469,7 +474,7 @@ class _HistoryView extends ConsumerWidget {
             title: Text('${fmt.format(s.date)} · ${s.name ?? l.woWorkout}', style: const TextStyle(fontWeight: FontWeight.w700)),
             subtitle: Text(details.join(' · '), style: TextStyle(color: s.status == SessionStatus.missed ? color : AppColors.textMuted)),
             trailing: it.prs > 0
-                ? Pill('${it.prs} PR', color: AppColors.warning, icon: Icons.emoji_events)
+                ? Pill('${it.prs} PR', color: AppColors.warning, icon: Symbols.trophy_rounded)
                 : Icon(sessionStatusIcon(s.status), color: color),
           ),
         );

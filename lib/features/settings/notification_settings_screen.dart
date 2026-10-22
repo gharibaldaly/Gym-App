@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../core/providers.dart';
@@ -162,7 +163,7 @@ class _NotificationSettingsScreenState extends ConsumerState<NotificationSetting
               onTap: NotificationService.requestExactAlarms,
             ),
           _ReminderCard(
-            icon: Icons.fitness_center,
+            icon: Symbols.fitness_center_rounded,
             title: l.setNotifWorkout,
             subtitle: days.isEmpty
                 ? l.setNotifWorkoutNoDays
@@ -181,7 +182,7 @@ class _NotificationSettingsScreenState extends ConsumerState<NotificationSetting
             ],
           ),
           _ReminderCard(
-            icon: Icons.restaurant,
+            icon: Symbols.restaurant_rounded,
             title: l.setNotifMeals,
             subtitle: l.setNotifMealsSub,
             enabled: np.isEnabled(ReminderType.meals),
@@ -210,7 +211,7 @@ class _NotificationSettingsScreenState extends ConsumerState<NotificationSetting
             ],
           ),
           _ReminderCard(
-            icon: Icons.water_drop_outlined,
+            icon: Symbols.water_drop_rounded,
             title: l.setNotifWater,
             subtitle: l.setNotifWaterSub(profile.effectiveWake, profile.effectiveSleep),
             enabled: np.isEnabled(ReminderType.water),
@@ -242,7 +243,7 @@ class _NotificationSettingsScreenState extends ConsumerState<NotificationSetting
             ],
           ),
           _ReminderCard(
-            icon: Icons.medication_outlined,
+            icon: Symbols.pill_rounded,
             title: l.setNotifSupplements,
             subtitle: hasSupps ? (activeSupps.isNotEmpty ? activeSupps : profile.supplementNames).join('، ') : l.setNotifNoSupplements,
             enabled: np.isEnabled(ReminderType.supplements),
@@ -265,7 +266,7 @@ class _NotificationSettingsScreenState extends ConsumerState<NotificationSetting
             ],
           ),
           _ReminderCard(
-            icon: Icons.monitor_weight_outlined,
+            icon: Symbols.monitor_weight_rounded,
             title: l.setNotifWeight,
             subtitle: l.setNotifWeightSub,
             enabled: np.isEnabled(ReminderType.weight),
@@ -282,14 +283,14 @@ class _NotificationSettingsScreenState extends ConsumerState<NotificationSetting
             ],
           ),
           _ReminderCard(
-            icon: Icons.forum_outlined,
+            icon: Symbols.forum_rounded,
             title: l.setNotifCoach,
             subtitle: l.setNotifCoachSub,
             enabled: np.isEnabled(ReminderType.coach),
             onEnabled: (v) => _setEnabled(ReminderType.coach, v),
           ),
           _ReminderCard(
-            icon: Icons.backup_outlined,
+            icon: Symbols.backup_rounded,
             title: l.setNotifBackup,
             subtitle: l.setNotifBackupSub,
             enabled: np.isEnabled(ReminderType.backup),
@@ -302,7 +303,7 @@ class _NotificationSettingsScreenState extends ConsumerState<NotificationSetting
               body: l.setNotifTestBody,
               channel: NotifChannel.workout,
             ),
-            icon: const Icon(Icons.notifications_active_outlined),
+            icon: const Icon(Symbols.notifications_active_rounded),
             label: Text(l.setNotifTest),
           ),
         ],
@@ -329,7 +330,7 @@ class _PermissionBanner extends StatelessWidget {
           padding: const EdgeInsets.all(14),
           child: Row(
             children: [
-              const Icon(Icons.notifications_off_outlined, color: AppColors.warning),
+              const Icon(Symbols.notifications_off_rounded, color: AppColors.warning),
               const SizedBox(width: 12),
               Expanded(child: Text(text)),
               TextButton(onPressed: onTap, child: Text(action)),
@@ -404,7 +405,7 @@ class _TimeRow extends StatelessWidget {
             children: [
               Expanded(child: Text(label)),
               ActionChip(
-                avatar: const Icon(Icons.schedule, size: 18),
+                avatar: const Icon(Symbols.schedule_rounded, size: 18),
                 label: Text(time, textDirection: TextDirection.ltr),
                 onPressed: onEdit,
               ),
@@ -438,7 +439,7 @@ class _TimesEditor extends StatelessWidget {
               onDeleted: onRemove == null ? null : () => onRemove!(i),
             ),
           ActionChip(
-            avatar: const Icon(Icons.add, size: 18),
+            avatar: const Icon(Symbols.add_rounded, size: 18),
             label: Text(context.l10n.add),
             onPressed: times.length >= 10 ? null : onAdd,
           ),

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:path/path.dart' as p;
 import 'package:path_provider/path_provider.dart';
 
@@ -42,9 +43,9 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
     try {
       final ok = await ref.read(backupServiceProvider).exportAndShare(subject: context.l10n.setBackupShareSubject);
       if (!mounted) return;
-      if (ok) context.snack(context.l10n.setBackupDone);
+      if (ok) context.snack(context.l10n.setBackupDone, kind: ToastKind.success);
     } catch (e) {
-      if (mounted) context.snack(context.l10n.setBackupFailed(e.toString()));
+      if (mounted) context.snack(context.l10n.setBackupFailed(e.toString()), kind: ToastKind.error);
     } finally {
       if (mounted) setState(() => _exporting = false);
     }
@@ -63,10 +64,10 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
       await picked.xFile.saveTo(local);
       prepared = await service.prepareRestore(local);
     } on BackupException catch (e) {
-      if (mounted) context.snack(_problemText(e.problem));
+      if (mounted) context.snack(_problemText(e.problem), kind: ToastKind.error);
       return;
     } catch (e) {
-      if (mounted) context.snack(l.setRestoreNotBackup);
+      if (mounted) context.snack(l.setRestoreNotBackup, kind: ToastKind.error);
       return;
     } finally {
       if (mounted) setState(() => _importing = false);
@@ -124,7 +125,7 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
                 const SizedBox(height: 12),
                 Row(
                   children: [
-                    Icon(due ? Icons.warning_amber_rounded : Icons.check_circle_outline,
+                    Icon(due ? Symbols.warning_rounded : Symbols.check_circle_rounded,
                         color: due ? AppColors.warning : AppColors.primary, size: 20),
                     const SizedBox(width: 8),
                     Expanded(
@@ -139,7 +140,7 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
                   onPressed: busy ? null : _export,
                   icon: _exporting
                       ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2))
-                      : const Icon(Icons.ios_share),
+                      : const Icon(Symbols.ios_share_rounded),
                   label: Text(_exporting ? l.setBackupWorking : l.setBackupExportButton),
                 ),
               ],
@@ -156,7 +157,7 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
                   onPressed: busy ? null : _import,
                   icon: _importing
                       ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2))
-                      : const Icon(Icons.restore),
+                      : const Icon(Symbols.restore_rounded),
                   label: Text(l.setRestoreButton),
                 ),
               ],
@@ -167,7 +168,7 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Icon(Icons.key, size: 18, color: AppColors.textMuted),
+                const Icon(Symbols.key_rounded, fill: 1, size: 18, color: AppColors.textMuted),
                 const SizedBox(width: 8),
                 Expanded(child: Text(l.setBackupKeyNote, style: const TextStyle(color: AppColors.textMuted))),
               ],
@@ -230,7 +231,7 @@ class _RestoreProgressScreenState extends State<RestoreProgressScreen> {
                     const SizedBox(height: 24),
                     Text(l.setRestoreWorking, textAlign: TextAlign.center),
                   ] else ...[
-                    Icon(_error == null ? Icons.check_circle : Icons.error_outline,
+                    Icon(_error == null ? Symbols.check_circle_rounded : Symbols.error_rounded,
                         size: 72, color: _error == null ? AppColors.primary : AppColors.danger),
                     const SizedBox(height: 16),
                     Text(

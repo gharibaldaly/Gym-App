@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:intl/intl.dart';
+import 'package:intl/intl.dart' hide TextDirection;
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../app/home_shell.dart';
 import '../../core/calc/recovery.dart';
@@ -22,32 +23,60 @@ class TodayScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final dateLabel = DateFormat.MMMMEEEEd(context.lang).format(DateTime.now());
+    final l = context.l10n;
+    final now = DateTime.now();
+    final dateLabel = DateFormat.MMMMEEEEd(context.lang).format(now);
+    final greeting = now.hour < 12
+        ? l.todayGreetMorning
+        : now.hour < 17
+            ? l.todayGreetAfternoon
+            : l.todayGreetEvening;
     return Scaffold(
-      appBar: AppBar(
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(context.l10n.tabToday, style: const TextStyle(fontWeight: FontWeight.w800)),
-            Text(dateLabel, style: context.text.bodySmall?.copyWith(color: AppColors.textMuted)),
-          ],
-        ),
-        actions: [IconButton(icon: const Icon(Icons.settings_outlined), onPressed: () => openSettings(context))],
-      ),
-      body: RefreshIndicator(
-        onRefresh: () async {
-          ref.invalidate(todayWorkoutProvider);
-        },
-        child: ListView(
-          padding: const EdgeInsets.fromLTRB(16, 4, 16, 24),
-          children: const [
-            _CoachCard(),
-            _RecoveryCard(),
-            _WorkoutCard(),
-            _RingsCard(),
-            _SupplementsCard(),
-            _WeightCard(),
-          ],
+      body: SafeArea(
+        bottom: false,
+        child: RefreshIndicator(
+          onRefresh: () async {
+            ref.invalidate(todayWorkoutProvider);
+          },
+          child: ListView(
+            padding: const EdgeInsets.fromLTRB(AppSpace.lg, AppSpace.md, AppSpace.lg, AppSpace.xl),
+            children: revealAll([
+              Padding(
+                padding: const EdgeInsets.only(bottom: AppSpace.md),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(dateLabel, style: context.text.labelMedium),
+                          const SizedBox(height: 2),
+                          Text(greeting, style: context.text.headlineMedium),
+                        ],
+                      ),
+                    ),
+                    IconButton(
+                      tooltip: l.settings,
+                      style: IconButton.styleFrom(
+                        backgroundColor: AppColors.card,
+                        side: const BorderSide(color: AppColors.border),
+                        fixedSize: const Size(48, 48),
+                      ),
+                      icon: const Icon(Symbols.settings_rounded),
+                      onPressed: () => openSettings(context),
+                    ),
+                  ],
+                ),
+              ),
+              const _WorkoutCard(),
+              const _RecoveryCard(),
+              const _RingsCard(),
+              const _CoachCard(),
+              const _SupplementsCard(),
+              const _WeightCard(),
+            ]),
+          ),
         ),
       ),
     );
@@ -63,7 +92,8 @@ class _CoachCard extends ConsumerWidget {
     final l = context.l10n;
     return SectionCard(
       title: l.todayCoachTitle,
-      trailing: const Icon(Icons.forum_outlined, color: AppColors.primary),
+      icon: Symbols.auto_awesome_rounded,
+      trailing: const Icon(Symbols.chevron_forward_rounded, color: AppColors.textMuted),
       onTap: () => ref.read(homeTabProvider.notifier).select(3),
       child: msg == null
           ? Column(
@@ -94,6 +124,8 @@ class _RecoveryCard extends ConsumerWidget {
     if (score == null) {
       return SectionCard(
         title: l.todayRecoveryTitle,
+        icon: Symbols.bedtime_rounded,
+        iconColor: AppColors.info,
         onTap: () => push(context, const SleepLogScreen()),
         child: Text(l.todayRecoveryEmpty, style: const TextStyle(color: AppColors.textMuted)),
       );
@@ -106,6 +138,8 @@ class _RecoveryCard extends ConsumerWidget {
     };
     return SectionCard(
       title: l.todayRecoveryTitle,
+      icon: Symbols.bedtime_rounded,
+      iconColor: AppColors.info,
       onTap: () => push(context, const SleepLogScreen()),
       child: Row(
         children: [
@@ -115,7 +149,11 @@ class _RecoveryCard extends ConsumerWidget {
             size: 72,
             stroke: 8,
             color: color,
-            center: Text('$score', style: const TextStyle(fontSize: 20, fontWeight: FontWeight.w800)),
+            center: AnimatedNumber(
+              value: score.toDouble(),
+              format: (v) => '${v.round()}',
+              style: context.text.headlineSmall?.copyWith(fontWeight: FontWeight.w800),
+            ),
           ),
           const SizedBox(width: 16),
           Expanded(child: Text(text, style: context.text.bodyMedium)),
@@ -135,6 +173,7 @@ class _WorkoutCard extends ConsumerWidget {
     if (tw == null || tw.planDay == null && !tw.isRestDay) {
       return SectionCard(
         title: l.todayWorkoutTitle,
+        icon: Symbols.fitness_center_rounded,
         onTap: () => ref.read(homeTabProvider.notifier).select(1),
         child: Text(l.todayNoPlan, style: const TextStyle(color: AppColors.textMuted)),
       );
@@ -142,43 +181,77 @@ class _WorkoutCard extends ConsumerWidget {
     if (tw.isRestDay) {
       return SectionCard(
         title: l.todayWorkoutTitle,
-        child: Row(
-          children: [
-            const Icon(Icons.self_improvement, color: AppColors.textMuted),
-            const SizedBox(width: 12),
-            Expanded(child: Text(l.todayRestDay)),
-          ],
-        ),
+        icon: Symbols.self_improvement_rounded,
+        iconColor: AppColors.info,
+        child: Text(l.todayRestDay, style: context.text.bodyMedium?.copyWith(color: AppColors.textMuted)),
       );
     }
     final session = tw.session;
     final status = session?.status;
     final done = status == 'completed' || status == 'partial';
-    return SectionCard(
-      title: l.todayWorkoutTitle,
+    final day = tw.planDay!;
+    // The lead card of the screen: accent-lit surface, display-size day name, one primary action.
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 6),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(AppRadius.xl),
+        border: Border.all(color: AppColors.primary.withValues(alpha: 0.24)),
+        gradient: RadialGradient(
+          center: AlignmentDirectional.topEnd.resolve(Directionality.of(context)),
+          radius: 1.3,
+          colors: [AppColors.primary.withValues(alpha: 0.13), AppColors.card],
+        ),
+      ),
+      padding: const EdgeInsets.all(AppSpace.xl - 4),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(tw.planDay!.name, style: context.text.titleLarge?.copyWith(fontWeight: FontWeight.w800)),
-          if (tw.planDay!.focus != null) Text(tw.planDay!.focus!, style: const TextStyle(color: AppColors.textMuted)),
-          const SizedBox(height: 4),
-          Text(l.todayExerciseCount(tw.exerciseCount), style: const TextStyle(color: AppColors.textMuted)),
-          const SizedBox(height: 12),
+          Row(
+            children: [
+              const Icon(Symbols.fitness_center_rounded, size: 18, color: AppColors.primary),
+              const SizedBox(width: 6),
+              Expanded(
+                child: Text(l.todayWorkoutTitle,
+                    style: context.text.labelLarge?.copyWith(color: AppColors.primary)),
+              ),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                decoration: BoxDecoration(
+                  color: AppColors.background.withValues(alpha: 0.5),
+                  borderRadius: BorderRadius.circular(AppRadius.pill),
+                ),
+                child: Text(l.todayExerciseCount(tw.exerciseCount), style: context.text.labelMedium),
+              ),
+            ],
+          ),
+          const SizedBox(height: AppSpace.md),
+          Text(day.name, style: context.text.displaySmall?.copyWith(fontSize: 34)),
+          if (day.focus != null)
+            Padding(
+              padding: const EdgeInsets.only(top: 4),
+              child: Text(day.focus!, style: context.text.bodyMedium?.copyWith(color: AppColors.textMuted)),
+            ),
+          const SizedBox(height: AppSpace.lg + 4),
           if (done)
             Row(
               children: [
-                const Icon(Icons.check_circle, color: AppColors.primary),
-                const SizedBox(width: 8),
-                Text(l.todayWorkoutDone),
+                const IconBadge(Symbols.check_circle_rounded),
+                const SizedBox(width: 10),
+                Text(l.todayWorkoutDone, style: context.text.titleSmall),
               ],
             )
           else
-            FilledButton.icon(
-              icon: const Icon(Icons.play_arrow_rounded, size: 28),
-              label: Text(status == 'in_progress' ? l.todayResumeWorkout : l.todayStartWorkout),
-              onPressed: () => push(
-                context,
-                LiveWorkoutScreen(planDayId: tw.planDay!.id, sessionId: status == 'in_progress' ? session?.id : null),
+            Pressable(
+              child: FilledButton.icon(
+                icon: const Icon(Symbols.play_arrow_rounded, fill: 1, size: 28),
+                label: Text(status == 'in_progress' ? l.todayResumeWorkout : l.todayStartWorkout),
+                onPressed: () {
+                  HapticFeedback.mediumImpact();
+                  push(
+                    context,
+                    LiveWorkoutScreen(planDayId: day.id, sessionId: status == 'in_progress' ? session?.id : null),
+                  );
+                },
               ),
             ),
         ],
@@ -210,12 +283,14 @@ class _RingsCard extends ConsumerWidget {
                     ProgressRing(
                       value: n.calories,
                       max: n.targetCalories,
+                      size: 128,
                       center: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text(
-                            fmtNum(remaining.abs().roundToDouble()),
-                            style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w800),
+                          AnimatedNumber(
+                            value: remaining.abs().roundToDouble(),
+                            format: (v) => fmtNum(v.roundToDouble()),
+                            style: context.text.headlineSmall?.copyWith(fontWeight: FontWeight.w800),
                           ),
                           Text(
                             remaining >= 0 ? l.todayKcalLeft : l.todayKcalOver,
@@ -236,16 +311,19 @@ class _RingsCard extends ConsumerWidget {
                     ProgressRing(
                       value: water.toDouble(),
                       max: waterGoal.toDouble(),
+                      size: 128,
                       color: AppColors.water,
                       center: Column(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          Text(
-                            fmtNum(water / 1000, maxDecimals: 2),
-                            style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w800),
+                          AnimatedNumber(
+                            value: water / 1000,
+                            format: (v) => fmtNum(v, maxDecimals: 2),
+                            style: context.text.headlineSmall?.copyWith(fontWeight: FontWeight.w800),
                           ),
                           Text(
                             '/ ${fmtNum(waterGoal / 1000, maxDecimals: 2)} L',
+                            textDirection: TextDirection.ltr,
                             style: const TextStyle(fontSize: 11, color: AppColors.textMuted),
                           ),
                         ],
@@ -273,7 +351,7 @@ class _RingsCard extends ConsumerWidget {
             children: [
               Expanded(
                 child: OutlinedButton.icon(
-                  icon: const Icon(Icons.local_drink_outlined),
+                  icon: const Icon(Symbols.water_full_rounded),
                   label: Text(l.todayAddCup),
                   onPressed: () async {
                     HapticFeedback.lightImpact();
@@ -299,8 +377,10 @@ class _SupplementsCard extends ConsumerWidget {
     final l = context.l10n;
     return SectionCard(
       title: l.todaySupplementsTitle,
+      icon: Symbols.pill_rounded,
+      iconColor: AppColors.warning,
       trailing: IconButton(
-        icon: const Icon(Icons.edit_outlined, size: 20),
+        icon: const Icon(Symbols.edit_rounded, size: 20),
         onPressed: () => push(context, const SupplementsScreen()),
       ),
       child: items.isEmpty
@@ -335,9 +415,10 @@ class _WeightCard extends ConsumerWidget {
     final l = context.l10n;
     return SectionCard(
       title: l.todayWeightTitle,
+      icon: Symbols.monitor_weight_rounded,
       onTap: () => showWeightQuickLog(context, ref),
       trailing: IconButton(
-        icon: const Icon(Icons.show_chart, color: AppColors.textMuted),
+        icon: const Icon(Symbols.show_chart_rounded, color: AppColors.textMuted),
         onPressed: () => push(context, const BodyWeightScreen()),
       ),
       child: w?.weight == null

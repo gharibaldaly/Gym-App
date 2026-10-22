@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../../ai/ai_queue.dart';
 import '../../../ai/ai_service.dart';
@@ -57,7 +58,7 @@ class _SummaryCard extends StatelessWidget {
       title: l.nutTodayTitle,
       trailing: Chip(
         visualDensity: VisualDensity.compact,
-        avatar: Icon(d.isTrainingDay ? Icons.fitness_center : Icons.self_improvement, size: 16),
+        avatar: Icon(d.isTrainingDay ? Symbols.fitness_center_rounded : Symbols.self_improvement_rounded, size: 16),
         label: Text(d.isTrainingDay ? l.nutTrainingDay : l.nutRestDay),
       ),
       child: !d.hasTargets
@@ -140,7 +141,7 @@ class _PendingCard extends ConsumerWidget {
       child: Padding(
         padding: const EdgeInsets.all(14),
         child: Row(children: [
-          const Icon(Icons.hourglass_top, color: AppColors.warning),
+          const Icon(Symbols.hourglass_top_rounded, color: AppColors.warning),
           const SizedBox(width: 12),
           Expanded(
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -179,7 +180,7 @@ class _MealsCard extends ConsumerWidget {
           const SizedBox(height: 8),
           Align(
             alignment: AlignmentDirectional.centerStart,
-            child: OutlinedButton.icon(onPressed: onOpenPlan, icon: const Icon(Icons.restaurant_menu), label: Text(l.nutOpenPlan)),
+            child: OutlinedButton.icon(onPressed: onOpenPlan, icon: const Icon(Symbols.restaurant_menu_rounded), label: Text(l.nutOpenPlan)),
           ),
         ]),
       );
@@ -224,7 +225,7 @@ class _PlannedMealTile extends ConsumerWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Icon(
-              isDone ? Icons.check_circle : (hasPending ? Icons.hourglass_top : Icons.radio_button_unchecked),
+              isDone ? Symbols.check_circle_rounded : (hasPending ? Symbols.hourglass_top_rounded : Symbols.radio_button_unchecked_rounded),
               color: isDone ? AppColors.primary : (hasPending ? AppColors.warning : AppColors.textMuted),
               size: 28,
             ),
@@ -270,7 +271,7 @@ class _PlannedMealTile extends ConsumerWidget {
 
   Future<void> _editLog(BuildContext context, MealLog log) async {
     final saved = await push<bool>(context, FoodReviewScreen.edit(log, context.lang));
-    if (saved == true && context.mounted) context.snack(context.l10n.nutSaved);
+    if (saved == true && context.mounted) context.snack(context.l10n.nutSaved, kind: ToastKind.success);
   }
 
   Future<void> _openMealSheet(BuildContext context, WidgetRef ref) async {
@@ -305,21 +306,21 @@ class _PlannedMealTile extends ConsumerWidget {
               FilledButton.icon(
                 style: FilledButton.styleFrom(minimumSize: const Size.fromHeight(56)),
                 onPressed: () => Navigator.pop(c, 'planned'),
-                icon: const Icon(Icons.check),
+                icon: const Icon(Symbols.check_rounded),
                 label: Text(l.nutAteAsPlanned),
               ),
               const SizedBox(height: 8),
               OutlinedButton.icon(
                 style: OutlinedButton.styleFrom(minimumSize: const Size.fromHeight(48)),
                 onPressed: () => Navigator.pop(c, 'half'),
-                icon: const Icon(Icons.contrast),
+                icon: const Icon(Symbols.contrast_rounded),
                 label: Text(l.nutAteHalf),
               ),
               const SizedBox(height: 8),
               OutlinedButton.icon(
                 style: OutlinedButton.styleFrom(minimumSize: const Size.fromHeight(48)),
                 onPressed: () => Navigator.pop(c, 'different'),
-                icon: const Icon(Icons.swap_horiz),
+                icon: const Icon(Symbols.swap_horiz_rounded),
                 label: Text(l.nutAteDifferent),
               ),
             ],
@@ -378,7 +379,7 @@ class MealLogTile extends ConsumerWidget {
       title: Text(pickBilingual(log.name, lang), maxLines: 2, overflow: TextOverflow.ellipsis),
       subtitle: pending
           ? Row(children: [
-              const Icon(Icons.hourglass_top, size: 14, color: AppColors.warning),
+              const Icon(Symbols.hourglass_top_rounded, size: 14, color: AppColors.warning),
               const SizedBox(width: 4),
               Expanded(child: Text(l.nutWaitingForAi, style: const TextStyle(color: AppColors.warning))),
             ])
@@ -396,7 +397,7 @@ class MealLogTile extends ConsumerWidget {
               await _edit(context);
             case 'save':
               await repo.saveMyFood(pickBilingual(log.name, lang), decodeItems(log.itemsJson));
-              if (context.mounted) context.snack(l.nutSavedToMyFoods);
+              if (context.mounted) context.snack(l.nutSavedToMyFoods, kind: ToastKind.success);
             case 'analyze':
               await ref.read(aiQueueProvider).process();
             case 'delete':
@@ -427,7 +428,7 @@ class MealLogTile extends ConsumerWidget {
 
   Future<void> _edit(BuildContext context) async {
     final saved = await push<bool>(context, FoodReviewScreen.edit(log, context.lang));
-    if (saved == true && context.mounted) context.snack(context.l10n.nutSaved);
+    if (saved == true && context.mounted) context.snack(context.l10n.nutSaved, kind: ToastKind.success);
   }
 }
 
@@ -448,7 +449,7 @@ class _SupplementsCard extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 4),
                     child: Row(children: [
-                      const Icon(Icons.medication, color: AppColors.primary, size: 20),
+                      const Icon(Symbols.pill_rounded, fill: 1, color: AppColors.primary, size: 20),
                       const SizedBox(width: 8),
                       Expanded(child: Text(s.count > 1 ? '${s.supplement.name} ×${s.count}' : s.supplement.name)),
                       Text(

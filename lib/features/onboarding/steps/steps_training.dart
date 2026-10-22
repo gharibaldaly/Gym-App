@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../../core/providers.dart';
 import '../../../core/theme/app_theme.dart';
@@ -75,7 +76,7 @@ class DaysStep extends StatelessWidget {
             );
           }),
           if (!matches)
-            InfoNote(l.onbErrDaysMismatch('$count'), icon: Icons.touch_app_outlined, color: AppColors.warning),
+            InfoNote(l.onbErrDaysMismatch('$count'), icon: Symbols.touch_app_rounded, color: AppColors.warning),
         ],
       ],
     );
@@ -100,7 +101,7 @@ class SessionLengthStep extends StatelessWidget {
     return OptionCards<int>(
       options: [
         for (final m in sessionMinuteOptions)
-          OnbOption(m, l.onbMinutesValue('$m'), subtitle: sub(m), icon: Icons.timer_outlined),
+          OnbOption(m, l.onbMinutesValue('$m'), subtitle: sub(m), icon: Symbols.timer_rounded),
       ],
       selected: profile.sessionMinutes,
       onSelect: (m) => onChanged(UserProfilesCompanion(sessionMinutes: Value(m))),
@@ -181,7 +182,7 @@ class InjuriesStep extends StatelessWidget {
       children: [
         ChoiceCard(
           label: l.onbInjNoneLabel,
-          icon: Icons.verified_outlined,
+          icon: Symbols.verified_rounded,
           selected: selected.isEmpty,
           onTap: () => onChanged(const UserProfilesCompanion(injuriesJson: Value('[]'))),
         ),
@@ -195,12 +196,12 @@ class InjuriesStep extends StatelessWidget {
           label: l.onbInjuriesNote,
           value: profile.injuriesNote,
           maxLines: 3,
-          icon: Icons.edit_note,
+          icon: Symbols.edit_note_rounded,
           onChanged: (t) =>
               onChanged(UserProfilesCompanion(injuriesNote: Value(t.trim().isEmpty ? null : t.trim()))),
         ),
         if (serious)
-          InfoNote(l.onbInjuriesDoctor, icon: Icons.local_hospital_outlined, color: AppColors.danger),
+          InfoNote(l.onbInjuriesDoctor, icon: Symbols.local_hospital_rounded, color: AppColors.danger),
       ],
     );
   }
@@ -239,14 +240,14 @@ class JobStep extends StatelessWidget {
           label: l.onbJobFrom,
           value: from,
           fallback: '09:00',
-          icon: Icons.login,
+          icon: Symbols.login_rounded,
           onChanged: (v) => setHours(v, to),
         ),
         TimeTile(
           label: l.onbJobTo,
           value: to,
           fallback: '17:00',
-          icon: Icons.logout,
+          icon: Symbols.logout_rounded,
           onChanged: (v) => setHours(from, v),
         ),
       ],
@@ -271,14 +272,14 @@ class SleepStep extends StatelessWidget {
           label: l.onbSleepTime,
           value: profile.sleepTime,
           fallback: defaultSleepTime,
-          icon: Icons.bedtime_outlined,
+          icon: Symbols.bedtime_rounded,
           onChanged: (v) => onChanged(UserProfilesCompanion(sleepTime: Value(v))),
         ),
         TimeTile(
           label: l.onbWakeTime,
           value: profile.wakeTime,
           fallback: defaultWakeTime,
-          icon: Icons.wb_sunny_outlined,
+          icon: Symbols.wb_sunny_rounded,
           onChanged: (v) => onChanged(UserProfilesCompanion(wakeTime: Value(v))),
         ),
         if (h != null) ...[
@@ -292,7 +293,7 @@ class SleepStep extends StatelessWidget {
               ),
             ),
           ),
-          if (h < 7) InfoNote(l.onbSleepShort, icon: Icons.nightlight_outlined, color: AppColors.warning),
+          if (h < 7) InfoNote(l.onbSleepShort, icon: Symbols.nightlight_rounded, color: AppColors.warning),
         ],
       ],
     );
@@ -331,7 +332,7 @@ class TrainingTimeStep extends StatelessWidget {
             label: l.onbExactTime,
             value: p.trainingTime,
             fallback: defaultTrainingTime(p.trainingTimeOfDay!),
-            icon: Icons.fitness_center,
+            icon: Symbols.fitness_center_rounded,
             onChanged: (v) => onChanged(UserProfilesCompanion(trainingTime: Value(v))),
           ),
         ],

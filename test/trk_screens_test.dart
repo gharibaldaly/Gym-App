@@ -12,6 +12,7 @@ import 'package:ironmind/data/repositories/profile_repository.dart';
 import 'package:ironmind/features/tracking/tracking_providers.dart';
 import 'package:ironmind/features/tracking/tracking_screens.dart';
 import 'package:ironmind/l10n/gen/app_localizations.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 DateTime _today() {
@@ -154,7 +155,7 @@ void main() {
       await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 30)));
       await tester.pump(const Duration(milliseconds: 100));
     }
-    await tester.tap(find.byIcon(Icons.add));
+    await tester.tap(find.byIcon(Symbols.add_rounded));
     await tester.pump();
     await tester.tap(find.text('Save'));
     await tester.runAsync(() => Future<void>.delayed(const Duration(milliseconds: 100)));

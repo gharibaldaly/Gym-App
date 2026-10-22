@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../core/providers.dart';
 import '../../core/theme/app_theme.dart';
@@ -28,7 +29,7 @@ class _PlanReviewScreenState extends ConsumerState<PlanReviewScreen> {
     try {
       await ref.read(workoutRepositoryProvider).approvePlan(widget.planId);
       if (!mounted) return;
-      context.snack(context.l10n.woPlanApproved);
+      context.snack(context.l10n.woPlanApproved, kind: ToastKind.success);
       if (widget.onApproved != null) {
         widget.onApproved!();
       } else {
@@ -61,7 +62,7 @@ class _PlanReviewScreenState extends ConsumerState<PlanReviewScreen> {
                     SectionCard(
                       title: p.name,
                       trailing: Pill(p.source == 'ai' ? l.woSourceAi : l.woSourceTemplate,
-                          icon: p.source == 'ai' ? Icons.auto_awesome : Icons.offline_bolt),
+                          icon: p.source == 'ai' ? Symbols.auto_awesome_rounded : Symbols.bolt_rounded),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -86,7 +87,7 @@ class _PlanReviewScreenState extends ConsumerState<PlanReviewScreen> {
               minimum: const EdgeInsets.fromLTRB(16, 8, 16, 16),
               child: FilledButton.icon(
                 onPressed: _busy ? null : (alreadyActive ? () => Navigator.of(context).maybePop() : _approve),
-                icon: Icon(alreadyActive ? Icons.check : Icons.verified),
+                icon: Icon(alreadyActive ? Symbols.check_rounded : Symbols.verified_rounded),
                 label: Text(alreadyActive ? l.done : l.woApprovePlan),
               ),
             ),
@@ -105,7 +106,7 @@ class _ReviewDayCard extends StatelessWidget {
     if (day.isRest) {
       return Card(
         child: ListTile(
-          leading: const Icon(Icons.bedtime_outlined, color: AppColors.rest),
+          leading: const Icon(Symbols.bedtime_rounded, color: AppColors.rest),
           title: Text(wd),
           subtitle: Text(l.woRestDay, style: const TextStyle(color: AppColors.textMuted)),
         ),
@@ -124,10 +125,10 @@ class _ReviewDayCard extends StatelessWidget {
               child: Text(day.focus!, style: const TextStyle(color: AppColors.textMuted)),
             ),
           if (warmup.isNotEmpty)
-            _StepsExpansion(icon: Icons.local_fire_department_outlined, title: l.woWarmup, steps: warmup),
+            _StepsExpansion(icon: Symbols.local_fire_department_rounded, title: l.woWarmup, steps: warmup),
           PlanDayEditor(dayId: day.id),
           if (cooldown.isNotEmpty)
-            _StepsExpansion(icon: Icons.self_improvement, title: l.woCooldown, steps: cooldown),
+            _StepsExpansion(icon: Symbols.self_improvement_rounded, title: l.woCooldown, steps: cooldown),
         ],
       ),
     );

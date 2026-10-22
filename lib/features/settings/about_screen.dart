@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:material_symbols_icons/symbols.dart';
 // package_info_plus comes with share_plus/workmanager; it only reads the app version.
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -23,7 +24,7 @@ class AboutScreen extends StatelessWidget {
           SectionCard(
             child: Column(
               children: [
-                const Icon(Icons.fitness_center, size: 48, color: AppColors.primary),
+                const Icon(Symbols.fitness_center_rounded, fill: 1, size: 48, color: AppColors.primary),
                 const SizedBox(height: 8),
                 Text(l.appName, style: context.text.headlineSmall?.copyWith(fontWeight: FontWeight.w800)),
                 const SizedBox(height: 4),
@@ -62,7 +63,7 @@ class AboutScreen extends StatelessWidget {
               if (!context.mounted) return;
               showLicensePage(context: context, applicationName: l.appName, applicationVersion: info.version);
             },
-            icon: const Icon(Icons.description_outlined),
+            icon: const Icon(Symbols.description_rounded),
             label: Text(l.setAboutLicenses),
           ),
         ],

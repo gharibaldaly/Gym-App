@@ -4,6 +4,7 @@ import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../ai/ai_service.dart';
 import '../../core/providers.dart';
@@ -243,9 +244,9 @@ class _OnboardingFlowState extends ConsumerState<OnboardingFlow> {
                   _ => l.onbNext,
                 },
                 icon: switch (step) {
-                  OnbStep.summary => Icons.auto_awesome,
-                  _ when _fromSummary => Icons.fact_check_outlined,
-                  _ => Icons.arrow_forward,
+                  OnbStep.summary => Symbols.auto_awesome_rounded,
+                  _ when _fromSummary => Symbols.fact_check_rounded,
+                  _ => Symbols.arrow_forward_rounded,
                 },
                 outlined: (step == OnbStep.healthConnect && !p.healthConnectEnabled) ||
                     (step == OnbStep.apiKey && !ref.watch(hasApiKeyProvider)),
@@ -282,7 +283,7 @@ class _TopBar extends StatelessWidget {
               child: IconButton(
                 tooltip: l.onbBack,
                 onPressed: onBack,
-                icon: const Icon(Icons.arrow_back),
+                icon: const Icon(Symbols.arrow_back_rounded),
               ),
             ),
           ),
@@ -389,7 +390,7 @@ class _BottomBar extends StatelessWidget {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Row(children: [
-                      const Icon(Icons.error_outline, color: AppColors.danger, size: 20),
+                      const Icon(Symbols.error_rounded, color: AppColors.danger, size: 20),
                       const SizedBox(width: 8),
                       Expanded(child: Text(issue!, style: const TextStyle(color: AppColors.danger))),
                     ]),

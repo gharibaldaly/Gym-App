@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../../core/providers.dart';
 import '../../../core/theme/app_theme.dart';
@@ -128,7 +129,7 @@ class _HealthConnectSettingsScreenState extends ConsumerState<HealthConnectSetti
               child: SwitchListTile(
                 value: enabled,
                 onChanged: _setEnabled,
-                secondary: const Icon(Icons.watch, color: AppColors.primary),
+                secondary: const Icon(Symbols.watch_rounded, fill: 1, color: AppColors.primary),
                 title: Text(l.trkHcEnable, style: const TextStyle(fontWeight: FontWeight.w700)),
                 subtitle: Text(l.trkHcEnableSub),
               ),
@@ -159,7 +160,7 @@ class _HealthConnectSettingsScreenState extends ConsumerState<HealthConnectSetti
                     onPressed: enabled && !_syncing ? _sync : null,
                     icon: _syncing
                         ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2))
-                        : const Icon(Icons.sync),
+                        : const Icon(Symbols.sync_rounded),
                     label: Text(_syncing ? l.trkSyncing : l.trkSyncNow),
                   ),
                   const SizedBox(height: 10),
@@ -217,8 +218,8 @@ class _HealthConnectSettingsScreenState extends ConsumerState<HealthConnectSetti
                 ],
               ),
             ),
-            InfoBanner(icon: Icons.help_outline, text: '${l.trkHcCardooTitle}\n${l.trkHcCardooBody}'),
-            InfoBanner(icon: Icons.edit_note, color: AppColors.primary, text: l.trkHcManualFallback),
+            InfoBanner(icon: Symbols.help_rounded, text: '${l.trkHcCardooTitle}\n${l.trkHcCardooBody}'),
+            InfoBanner(icon: Symbols.edit_note_rounded, color: AppColors.primary, text: l.trkHcManualFallback),
           ],
         ),
       ),
@@ -258,7 +259,7 @@ class _StatusBody extends StatelessWidget {
     Widget line(bool ok, String text, {bool warn = false}) => Padding(
           padding: const EdgeInsets.symmetric(vertical: 4),
           child: Row(children: [
-            Icon(ok ? Icons.check_circle : (warn ? Icons.error_outline : Icons.cancel),
+            Icon(ok ? Symbols.check_circle_rounded : (warn ? Symbols.error_rounded : Symbols.cancel_rounded),
                 color: ok ? AppColors.primary : (warn ? AppColors.warning : AppColors.danger), size: 20),
             const SizedBox(width: 10),
             Expanded(child: Text(text)),
@@ -279,7 +280,7 @@ class _StatusBody extends StatelessWidget {
             const SizedBox(height: 6),
             Text(l.trkHcInstallHint, style: context.text.bodySmall?.copyWith(color: AppColors.textMuted)),
             const SizedBox(height: 10),
-            OutlinedButton.icon(onPressed: onInstall, icon: const Icon(Icons.download), label: Text(l.trkHcInstall)),
+            OutlinedButton.icon(onPressed: onInstall, icon: const Icon(Symbols.download_rounded), label: Text(l.trkHcInstall)),
           ],
         ],
       );
@@ -297,18 +298,18 @@ class _StatusBody extends StatelessWidget {
         if (!granted)
           FilledButton.icon(
             onPressed: requesting ? null : onGrant,
-            icon: const Icon(Icons.verified_user),
+            icon: const Icon(Symbols.verified_user_rounded, fill: 1),
             label: Text(l.trkHcGrant),
           )
         else
           OutlinedButton.icon(
             onPressed: requesting ? null : onGrant,
-            icon: const Icon(Icons.verified_user_outlined),
+            icon: const Icon(Symbols.verified_user_rounded),
             label: Text(l.trkHcGrant),
           ),
         if (granted && status.backgroundAvailable && !status.backgroundAuthorized) ...[
           const SizedBox(height: 8),
-          OutlinedButton.icon(onPressed: onBackground, icon: const Icon(Icons.schedule), label: Text(l.trkHcBgAllow)),
+          OutlinedButton.icon(onPressed: onBackground, icon: const Icon(Symbols.schedule_rounded), label: Text(l.trkHcBgAllow)),
         ],
         if (!enabled)
           Padding(

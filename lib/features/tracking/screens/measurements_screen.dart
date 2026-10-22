@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../../core/providers.dart';
 import '../../../core/theme/app_theme.dart';
@@ -43,7 +44,7 @@ class _BodyMeasurementsScreenState extends ConsumerState<BodyMeasurementsScreen>
       appBar: AppBar(title: Text(l.trkMeasurementsTitle)),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => showMeasurementsSheet(context, last: rows.value?.firstOrNull),
-        icon: const Icon(Icons.straighten),
+        icon: const Icon(Symbols.straighten_rounded),
         label: Text(l.trkMeasureNew),
       ),
       body: rows.when(
@@ -66,7 +67,7 @@ class _BodyMeasurementsScreenState extends ConsumerState<BodyMeasurementsScreen>
             children: [
               if (due)
                 InfoBanner(
-                  icon: Icons.notifications_active_outlined,
+                  icon: Symbols.notifications_active_rounded,
                   color: AppColors.warning,
                   text: last == null ? l.trkMeasureNone : l.trkMeasureDue,
                 ),
@@ -153,7 +154,7 @@ class _BodyMeasurementsScreenState extends ConsumerState<BodyMeasurementsScreen>
               ] else
                 Padding(
                   padding: const EdgeInsets.only(top: 48),
-                  child: EmptyState(icon: Icons.straighten, text: l.trkMeasureTip),
+                  child: EmptyState(icon: Symbols.straighten_rounded, text: l.trkMeasureTip),
                 ),
             ],
           );

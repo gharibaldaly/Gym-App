@@ -316,5 +316,8 @@
       }
     }
   },
-  "setWidgetAddCup": "+ Cup"
+  "setWidgetAddCup": "+ Cup",
+  "setChannelRestLive": "Rest countdown",
+  "setNotifRestLiveTitle": "Resting",
+  "setNotifRestLiveBody": "Next set when the countdown ends"
 }

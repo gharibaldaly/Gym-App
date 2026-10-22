@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../../core/calc/stats.dart';
 import '../../../core/providers.dart';
@@ -28,7 +29,7 @@ Future<double?> showWeightQuickLog(BuildContext context, WidgetRef ref, {DateTim
   if (result == null) return null;
   await ref.read(trackingRepositoryProvider).saveWeight(result.$1, result.$2);
   HapticFeedback.mediumImpact();
-  if (context.mounted) context.snack(context.l10n.trkWeightSaved(fmtNum(result.$2)));
+  if (context.mounted) context.snack(context.l10n.trkWeightSaved(fmtNum(result.$2)), kind: ToastKind.success);
   return result.$2;
 }
 
@@ -117,7 +118,7 @@ class _BodyWeightScreenState extends ConsumerState<BodyWeightScreen> {
       appBar: AppBar(title: Text(l.trkWeightTitle)),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => showWeightQuickLog(context, ref),
-        icon: const Icon(Icons.monitor_weight),
+        icon: const Icon(Symbols.monitor_weight_rounded, fill: 1),
         label: Text(l.trkWeightLog),
       ),
       body: rows.when(
@@ -127,7 +128,7 @@ class _BodyWeightScreenState extends ConsumerState<BodyWeightScreen> {
           final weightRows = all.where((r) => r.weightKg != null).toList();
           if (weightRows.isEmpty) {
             return EmptyState(
-              icon: Icons.monitor_weight_outlined,
+              icon: Symbols.monitor_weight_rounded,
               text: l.trkWeightEmpty,
               action: FilledButton(onPressed: () => showWeightQuickLog(context, ref), child: Text(l.trkWeightLog)),
             );
@@ -149,8 +150,8 @@ class _BodyWeightScreenState extends ConsumerState<BodyWeightScreen> {
                         label: l.trkWeightChange7,
                         value: '${change7 > 0 ? '+' : ''}${change7.toStringAsFixed(1)} ${l.kg}',
                         icon: change7.abs() < 0.05
-                            ? Icons.trending_flat
-                            : (change7 > 0 ? Icons.trending_up : Icons.trending_down),
+                            ? Symbols.trending_flat_rounded
+                            : (change7 > 0 ? Symbols.trending_up_rounded : Symbols.trending_down_rounded),
                       ),
                   ],
                 ),
@@ -259,7 +260,7 @@ class _WeightTile extends ConsumerWidget {
         alignment: AlignmentDirectional.centerEnd,
         padding: const EdgeInsetsDirectional.only(end: 16),
         color: AppColors.danger.withValues(alpha: 0.3),
-        child: const Icon(Icons.delete),
+        child: const Icon(Symbols.delete_rounded, fill: 1),
       ),
       confirmDismiss: (_) => confirmDelete(context, l.trkDeleteConfirm('${fmtNum(w)} ${l.kg}')),
       onDismissed: (_) => ref.read(trackingRepositoryProvider).deleteWeight(row.id),

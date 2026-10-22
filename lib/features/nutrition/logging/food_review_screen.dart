@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../../core/providers.dart';
 import '../../../core/theme/app_theme.dart';
@@ -175,7 +176,7 @@ class _FoodReviewScreenState extends ConsumerState<FoodReviewScreen> {
   Future<void> _save() async {
     final l = context.l10n;
     if (_items.isEmpty) {
-      context.snack(l.nutAddAtLeastOne);
+      context.snack(l.nutAddAtLeastOne, kind: ToastKind.warning);
       return;
     }
     setState(() => _saving = true);
@@ -211,7 +212,7 @@ class _FoodReviewScreenState extends ConsumerState<FoodReviewScreen> {
     } catch (e) {
       if (mounted) {
         setState(() => _saving = false);
-        context.snack('${l.errorGeneric}: $e');
+        context.snack('${l.errorGeneric}: $e', kind: ToastKind.error);
       }
     }
   }
@@ -259,7 +260,7 @@ class _FoodReviewScreenState extends ConsumerState<FoodReviewScreen> {
           const SizedBox(height: 16),
           Row(children: [
             Expanded(child: Text(l.nutItems, style: context.text.titleMedium?.copyWith(fontWeight: FontWeight.w700))),
-            TextButton.icon(onPressed: _addFood, icon: const Icon(Icons.add), label: Text(l.nutAddFood)),
+            TextButton.icon(onPressed: _addFood, icon: const Icon(Symbols.add_rounded), label: Text(l.nutAddFood)),
           ]),
           if (_items.isEmpty)
             Padding(
@@ -287,12 +288,12 @@ class _FoodReviewScreenState extends ConsumerState<FoodReviewScreen> {
                       ),
                       IconButton(
                         tooltip: l.delete,
-                        icon: const Icon(Icons.delete_outline),
+                        icon: const Icon(Symbols.delete_rounded),
                         onPressed: () => setState(() => _items = [..._items]..removeAt(i)),
                       ),
                     ]),
                     Row(children: [
-                      IconButton.filledTonal(onPressed: () => _step(i, -1), icon: const Icon(Icons.remove)),
+                      IconButton.filledTonal(onPressed: () => _step(i, -1), icon: const Icon(Symbols.remove_rounded)),
                       Expanded(
                         child: InkWell(
                           onTap: () => _editGrams(i),
@@ -303,7 +304,7 @@ class _FoodReviewScreenState extends ConsumerState<FoodReviewScreen> {
                           ),
                         ),
                       ),
-                      IconButton.filledTonal(onPressed: () => _step(i, 1), icon: const Icon(Icons.add)),
+                      IconButton.filledTonal(onPressed: () => _step(i, 1), icon: const Icon(Symbols.add_rounded)),
                       const SizedBox(width: 8),
                     ]),
                     const SizedBox(height: 6),
@@ -331,7 +332,7 @@ class _FoodReviewScreenState extends ConsumerState<FoodReviewScreen> {
             onPressed: _saving ? null : _save,
             icon: _saving
                 ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2))
-                : const Icon(Icons.check),
+                : const Icon(Symbols.check_rounded),
             label: Text(l.nutSaveMeal),
           ),
         ),
@@ -362,7 +363,7 @@ class _ConfidenceCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(children: [
-              Icon(Icons.auto_awesome, color: color, size: 20),
+              Icon(Symbols.auto_awesome_rounded, color: color, size: 20),
               const SizedBox(width: 8),
               Text(l.nutConfidence(pct), style: TextStyle(color: color, fontWeight: FontWeight.w700)),
             ]),

@@ -5,6 +5,7 @@ import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:vibration/vibration.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
@@ -451,12 +452,12 @@ class _LiveWorkoutScreenState extends ConsumerState<LiveWorkoutScreen> {
                     spacing: 8,
                     runSpacing: 6,
                     children: [
-                      if (deload) Pill(l.woDeloadActiveShort, color: AppColors.info, icon: Icons.south),
+                      if (deload) Pill(l.woDeloadActiveShort, color: AppColors.info, icon: Symbols.south_rounded),
                       if (recovery != null && !recovery.isNeutral)
                         Pill(
                           l.woRecoveryPill(((1 - recovery.weightFactor) * 100).round(), -recovery.setsDelta),
                           color: AppColors.warning,
-                          icon: Icons.battery_alert,
+                          icon: Symbols.battery_alert_rounded,
                         ),
                     ],
                   ),
@@ -464,7 +465,7 @@ class _LiveWorkoutScreenState extends ConsumerState<LiveWorkoutScreen> {
               if (warmup.isNotEmpty)
                 _ChecklistCard(
                   title: l.woWarmup,
-                  icon: Icons.local_fire_department_outlined,
+                  icon: Symbols.local_fire_department_rounded,
                   steps: warmup,
                   prefix: 'w',
                   checks: _checks,
@@ -495,13 +496,13 @@ class _LiveWorkoutScreenState extends ConsumerState<LiveWorkoutScreen> {
                   onDeleteSet: _deleteSet,
                 ),
               const SizedBox(height: 4),
-              OutlinedButton.icon(onPressed: _addExercise, icon: const Icon(Icons.add), label: Text(l.woAddExercise)),
+              OutlinedButton.icon(onPressed: _addExercise, icon: const Icon(Symbols.add_rounded), label: Text(l.woAddExercise)),
               const SizedBox(height: 8),
               CardioSection(sessionId: sid, ensureSession: _ensureSession),
               if (cooldown.isNotEmpty)
                 _ChecklistCard(
                   title: l.woCooldown,
-                  icon: Icons.self_improvement,
+                  icon: Symbols.self_improvement_rounded,
                   steps: cooldown,
                   prefix: 'c',
                   checks: _checks,
@@ -522,7 +523,7 @@ class _LiveWorkoutScreenState extends ConsumerState<LiveWorkoutScreen> {
                 height: 60,
                 child: FilledButton.icon(
                   onPressed: _finishing ? null : () => _finish(entries),
-                  icon: const Icon(Icons.flag),
+                  icon: const Icon(Symbols.flag_rounded, fill: 1),
                   label: Text(l.woFinishWorkout, style: const TextStyle(fontSize: 18)),
                 ),
               ),
@@ -536,31 +537,47 @@ class _LiveWorkoutScreenState extends ConsumerState<LiveWorkoutScreen> {
               numberOfParticles: 30,
               emissionFrequency: 0.08,
               gravity: 0.25,
-              colors: const [AppColors.primary, AppColors.warning, AppColors.info, Colors.white],
+              colors: const [AppColors.primary, AppColors.warning, AppColors.info, AppColors.primaryLight, AppColors.text],
             ),
           ),
           PositionedDirectional(
             top: 8,
             start: 12,
             end: 12,
+            // PR banner drops in from the top with a small overshoot.
             child: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 250),
+              duration: AppMotion.slow,
+              reverseDuration: AppMotion.base,
+              transitionBuilder: (child, a) => SlideTransition(
+                position: Tween(begin: const Offset(0, -1.2), end: Offset.zero)
+                    .animate(CurvedAnimation(parent: a, curve: AppMotion.overshoot)),
+                child: FadeTransition(opacity: a, child: child),
+              ),
               child: _prBanner == null
                   ? const SizedBox.shrink()
                   : Material(
                       key: ValueKey(_prBanner),
                       color: AppColors.warning,
-                      borderRadius: BorderRadius.circular(14),
-                      elevation: 8,
+                      borderRadius: BorderRadius.circular(AppRadius.lg),
+                      elevation: 12,
+                      shadowColor: AppColors.warning.withValues(alpha: 0.5),
                       child: Padding(
-                        padding: const EdgeInsets.all(14),
+                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
                         child: Row(
                           children: [
-                            const Icon(Icons.emoji_events, color: Colors.black, size: 32),
-                            const SizedBox(width: 10),
+                            Container(
+                              width: 44,
+                              height: 44,
+                              decoration: BoxDecoration(
+                                color: _onWarning.withValues(alpha: 0.12),
+                                borderRadius: BorderRadius.circular(AppRadius.md),
+                              ),
+                              child: const Icon(Symbols.trophy_rounded, fill: 1, color: _onWarning, size: 28),
+                            ),
+                            const SizedBox(width: 12),
                             Expanded(
                               child: Text(_prBanner!,
-                                  style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w800, fontSize: 16)),
+                                  style: const TextStyle(color: _onWarning, fontWeight: FontWeight.w800, fontSize: 16)),
                             ),
                           ],
                         ),
@@ -587,11 +604,11 @@ class _LiveWorkoutScreenState extends ConsumerState<LiveWorkoutScreen> {
       body: ListView(
         padding: const EdgeInsets.fromLTRB(16, 8, 16, 120),
         children: [
-          if (deload) Pill(l.woDeloadActiveShort, color: AppColors.info, icon: Icons.south),
+          if (deload) Pill(l.woDeloadActiveShort, color: AppColors.info, icon: Symbols.south_rounded),
           if (recovery != null && !recovery.isNeutral) ...[
             const SizedBox(height: 6),
             Pill(l.woRecoveryPill(((1 - recovery.weightFactor) * 100).round(), -recovery.setsDelta),
-                color: AppColors.warning, icon: Icons.battery_alert),
+                color: AppColors.warning, icon: Symbols.battery_alert_rounded),
           ],
           if ((day?.focus ?? '').isNotEmpty) ...[
             const SizedBox(height: 8),
@@ -599,7 +616,7 @@ class _LiveWorkoutScreenState extends ConsumerState<LiveWorkoutScreen> {
           ],
           const SizedBox(height: 8),
           if (plan.isEmpty)
-            EmptyState(icon: Icons.fitness_center, text: l.woFreeWorkoutHint)
+            EmptyState(icon: Symbols.fitness_center_rounded, text: l.woFreeWorkoutHint)
           else
             SectionCard(
               title: l.woExercises,
@@ -625,7 +642,7 @@ class _LiveWorkoutScreenState extends ConsumerState<LiveWorkoutScreen> {
           height: 64,
           child: FilledButton.icon(
             onPressed: _starting ? null : _start,
-            icon: const Icon(Icons.play_arrow, size: 30),
+            icon: const Icon(Symbols.play_arrow_rounded, fill: 1, size: 30),
             label: Text(plan.isEmpty ? l.woStartEmpty : l.woStartToday, style: const TextStyle(fontSize: 18)),
           ),
         ),
@@ -659,7 +676,7 @@ class _ChecklistCard extends StatelessWidget {
         data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
         child: ExpansionTile(
           initiallyExpanded: !all,
-          leading: Icon(all ? Icons.check_circle : icon, color: AppColors.primary),
+          leading: Icon(all ? Symbols.check_circle_rounded : icon, color: AppColors.primary),
           title: Text('$title (${checked.length}/${steps.length})', style: const TextStyle(fontWeight: FontWeight.w700)),
           childrenPadding: const EdgeInsetsDirectional.fromSTEB(12, 0, 12, 8),
           children: [
@@ -670,3 +687,5 @@ class _ChecklistCard extends StatelessWidget {
     );
   }
 }
+
+const _onWarning = Color(0xFF1F1400);

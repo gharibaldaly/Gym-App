@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../../core/navigation.dart';
 import '../../../core/providers.dart';
@@ -107,7 +108,7 @@ class _PlanDayEditorState extends ConsumerState<PlanDayEditor> {
           },
         ),
         const SizedBox(height: 8),
-        OutlinedButton.icon(onPressed: _add, icon: const Icon(Icons.add), label: Text(l.woAddExercise)),
+        OutlinedButton.icon(onPressed: _add, icon: const Icon(Symbols.add_rounded), label: Text(l.woAddExercise)),
       ],
     );
   }
@@ -152,7 +153,7 @@ class _PlanExerciseRow extends StatelessWidget {
                 index: index,
                 child: const Padding(
                   padding: EdgeInsets.all(10),
-                  child: Icon(Icons.drag_indicator, color: AppColors.textMuted),
+                  child: Icon(Symbols.drag_indicator_rounded, color: AppColors.textMuted),
                 ),
               ),
               Expanded(
@@ -184,14 +185,14 @@ class _PlanExerciseRow extends StatelessWidget {
                   }
                 },
                 itemBuilder: (_) => [
-                  PopupMenuItem(value: 'edit', child: ListTile(leading: const Icon(Icons.tune), title: Text(l.edit))),
-                  PopupMenuItem(value: 'swap', child: ListTile(leading: const Icon(Icons.swap_horiz), title: Text(l.woSwap))),
+                  PopupMenuItem(value: 'edit', child: ListTile(leading: const Icon(Symbols.tune_rounded), title: Text(l.edit))),
+                  PopupMenuItem(value: 'swap', child: ListTile(leading: const Icon(Symbols.swap_horiz_rounded), title: Text(l.woSwap))),
                   PopupMenuItem(
-                      value: 'info', child: ListTile(leading: const Icon(Icons.info_outline), title: Text(l.woExerciseInfo))),
+                      value: 'info', child: ListTile(leading: const Icon(Symbols.info_rounded), title: Text(l.woExerciseInfo))),
                   PopupMenuItem(
                     value: 'remove',
                     child: ListTile(
-                      leading: const Icon(Icons.delete_outline, color: AppColors.danger),
+                      leading: const Icon(Symbols.delete_rounded, color: AppColors.danger),
                       title: Text(l.delete),
                     ),
                   ),

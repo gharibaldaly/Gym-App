@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../../ai/ai_service.dart';
 import '../../../core/providers.dart';
@@ -46,12 +47,12 @@ Future<void> generateMealPlan(BuildContext context, WidgetRef ref, {bool offline
   try {
     if (offlineTemplate) {
       await runWithProgress(context, l.nutBuildingPlan, gen.buildTemplateAndSave);
-      if (context.mounted) context.snack(l.nutBasicPlanReady);
+      if (context.mounted) context.snack(l.nutBasicPlanReady, kind: ToastKind.success);
       return;
     }
     final res = await runWithProgress(context, l.nutGeneratingPlan, () => gen.generate());
     if (!context.mounted) return;
-    context.snack(res.usedAi ? l.nutPlanReady : l.nutPlanFallback);
+    context.snack(res.usedAi ? l.nutPlanReady : l.nutPlanFallback, kind: ToastKind.success);
   } catch (e) {
     if (!context.mounted) return;
     await showDialog<void>(
@@ -86,19 +87,19 @@ class _NoPlan extends ConsumerWidget {
       children: [
         const AiUnavailableBanner(),
         EmptyState(
-          icon: Icons.restaurant_menu,
+          icon: Symbols.restaurant_menu_rounded,
           text: l.nutNoPlan,
           action: Column(children: [
             if (hasKey)
               FilledButton.icon(
                 onPressed: () => generateMealPlan(context, ref),
-                icon: const Icon(Icons.auto_awesome),
+                icon: const Icon(Symbols.auto_awesome_rounded),
                 label: Text(l.nutGeneratePlan),
               ),
             const SizedBox(height: 8),
             OutlinedButton.icon(
               onPressed: () => generateMealPlan(context, ref, offlineTemplate: true),
-              icon: const Icon(Icons.list_alt),
+              icon: const Icon(Symbols.list_alt_rounded),
               label: Text(l.nutUseBasicPlan),
             ),
           ]),
@@ -149,8 +150,8 @@ class _PlanBody extends ConsumerWidget {
                 ),
               SegmentedButton<bool>(
                 segments: [
-                  ButtonSegment(value: true, icon: const Icon(Icons.fitness_center), label: Text(l.nutTrainingDay)),
-                  ButtonSegment(value: false, icon: const Icon(Icons.self_improvement), label: Text(l.nutRestDay)),
+                  ButtonSegment(value: true, icon: const Icon(Symbols.fitness_center_rounded, fill: 1), label: Text(l.nutTrainingDay)),
+                  ButtonSegment(value: false, icon: const Icon(Symbols.self_improvement_rounded), label: Text(l.nutRestDay)),
                 ],
                 selected: {training},
                 onSelectionChanged: (s) => ref.read(_showTrainingProvider.notifier).set(s.first),
@@ -185,7 +186,7 @@ class _PlanBody extends ConsumerWidget {
               await generateMealPlan(context, ref);
             }
           },
-          icon: const Icon(Icons.refresh),
+          icon: const Icon(Symbols.refresh_rounded),
           label: Text(l.nutRegenerate),
         ),
       ],
@@ -238,7 +239,7 @@ class _PlannedMealCard extends ConsumerWidget {
             alignment: AlignmentDirectional.centerEnd,
             child: TextButton.icon(
               onPressed: () => _showSwapSheet(context, meal),
-              icon: const Icon(Icons.swap_horiz),
+              icon: const Icon(Symbols.swap_horiz_rounded),
               label: Text(l.nutSwapMeal),
             ),
           ),
@@ -363,7 +364,7 @@ class _SwapSheetState extends ConsumerState<_SwapSheet> {
                     ),
                   TextButton.icon(
                     onPressed: () => setState(_load),
-                    icon: const Icon(Icons.refresh),
+                    icon: const Icon(Symbols.refresh_rounded),
                     label: Text(l.nutMoreAlternatives),
                   ),
                 ]);

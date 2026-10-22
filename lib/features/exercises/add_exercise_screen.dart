@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:path/path.dart' as p;
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:uuid/uuid.dart';
@@ -122,7 +123,7 @@ class _AddExerciseScreenState extends ConsumerState<AddExerciseScreen> {
     }
     if (!mounted) return;
     if (!_speechReady) {
-      context.snack(l.exVoiceUnavailable);
+      context.snack(l.exVoiceUnavailable, kind: ToastKind.warning);
       return;
     }
     final base = _desc.text.trim();
@@ -162,7 +163,7 @@ class _AddExerciseScreenState extends ConsumerState<AddExerciseScreen> {
       bytes ??= await x.readAsBytes();
       if (mounted) setState(() => _photo = bytes);
     } catch (_) {
-      if (mounted) context.snack(context.l10n.exPhotoError);
+      if (mounted) context.snack(context.l10n.exPhotoError, kind: ToastKind.error);
     }
   }
 
@@ -176,7 +177,7 @@ class _AddExerciseScreenState extends ConsumerState<AddExerciseScreen> {
   Future<void> _continue() async {
     final text = _desc.text.trim();
     if (text.isEmpty && _photo == null) {
-      context.snack(context.l10n.exDescribeFirst);
+      context.snack(context.l10n.exDescribeFirst, kind: ToastKind.warning);
       return;
     }
     if (_listening) await _speech.stop();
@@ -226,7 +227,7 @@ class _AddExerciseScreenState extends ConsumerState<AddExerciseScreen> {
     } catch (e) {
       if (!mounted) return;
       setState(() => _stage = _Stage.describe);
-      context.snack(aiErrorText(e, ar: isAr));
+      context.snack(aiErrorText(e, ar: isAr), kind: ToastKind.error);
     }
   }
 
@@ -285,7 +286,7 @@ class _AddExerciseScreenState extends ConsumerState<AddExerciseScreen> {
     final l = context.l10n;
     final d = _draft();
     if (!d.isValid) {
-      context.snack(l.exNeedNameAndMuscle);
+      context.snack(l.exNeedNameAndMuscle, kind: ToastKind.warning);
       return;
     }
     setState(() => _saving = true);
@@ -306,10 +307,10 @@ class _AddExerciseScreenState extends ConsumerState<AddExerciseScreen> {
       }
       await ref.read(exerciseRepositoryProvider).insertCustom(d.toCompanion(id, mediaPath: mediaPath));
       if (!mounted) return;
-      context.snack(l.exSaved);
+      context.snack(l.exSaved, kind: ToastKind.success);
       Navigator.of(context).pop(id);
     } catch (e) {
-      if (mounted) context.snack('${l.errorGeneric}: $e');
+      if (mounted) context.snack('${l.errorGeneric}: $e', kind: ToastKind.error);
     } finally {
       if (mounted) setState(() => _saving = false);
     }
@@ -334,12 +335,19 @@ class _AddExerciseScreenState extends ConsumerState<AddExerciseScreen> {
               TextButton(onPressed: _saving ? null : _save, child: Text(l.save)),
           ],
         ),
-        body: switch (_stage) {
-          _Stage.describe => _describe(context),
-          _Stage.suggestions => _suggestionsView(context),
-          _Stage.loading => _loadingView(context),
-          _Stage.review => _review(context),
-        },
+        // Keyed per stage so each step starts at the top, with a cross-fade between steps.
+        body: AnimatedSwitcher(
+          duration: AppMotion.base,
+          child: KeyedSubtree(
+            key: ValueKey(_stage),
+            child: switch (_stage) {
+              _Stage.describe => _describe(context),
+              _Stage.suggestions => _suggestionsView(context),
+              _Stage.loading => _loadingView(context),
+              _Stage.review => _review(context),
+            },
+          ),
+        ),
       ),
     );
   }
@@ -371,7 +379,7 @@ class _AddExerciseScreenState extends ConsumerState<AddExerciseScreen> {
                 tooltip: _listening ? l.exVoiceListening : l.exVoiceStart,
                 iconSize: 28,
                 onPressed: _toggleMic,
-                icon: Icon(_listening ? Icons.stop : Icons.mic, color: _listening ? AppColors.danger : null),
+                icon: Icon(_listening ? Symbols.stop_rounded : Symbols.mic_rounded, color: _listening ? AppColors.danger : null),
               ),
             ),
           ),
@@ -394,7 +402,7 @@ class _AddExerciseScreenState extends ConsumerState<AddExerciseScreen> {
           height: 56,
           child: FilledButton.icon(
             onPressed: _continue,
-            icon: Icon(aiOn ? Icons.auto_awesome : Icons.arrow_forward),
+            icon: Icon(aiOn ? Symbols.auto_awesome_rounded : Symbols.arrow_forward_rounded),
             label: Text(aiOn ? l.exCreateWithAi : l.exContinue),
           ),
         ),
@@ -403,7 +411,7 @@ class _AddExerciseScreenState extends ConsumerState<AddExerciseScreen> {
           height: 52,
           child: OutlinedButton.icon(
             onPressed: _manual,
-            icon: const Icon(Icons.edit_note),
+            icon: const Icon(Symbols.edit_note_rounded),
             label: Text(l.exFillManually),
           ),
         ),
@@ -433,7 +441,7 @@ class _AddExerciseScreenState extends ConsumerState<AddExerciseScreen> {
                   tooltip: l.exPhotoRemove,
                   visualDensity: VisualDensity.compact,
                   style: IconButton.styleFrom(backgroundColor: Colors.black54),
-                  icon: const Icon(Icons.close, size: 18),
+                  icon: const Icon(Symbols.close_rounded, size: 18),
                   onPressed: () => setState(() => _photo = null),
                 ),
               ),
@@ -444,12 +452,12 @@ class _AddExerciseScreenState extends ConsumerState<AddExerciseScreen> {
           child: Wrap(spacing: 8, runSpacing: 8, children: [
             OutlinedButton.icon(
               onPressed: () => _pickPhoto(ImageSource.camera),
-              icon: const Icon(Icons.photo_camera_outlined),
+              icon: const Icon(Symbols.photo_camera_rounded),
               label: Text(l.exPhotoCamera),
             ),
             OutlinedButton.icon(
               onPressed: () => _pickPhoto(ImageSource.gallery),
-              icon: const Icon(Icons.photo_library_outlined),
+              icon: const Icon(Symbols.photo_library_rounded),
               label: Text(l.exPhotoGallery),
             ),
           ]),
@@ -493,7 +501,7 @@ class _AddExerciseScreenState extends ConsumerState<AddExerciseScreen> {
           height: 52,
           child: OutlinedButton.icon(
             onPressed: _createNew,
-            icon: const Icon(Icons.add),
+            icon: const Icon(Symbols.add_rounded),
             label: Text(l.exCreateNewAnyway),
           ),
         ),
@@ -526,7 +534,7 @@ class _AddExerciseScreenState extends ConsumerState<AddExerciseScreen> {
                 showCheckmark: false,
                 selectedColor: primary ? AppColors.primaryDark : AppColors.primaryLight,
                 labelStyle: TextStyle(
-                  color: selected.contains(m) ? (primary ? Colors.white : AppColors.onPrimary) : AppColors.text,
+                  color: selected.contains(m) ? AppColors.onPrimary : AppColors.text,
                 ),
                 onSelected: (_) => toggle(m),
               ),
@@ -561,7 +569,7 @@ class _AddExerciseScreenState extends ConsumerState<AddExerciseScreen> {
             child: Padding(
               padding: const EdgeInsets.all(12),
               child: Row(children: [
-                const Icon(Icons.info_outline, color: AppColors.warning),
+                const Icon(Symbols.info_rounded, color: AppColors.warning),
                 const SizedBox(width: 10),
                 Expanded(child: Text(l.exAiSimilarFound, style: const TextStyle(fontWeight: FontWeight.w700))),
               ]),
@@ -641,7 +649,7 @@ class _AddExerciseScreenState extends ConsumerState<AddExerciseScreen> {
             onPressed: _saving ? null : _save,
             icon: _saving
                 ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2))
-                : const Icon(Icons.check),
+                : const Icon(Symbols.check_rounded),
             label: Text(l.exSave),
           ),
         ),

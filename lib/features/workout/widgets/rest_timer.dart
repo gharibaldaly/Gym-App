@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:material_symbols_icons/symbols.dart';
 import 'package:vibration/vibration.dart';
 
 import '../../../core/theme/app_theme.dart';
@@ -133,7 +134,7 @@ class RestTimerBar extends StatelessWidget {
                   padding: const EdgeInsets.fromLTRB(12, 8, 12, 8),
                   child: Row(
                     children: [
-                      const Icon(Icons.hourglass_bottom, color: AppColors.primary),
+                      const Icon(Symbols.hourglass_bottom_rounded, color: AppColors.primary),
                       const SizedBox(width: 8),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

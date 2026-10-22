@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../core/navigation.dart';
 import '../../core/theme/app_theme.dart';
@@ -25,13 +26,13 @@ class ProgressTabScreen extends ConsumerWidget {
           Builder(
             builder: (btnContext) => IconButton(
               tooltip: l.progExportPdf,
-              icon: const Icon(Icons.picture_as_pdf_outlined),
+              icon: const Icon(Symbols.picture_as_pdf_rounded),
               onPressed: () => showReportExportSheet(btnContext, ref),
             ),
           ),
           IconButton(
             tooltip: l.settings,
-            icon: const Icon(Icons.settings_outlined),
+            icon: const Icon(Symbols.settings_rounded),
             onPressed: () => openSettings(context),
           ),
         ],
@@ -63,10 +64,10 @@ class _QuickLinks extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = context.l10n;
     final links = [
-      (Icons.emoji_events_outlined, l.progLinkPrs, () => push(context, const PrsScreen())),
-      (Icons.photo_library_outlined, l.progLinkPhotos, () => push(context, const ProgressPhotosScreen())),
-      (Icons.straighten, l.progLinkMeasurements, () => push(context, const BodyMeasurementsScreen())),
-      (Icons.monitor_weight_outlined, l.progLinkWeight, () => push(context, const BodyWeightScreen())),
+      (Symbols.trophy_rounded, l.progLinkPrs, () => push(context, const PrsScreen())),
+      (Symbols.photo_library_rounded, l.progLinkPhotos, () => push(context, const ProgressPhotosScreen())),
+      (Symbols.straighten_rounded, l.progLinkMeasurements, () => push(context, const BodyMeasurementsScreen())),
+      (Symbols.monitor_weight_rounded, l.progLinkWeight, () => push(context, const BodyWeightScreen())),
     ];
     return Row(children: [
       for (var i = 0; i < links.length; i++) ...[

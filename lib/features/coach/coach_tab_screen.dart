@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../app/home_shell.dart' show homeTabProvider;
 import '../../core/navigation.dart';
@@ -62,12 +63,12 @@ class _CoachTabScreenState extends ConsumerState<CoachTabScreen> {
           actions: [
             IconButton(
               tooltip: l.coachMemoryTitle,
-              icon: const Icon(Icons.psychology_outlined),
+              icon: const Icon(Symbols.psychology_rounded),
               onPressed: () => push(context, const CoachMemoryScreen()),
             ),
             IconButton(
               tooltip: l.settings,
-              icon: const Icon(Icons.settings_outlined),
+              icon: const Icon(Symbols.settings_rounded),
               onPressed: () => openSettings(context),
             ),
           ],
@@ -76,11 +77,15 @@ class _CoachTabScreenState extends ConsumerState<CoachTabScreen> {
               Tab(text: l.coachTabChat),
               Tab(text: l.coachTabReports),
               Tab(
-                child: Badge(
-                  isLabelVisible: pending > 0,
-                  label: Text('$pending'),
-                  offset: const Offset(14, -4),
-                  child: Text(l.coachTabSuggestions),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Flexible(child: Text(l.coachTabSuggestions, overflow: TextOverflow.ellipsis)),
+                    if (pending > 0) ...[
+                      const SizedBox(width: 6),
+                      Badge(label: Text('$pending')),
+                    ],
+                  ],
                 ),
               ),
             ],

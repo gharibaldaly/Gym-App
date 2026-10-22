@@ -4,6 +4,7 @@ library;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart' show DateFormat;
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../core/navigation.dart';
 import '../../core/providers.dart';
@@ -69,7 +70,7 @@ class _AdherenceCalendarCardState extends ConsumerState<AdherenceCalendarCard> {
           Row(children: [
             IconButton(
               tooltip: l.progPrevMonth,
-              icon: const Icon(Icons.chevron_left), // mirrored automatically in RTL
+              icon: const Icon(Symbols.chevron_left_rounded), // mirrored automatically in RTL
               onPressed: () => _shift(-1),
             ),
             Expanded(
@@ -81,7 +82,7 @@ class _AdherenceCalendarCardState extends ConsumerState<AdherenceCalendarCard> {
             ),
             IconButton(
               tooltip: l.progNextMonth,
-              icon: const Icon(Icons.chevron_right),
+              icon: const Icon(Symbols.chevron_right_rounded),
               onPressed: isCurrent ? null : () => _shift(1),
             ),
           ]),
@@ -317,11 +318,11 @@ class DayDetailsView extends ConsumerWidget {
                       l.progDaySleep,
                       '${fmtNum(d.sleepHours!, maxDecimals: 1)} ${l.hoursShort}'
                       '${d.sleepQuality == null ? '' : '  ·  ${'★' * d.sleepQuality!}'}',
-                      icon: Icons.bedtime_outlined,
+                      icon: Symbols.bedtime_rounded,
                     ),
-                  if (d.recovery != null) _kv(l.progDayRecovery, '${d.recovery}/100', icon: Icons.favorite_border),
+                  if (d.recovery != null) _kv(l.progDayRecovery, '${d.recovery}/100', icon: Symbols.favorite_rounded),
                   if (d.weightKg != null)
-                    _kv(l.progDayWeight, '${fmtNum(d.weightKg!)} ${l.kg}', icon: Icons.monitor_weight_outlined),
+                    _kv(l.progDayWeight, '${fmtNum(d.weightKg!)} ${l.kg}', icon: Symbols.monitor_weight_rounded),
                 ]),
               ),
           ],
@@ -372,10 +373,10 @@ class _SessionTile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Wrap(spacing: 14, runSpacing: 4, children: [
-            if (mins != null) _meta(Icons.timer_outlined, l.progDurationMin('$mins')),
-            _meta(Icons.stacked_bar_chart, l.progVolumeValue(fmtNum(s.volume.round()))),
-            _meta(Icons.format_list_numbered, l.progSetsCount('${s.setCount}')),
-            if (s.prCount > 0) _meta(Icons.emoji_events, l.progPrsCount('${s.prCount}'), color: AppColors.primary),
+            if (mins != null) _meta(Symbols.timer_rounded, l.progDurationMin('$mins')),
+            _meta(Symbols.stacked_bar_chart_rounded, l.progVolumeValue(fmtNum(s.volume.round()))),
+            _meta(Symbols.format_list_numbered_rounded, l.progSetsCount('${s.setCount}')),
+            if (s.prCount > 0) _meta(Symbols.trophy_rounded, l.progPrsCount('${s.prCount}'), color: AppColors.primary),
           ]),
           if (session.notes?.trim().isNotEmpty ?? false) ...[
             const SizedBox(height: 8),
@@ -448,7 +449,7 @@ class _SetChip extends StatelessWidget {
         ],
         if (set.isPr) ...[
           const SizedBox(width: 6),
-          const Icon(Icons.emoji_events, size: 14, color: AppColors.primary),
+          const Icon(Symbols.trophy_rounded, fill: 1, size: 14, color: AppColors.primary),
         ],
       ]),
     );
@@ -463,7 +464,7 @@ class _CardioRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final l = context.l10n;
     return Row(children: [
-      const Icon(Icons.directions_run, size: 18, color: AppColors.info),
+      const Icon(Symbols.sprint_rounded, size: 18, color: AppColors.info),
       const SizedBox(width: 8),
       Expanded(child: Text(cardioTypeLabel(context, c.type), style: const TextStyle(fontWeight: FontWeight.w600))),
       Text(

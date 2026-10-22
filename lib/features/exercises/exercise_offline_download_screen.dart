@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 import '../../core/providers.dart';
 import '../../core/theme/app_theme.dart';
@@ -46,7 +47,7 @@ class _ExerciseOfflineDownloadScreenState extends ConsumerState<ExerciseOfflineD
     );
     if (ok == true) {
       await ref.read(exerciseMediaDownloaderProvider.notifier).clear();
-      if (mounted) context.snack(l.exOfflineCleared);
+      if (mounted) context.snack(l.exOfflineCleared, kind: ToastKind.success);
     }
   }
 
@@ -119,7 +120,7 @@ class _ExerciseOfflineDownloadScreenState extends ConsumerState<ExerciseOfflineD
             Padding(
               padding: const EdgeInsets.only(bottom: 12),
               child: Row(children: [
-                const Icon(Icons.wifi_off, color: AppColors.warning),
+                const Icon(Symbols.wifi_off_rounded, color: AppColors.warning),
                 const SizedBox(width: 8),
                 Expanded(child: Text(l.exOfflineNeedsInternet)),
               ]),
@@ -127,17 +128,17 @@ class _ExerciseOfflineDownloadScreenState extends ConsumerState<ExerciseOfflineD
           SizedBox(
             height: 56,
             child: downloading
-                ? OutlinedButton.icon(onPressed: n.cancel, icon: const Icon(Icons.stop), label: Text(l.exOfflineCancel))
+                ? OutlinedButton.icon(onPressed: n.cancel, icon: const Icon(Symbols.stop_rounded), label: Text(l.exOfflineCancel))
                 : FilledButton.icon(
                     onPressed: (!online || checking || s.complete) ? null : () => n.start(),
-                    icon: const Icon(Icons.download),
+                    icon: const Icon(Symbols.download_rounded),
                     label: Text(l.exOfflineStart),
                   ),
           ),
           const SizedBox(height: 12),
           TextButton.icon(
             onPressed: (s.running || s.cached == 0) ? null : _confirmClear,
-            icon: const Icon(Icons.delete_outline),
+            icon: const Icon(Symbols.delete_rounded),
             label: Text(l.exOfflineClear),
           ),
         ],
