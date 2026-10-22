@@ -20,5 +20,8 @@
   "todaySupplementsEmpty": "مفيش مكملات متضافة.",
   "todayWeightTitle": "وزن الجسم",
   "todayWeightEmpty": "دوس عشان تسجل وزن النهاردة.",
-  "todayWeightAvg": "متوسط ٧ أيام {avg}"
+  "todayWeightAvg": "متوسط ٧ أيام {avg}",
+  "todayGreetMorning": "صباح الخير",
+  "todayGreetAfternoon": "يومك عامل إيه؟",
+  "todayGreetEvening": "مساء الخير"
 }

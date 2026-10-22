@@ -124,14 +124,41 @@ class NotificationService {
         NotifChannel.weight => l.setChannelWeight,
         NotifChannel.coach => l.setChannelCoach,
         NotifChannel.restTimer => l.setChannelRestTimer,
+        NotifChannel.restLive => l.setChannelRestLive,
         NotifChannel.backup => l.setChannelBackup,
       };
+
+  /// Status-bar icon per channel (res/drawable/ic_stat_*.xml, Material Symbols glyphs).
+  static String _icon(NotifChannel c) => switch (c) {
+        NotifChannel.workout => 'ic_stat_workout',
+        NotifChannel.meals => 'ic_stat_meals',
+        NotifChannel.water => 'ic_stat_water',
+        NotifChannel.supplements => 'ic_stat_supplements',
+        NotifChannel.weight => 'ic_stat_weight',
+        NotifChannel.coach => 'ic_stat_coach',
+        NotifChannel.restTimer || NotifChannel.restLive => 'ic_stat_rest',
+        NotifChannel.backup => 'ic_stat_backup',
+      };
+
+  /// Accent used for the small icon and app name in the notification header.
+  static const _accent = Color(0xFFC6F432);
 
   static final Int64List _restVibration = Int64List.fromList([0, 600, 250, 600, 250, 900]);
 
   static AndroidNotificationChannel _channel(NotifChannel c, AppLocalizations l) {
     final rest = c == NotifChannel.restTimer;
     final high = rest || c == NotifChannel.workout || c == NotifChannel.coach;
+    // The live countdown is silent and low priority: it only sits in the shade.
+    if (c == NotifChannel.restLive) {
+      return AndroidNotificationChannel(
+        c.id,
+        _channelName(c, l),
+        importance: Importance.low,
+        playSound: false,
+        enableVibration: false,
+        showBadge: false,
+      );
+    }
     return AndroidNotificationChannel(
       c.id,
       _channelName(c, l),
@@ -143,13 +170,17 @@ class NotificationService {
     );
   }
 
-  static NotificationDetails _details(NotifChannel c, AppLocalizations l, {String? body}) {
+  static NotificationDetails _details(NotifChannel c, AppLocalizations l, {String? title, String? body}) {
     final rest = c == NotifChannel.restTimer;
     final high = rest || c == NotifChannel.workout || c == NotifChannel.coach;
     return NotificationDetails(
       android: AndroidNotificationDetails(
         c.id,
         _channelName(c, l),
+        icon: _icon(c),
+        subText: _channelName(c, l),
+        groupKey: 'ironmind.${c.id}',
+        ticker: title,
         importance: rest ? Importance.max : (high ? Importance.high : Importance.defaultImportance),
         priority: high ? Priority.high : Priority.defaultPriority,
         playSound: true,
@@ -157,8 +188,9 @@ class NotificationService {
         vibrationPattern: rest ? _restVibration : null,
         category: rest ? AndroidNotificationCategory.alarm : AndroidNotificationCategory.reminder,
         audioAttributesUsage: rest ? AudioAttributesUsage.alarm : AudioAttributesUsage.notification,
-        color: const Color(0xFF39FF14),
-        styleInformation: body != null && body.length > 40 ? BigTextStyleInformation(body) : null,
+        color: _accent,
+        // Expanded view always shows the whole message, so nothing gets cut at one line.
+        styleInformation: body == null ? null : BigTextStyleInformation(body, contentTitle: title),
       ),
       iOS: const DarwinNotificationDetails(presentAlert: true, presentSound: true),
     );
@@ -230,7 +262,7 @@ class NotificationService {
         id: id,
         title: title,
         body: body,
-        notificationDetails: _details(channel, _l10n(prefs), body: body),
+        notificationDetails: _details(channel, _l10n(prefs), title: title, body: body),
         payload: payload ?? channel.id,
       );
     } catch (e) {
@@ -238,17 +270,21 @@ class NotificationService {
     }
   }
 
-  /// Rest-timer alarm that fires with sound + vibration even when the app is in background.
+  /// Rest-timer alarm that fires with sound + vibration even when the app is in background,
+  /// plus a silent ongoing notification with a live countdown until then.
   static Future<void> scheduleRestTimer(Duration after, {required String title, required String body}) async {
     if (!await _ensureInit()) return;
     try {
       await _plugin.cancel(id: NotifIds.restTimer);
+      await _plugin.cancel(id: NotifIds.restLive);
       if (after <= Duration.zero) return;
       final prefs = await SharedPreferences.getInstance();
+      final l = _l10n(prefs);
+      await _showRestCountdown(after, l);
       await _plugin.zonedSchedule(
         id: NotifIds.restTimer,
         scheduledDate: tz.TZDateTime.now(tz.local).add(after),
-        notificationDetails: _details(NotifChannel.restTimer, _l10n(prefs)),
+        notificationDetails: _details(NotifChannel.restTimer, l, title: title, body: body),
         androidScheduleMode: await _mode(),
         title: title,
         body: body,
@@ -259,10 +295,42 @@ class NotificationService {
     }
   }
 
+  static Future<void> _showRestCountdown(Duration after, AppLocalizations l) async {
+    if (_android == null) return;
+    final end = DateTime.now().add(after);
+    await _plugin.show(
+      id: NotifIds.restLive,
+      title: l.setNotifRestLiveTitle,
+      body: l.setNotifRestLiveBody,
+      payload: NotifChannel.restTimer.id,
+      notificationDetails: NotificationDetails(
+        android: AndroidNotificationDetails(
+          NotifChannel.restLive.id,
+          _channelName(NotifChannel.restLive, l),
+          icon: _icon(NotifChannel.restLive),
+          color: _accent,
+          importance: Importance.low,
+          priority: Priority.low,
+          category: AndroidNotificationCategory.stopwatch,
+          ongoing: true,
+          autoCancel: false,
+          onlyAlertOnce: true,
+          silent: true,
+          showWhen: true,
+          when: end.millisecondsSinceEpoch,
+          usesChronometer: true,
+          chronometerCountDown: true,
+          timeoutAfter: after.inMilliseconds,
+        ),
+      ),
+    );
+  }
+
   static Future<void> cancelRestTimer() async {
     if (!await _ensureInit()) return;
     try {
       await _plugin.cancel(id: NotifIds.restTimer);
+      await _plugin.cancel(id: NotifIds.restLive);
     } catch (_) {}
   }
 
@@ -336,7 +404,7 @@ class NotificationService {
       await _plugin.zonedSchedule(
         id: n.id,
         scheduledDate: tz.TZDateTime.from(n.time, tz.local),
-        notificationDetails: _details(n.channel, l, body: n.body),
+        notificationDetails: _details(n.channel, l, title: n.title, body: n.body),
         androidScheduleMode: mode,
         title: n.title,
         body: n.body,
@@ -362,7 +430,7 @@ class NotificationService {
       id: NotifIds.backupReminder,
       title: l.setNotifBackupTitle,
       body: l.setNotifBackupBody,
-      notificationDetails: _details(NotifChannel.backup, l),
+      notificationDetails: _details(NotifChannel.backup, l, title: l.setNotifBackupTitle, body: l.setNotifBackupBody),
       payload: 'backup',
     );
     await prefs.setString(NotificationPrefs.backupReminderShownKey, t.toIso8601String());

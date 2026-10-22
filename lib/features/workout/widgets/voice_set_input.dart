@@ -109,7 +109,7 @@ Future<VoiceSet?> captureVoiceSet(BuildContext context, WidgetRef ref) async {
     try {
       parsed = await runWithProgress(context, l.woVoiceParsing, () => parseVoiceWithAi(ref, transcript));
     } catch (e) {
-      if (context.mounted) context.snack(aiErrorText(e, ar: context.isAr));
+      if (context.mounted) context.snack(aiErrorText(e, ar: context.isAr), kind: ToastKind.error);
     }
   }
   if (!context.mounted) return null;

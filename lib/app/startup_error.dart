@@ -30,25 +30,25 @@ class StartupErrorView extends StatelessWidget {
   Widget build(BuildContext context) {
     final details = '$error\n\n${stack ?? ''}'.trim();
     return Scaffold(
-      backgroundColor: const Color(0xFF0A0A0A),
+      backgroundColor: const Color(0xFF0A0C0F),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Icon(Symbols.error_rounded, color: Color(0xFFFF4D4D), size: 48),
+              const Icon(Symbols.error_rounded, color: Color(0xFFFF5A5F), size: 48),
               const SizedBox(height: 12),
               const Text(
                 'حصلت مشكلة وأنا بفتح الأبلكيشن\nIronMind failed to start',
                 textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Colors.white),
+                style: TextStyle(fontSize: 18, fontWeight: FontWeight.w700, color: Color(0xFFF2F4F7)),
               ),
               const SizedBox(height: 8),
               const Text(
                 'صوّر الشاشة دي وابعتها.\nPlease screenshot this screen.',
                 textAlign: TextAlign.center,
-                style: TextStyle(color: Color(0xFF9A9A9A)),
+                style: TextStyle(color: Color(0xFF8E97A6)),
               ),
               const SizedBox(height: 16),
               Expanded(
@@ -56,7 +56,7 @@ class StartupErrorView extends StatelessWidget {
                   child: SelectableText(
                     details,
                     textDirection: TextDirection.ltr,
-                    style: const TextStyle(fontFamily: 'monospace', fontSize: 12, color: Color(0xFFF2F2F2)),
+                    style: const TextStyle(fontFamily: 'monospace', fontSize: 12, color: Color(0xFFF2F4F7)),
                   ),
                 ),
               ),

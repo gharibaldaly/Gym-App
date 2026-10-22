@@ -176,7 +176,7 @@ class _FoodReviewScreenState extends ConsumerState<FoodReviewScreen> {
   Future<void> _save() async {
     final l = context.l10n;
     if (_items.isEmpty) {
-      context.snack(l.nutAddAtLeastOne);
+      context.snack(l.nutAddAtLeastOne, kind: ToastKind.warning);
       return;
     }
     setState(() => _saving = true);
@@ -212,7 +212,7 @@ class _FoodReviewScreenState extends ConsumerState<FoodReviewScreen> {
     } catch (e) {
       if (mounted) {
         setState(() => _saving = false);
-        context.snack('${l.errorGeneric}: $e');
+        context.snack('${l.errorGeneric}: $e', kind: ToastKind.error);
       }
     }
   }

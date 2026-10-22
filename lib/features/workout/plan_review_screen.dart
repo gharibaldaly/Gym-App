@@ -29,7 +29,7 @@ class _PlanReviewScreenState extends ConsumerState<PlanReviewScreen> {
     try {
       await ref.read(workoutRepositoryProvider).approvePlan(widget.planId);
       if (!mounted) return;
-      context.snack(context.l10n.woPlanApproved);
+      context.snack(context.l10n.woPlanApproved, kind: ToastKind.success);
       if (widget.onApproved != null) {
         widget.onApproved!();
       } else {

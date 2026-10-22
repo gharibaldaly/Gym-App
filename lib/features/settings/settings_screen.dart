@@ -136,7 +136,7 @@ class _NavTile extends StatelessWidget {
           leading: Icon(icon, color: AppColors.primary),
           title: Text(title, style: const TextStyle(fontWeight: FontWeight.w600)),
           subtitle: subtitle == null ? null : Text(subtitle!, style: const TextStyle(color: AppColors.textMuted)),
-          trailing: Icon(context.isAr ? Symbols.chevron_left_rounded : Symbols.chevron_right_rounded, color: AppColors.textMuted),
+          trailing: const Icon(Symbols.chevron_right_rounded, color: AppColors.textMuted), // mirrors in RTL
           onTap: onTap,
         ),
       );
@@ -248,7 +248,7 @@ class _ApiKeyCardState extends ConsumerState<_ApiKeyCard> {
       _editing = false;
       _test = _TestState.idle;
     });
-    context.snack(context.l10n.setApiKeySaved);
+    context.snack(context.l10n.setApiKeySaved, kind: ToastKind.success);
   }
 
   Future<void> _runTest(String key) async {
@@ -450,7 +450,7 @@ class _ModelsCardState extends ConsumerState<_ModelsCard> {
     await put(SettingsKeys.modelHaiku, _haiku.text, AiDefaults.haiku);
     await put(SettingsKeys.modelSonnet, _sonnet.text, AiDefaults.sonnet);
     await put(SettingsKeys.modelOpus, _opus.text, AiDefaults.opus);
-    if (mounted) context.snack(context.l10n.setModelsSaved);
+    if (mounted) context.snack(context.l10n.setModelsSaved, kind: ToastKind.success);
   }
 
   Future<void> _reset() async {
@@ -463,7 +463,7 @@ class _ModelsCardState extends ConsumerState<_ModelsCard> {
       _sonnet.text = AiDefaults.sonnet;
       _opus.text = AiDefaults.opus;
     });
-    if (mounted) context.snack(context.l10n.setModelsResetDone);
+    if (mounted) context.snack(context.l10n.setModelsResetDone, kind: ToastKind.success);
   }
 
   Widget _field(String label, String help, TextEditingController c) => Padding(
@@ -695,13 +695,13 @@ class _LockCardState extends ConsumerState<_LockCard> {
     setState(() => _busy = true);
     try {
       if (v && !await AppLockAuth.isSupported()) {
-        if (mounted) context.snack(l.setLockUnsupported);
+        if (mounted) context.snack(l.setLockUnsupported, kind: ToastKind.warning);
         return;
       }
       // Verify the user both when enabling (proves it works) and before disabling.
       final res = await AppLockAuth.authenticate(v ? l.setLockEnableReason : l.setLockDisableReason);
       if (res != LockAuthResult.success) {
-        if (mounted) context.snack(res == LockAuthResult.unavailable ? l.setLockUnsupported : l.setLockFailed);
+        if (mounted) context.snack(res == LockAuthResult.unavailable ? l.setLockUnsupported : l.setLockFailed, kind: ToastKind.error);
         return;
       }
       await prefs.setBool(SettingsKeys.lockEnabled, v);

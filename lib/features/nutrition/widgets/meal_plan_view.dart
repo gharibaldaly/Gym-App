@@ -47,12 +47,12 @@ Future<void> generateMealPlan(BuildContext context, WidgetRef ref, {bool offline
   try {
     if (offlineTemplate) {
       await runWithProgress(context, l.nutBuildingPlan, gen.buildTemplateAndSave);
-      if (context.mounted) context.snack(l.nutBasicPlanReady);
+      if (context.mounted) context.snack(l.nutBasicPlanReady, kind: ToastKind.success);
       return;
     }
     final res = await runWithProgress(context, l.nutGeneratingPlan, () => gen.generate());
     if (!context.mounted) return;
-    context.snack(res.usedAi ? l.nutPlanReady : l.nutPlanFallback);
+    context.snack(res.usedAi ? l.nutPlanReady : l.nutPlanFallback, kind: ToastKind.success);
   } catch (e) {
     if (!context.mounted) return;
     await showDialog<void>(

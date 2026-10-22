@@ -127,7 +127,7 @@ class _ProfileQuestionPageState extends ConsumerState<ProfileQuestionPage> {
     } catch (e) {
       if (mounted) {
         setState(() => _saving = false);
-        context.snack(l.errorGeneric);
+        context.snack(l.errorGeneric, kind: ToastKind.error);
       }
     }
   }

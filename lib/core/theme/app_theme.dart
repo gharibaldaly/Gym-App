@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:material_symbols_icons/symbols.dart';
 
 /// Color tokens. Neutrals carry the UI; [primary] is the single accent.
 /// Macro / water / sleep colors are data colors for charts and rings only.
@@ -25,6 +26,7 @@ class AppColors {
 
   // Status.
   static const danger = Color(0xFFFF5A5F);
+  static const onDanger = Color(0xFF1A0001);
   static const warning = Color(0xFFFFB020);
   static const info = Color(0xFF4DA8FF);
 
@@ -204,7 +206,7 @@ class AppTheme {
               (s) => s.contains(WidgetState.disabled) ? AppColors.textSubtle : AppColors.onPrimary),
           overlayColor: WidgetStatePropertyAll(AppColors.onPrimary.withValues(alpha: 0.08)),
           minimumSize: const WidgetStatePropertyAll(Size(64, 54)),
-          padding: const WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: 22)),
+          padding: const WidgetStatePropertyAll(EdgeInsets.symmetric(horizontal: 18)),
           textStyle: WidgetStatePropertyAll(buttonText),
           iconSize: const WidgetStatePropertyAll(22),
           elevation: const WidgetStatePropertyAll(0),
@@ -289,6 +291,7 @@ class AppTheme {
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 6),
       ),
       segmentedButtonTheme: SegmentedButtonThemeData(
+        selectedIcon: const Icon(Symbols.check_rounded, size: 18),
         style: ButtonStyle(
           backgroundColor: WidgetStateProperty.resolveWith(
               (s) => s.contains(WidgetState.selected) ? AppColors.primary : AppColors.cardHigh),
@@ -308,10 +311,7 @@ class AppTheme {
         dividerColor: Colors.transparent,
         overlayColor: const WidgetStatePropertyAll(Colors.transparent),
         splashFactory: NoSplash.splashFactory,
-        indicator: ShapeDecoration(
-          color: AppColors.primary.withValues(alpha: 0.12),
-          shape: StadiumBorder(side: BorderSide(color: AppColors.primary.withValues(alpha: 0.45))),
-        ),
+        indicator: const InsetPillIndicator(),
       ),
       listTileTheme: ListTileThemeData(
         iconColor: AppColors.textMuted,
@@ -462,6 +462,36 @@ class LiftPageTransitionsBuilder extends PageTransitionsBuilder {
           ),
         ),
       ),
+    );
+  }
+}
+
+/// Tab indicator: a tinted pill inset from the tab's edges, so it never touches the screen edge.
+class InsetPillIndicator extends Decoration {
+  final EdgeInsets inset;
+  const InsetPillIndicator({this.inset = const EdgeInsets.symmetric(horizontal: 6, vertical: 6)});
+
+  @override
+  BoxPainter createBoxPainter([VoidCallback? onChanged]) => _InsetPillPainter(inset);
+}
+
+class _InsetPillPainter extends BoxPainter {
+  final EdgeInsets inset;
+  _InsetPillPainter(this.inset);
+
+  @override
+  void paint(Canvas canvas, Offset offset, ImageConfiguration configuration) {
+    final size = configuration.size;
+    if (size == null) return;
+    final rect = inset.deflateRect(offset & size);
+    final rrect = RRect.fromRectAndRadius(rect, Radius.circular(rect.height / 2));
+    canvas.drawRRect(rrect, Paint()..color = AppColors.primary.withValues(alpha: 0.12));
+    canvas.drawRRect(
+      rrect,
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1
+        ..color = AppColors.primary.withValues(alpha: 0.45),
     );
   }
 }

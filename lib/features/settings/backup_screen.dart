@@ -43,9 +43,9 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
     try {
       final ok = await ref.read(backupServiceProvider).exportAndShare(subject: context.l10n.setBackupShareSubject);
       if (!mounted) return;
-      if (ok) context.snack(context.l10n.setBackupDone);
+      if (ok) context.snack(context.l10n.setBackupDone, kind: ToastKind.success);
     } catch (e) {
-      if (mounted) context.snack(context.l10n.setBackupFailed(e.toString()));
+      if (mounted) context.snack(context.l10n.setBackupFailed(e.toString()), kind: ToastKind.error);
     } finally {
       if (mounted) setState(() => _exporting = false);
     }
@@ -64,10 +64,10 @@ class _BackupScreenState extends ConsumerState<BackupScreen> {
       await picked.xFile.saveTo(local);
       prepared = await service.prepareRestore(local);
     } on BackupException catch (e) {
-      if (mounted) context.snack(_problemText(e.problem));
+      if (mounted) context.snack(_problemText(e.problem), kind: ToastKind.error);
       return;
     } catch (e) {
-      if (mounted) context.snack(l.setRestoreNotBackup);
+      if (mounted) context.snack(l.setRestoreNotBackup, kind: ToastKind.error);
       return;
     } finally {
       if (mounted) setState(() => _importing = false);

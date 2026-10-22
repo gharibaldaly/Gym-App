@@ -77,11 +77,15 @@ class _CoachTabScreenState extends ConsumerState<CoachTabScreen> {
               Tab(text: l.coachTabChat),
               Tab(text: l.coachTabReports),
               Tab(
-                child: Badge(
-                  isLabelVisible: pending > 0,
-                  label: Text('$pending'),
-                  offset: const Offset(14, -4),
-                  child: Text(l.coachTabSuggestions),
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Flexible(child: Text(l.coachTabSuggestions, overflow: TextOverflow.ellipsis)),
+                    if (pending > 0) ...[
+                      const SizedBox(width: 6),
+                      Badge(label: Text('$pending')),
+                    ],
+                  ],
                 ),
               ),
             ],

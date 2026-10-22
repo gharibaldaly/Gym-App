@@ -60,7 +60,7 @@ Future<void> showLogFoodSheet(BuildContext context, WidgetRef ref, {int? mealInd
 /// Pushes a logging screen and shows "logged" when it pops with `true`.
 Future<void> _pushAndConfirm(BuildContext context, Widget page) async {
   final saved = await push<bool>(context, page);
-  if (saved == true && context.mounted) context.snack(context.l10n.nutLogged);
+  if (saved == true && context.mounted) context.snack(context.l10n.nutLogged, kind: ToastKind.success);
 }
 
 class _OptionTile extends StatelessWidget {
@@ -112,7 +112,7 @@ Future<void> logFromPhoto(BuildContext context, WidgetRef ref, {int? mealIndex})
       imageQuality: 90,
     );
   } catch (e) {
-    if (context.mounted) context.snack(l.nutPhotoError);
+    if (context.mounted) context.snack(l.nutPhotoError, kind: ToastKind.error);
     return;
   }
   if (file == null || !context.mounted) return;

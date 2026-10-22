@@ -15,7 +15,7 @@ class WaterScreen extends ConsumerWidget {
   Future<void> _add(BuildContext context, WidgetRef ref, int ml) async {
     HapticFeedback.lightImpact();
     await addWater(ref, ml);
-    if (context.mounted) context.snack(context.l10n.trkWaterAdded(ml));
+    if (context.mounted) context.snack(context.l10n.trkWaterAdded(ml), kind: ToastKind.success);
   }
 
   Future<void> _undo(BuildContext context, WidgetRef ref) async {

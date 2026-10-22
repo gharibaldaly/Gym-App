@@ -202,7 +202,7 @@ Future<bool> confirmDialog(BuildContext context, {required String title, String?
       actions: [
         TextButton(onPressed: () => Navigator.pop(c, false), child: Text(l.cancel)),
         FilledButton(
-          style: danger ? FilledButton.styleFrom(backgroundColor: AppColors.danger, foregroundColor: Colors.white) : null,
+          style: danger ? FilledButton.styleFrom(backgroundColor: AppColors.danger, foregroundColor: AppColors.onDanger) : null,
           onPressed: () => Navigator.pop(c, true),
           child: Text(confirm ?? l.confirm),
         ),

@@ -7,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'app/app.dart';
 import 'app/startup_error.dart';
 import 'core/settings/app_settings.dart';
+import 'core/widgets/brand_mark.dart';
 
 void main() {
   runZonedGuarded(() {
@@ -46,10 +47,7 @@ class _RootState extends State<_Root> {
           );
         }
         if (!snap.hasData) {
-          return const ColoredBox(
-            color: Color(0xFF0A0A0A),
-            child: Center(child: CircularProgressIndicator(color: Color(0xFF39FF14))),
-          );
+          return const BrandSplash();
         }
         return ProviderScope(
           overrides: [sharedPrefsProvider.overrideWithValue(snap.data!)],

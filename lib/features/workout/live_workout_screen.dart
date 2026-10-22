@@ -537,31 +537,47 @@ class _LiveWorkoutScreenState extends ConsumerState<LiveWorkoutScreen> {
               numberOfParticles: 30,
               emissionFrequency: 0.08,
               gravity: 0.25,
-              colors: const [AppColors.primary, AppColors.warning, AppColors.info, Colors.white],
+              colors: const [AppColors.primary, AppColors.warning, AppColors.info, AppColors.primaryLight, AppColors.text],
             ),
           ),
           PositionedDirectional(
             top: 8,
             start: 12,
             end: 12,
+            // PR banner drops in from the top with a small overshoot.
             child: AnimatedSwitcher(
-              duration: const Duration(milliseconds: 250),
+              duration: AppMotion.slow,
+              reverseDuration: AppMotion.base,
+              transitionBuilder: (child, a) => SlideTransition(
+                position: Tween(begin: const Offset(0, -1.2), end: Offset.zero)
+                    .animate(CurvedAnimation(parent: a, curve: AppMotion.overshoot)),
+                child: FadeTransition(opacity: a, child: child),
+              ),
               child: _prBanner == null
                   ? const SizedBox.shrink()
                   : Material(
                       key: ValueKey(_prBanner),
                       color: AppColors.warning,
-                      borderRadius: BorderRadius.circular(14),
-                      elevation: 8,
+                      borderRadius: BorderRadius.circular(AppRadius.lg),
+                      elevation: 12,
+                      shadowColor: AppColors.warning.withValues(alpha: 0.5),
                       child: Padding(
-                        padding: const EdgeInsets.all(14),
+                        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
                         child: Row(
                           children: [
-                            const Icon(Symbols.trophy_rounded, fill: 1, color: Colors.black, size: 32),
-                            const SizedBox(width: 10),
+                            Container(
+                              width: 44,
+                              height: 44,
+                              decoration: BoxDecoration(
+                                color: _onWarning.withValues(alpha: 0.12),
+                                borderRadius: BorderRadius.circular(AppRadius.md),
+                              ),
+                              child: const Icon(Symbols.trophy_rounded, fill: 1, color: _onWarning, size: 28),
+                            ),
+                            const SizedBox(width: 12),
                             Expanded(
                               child: Text(_prBanner!,
-                                  style: const TextStyle(color: Colors.black, fontWeight: FontWeight.w800, fontSize: 16)),
+                                  style: const TextStyle(color: _onWarning, fontWeight: FontWeight.w800, fontSize: 16)),
                             ),
                           ],
                         ),
@@ -671,3 +687,5 @@ class _ChecklistCard extends StatelessWidget {
     );
   }
 }
+
+const _onWarning = Color(0xFF1F1400);

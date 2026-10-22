@@ -29,7 +29,7 @@ Future<double?> showWeightQuickLog(BuildContext context, WidgetRef ref, {DateTim
   if (result == null) return null;
   await ref.read(trackingRepositoryProvider).saveWeight(result.$1, result.$2);
   HapticFeedback.mediumImpact();
-  if (context.mounted) context.snack(context.l10n.trkWeightSaved(fmtNum(result.$2)));
+  if (context.mounted) context.snack(context.l10n.trkWeightSaved(fmtNum(result.$2)), kind: ToastKind.success);
   return result.$2;
 }
 

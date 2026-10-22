@@ -108,7 +108,7 @@ Future<void> showReportExportSheet(BuildContext context, WidgetRef ref) async {
     ));
   } catch (e) {
     nav.pop();
-    if (context.mounted) context.snack('${l.progReportFailed}: $e');
+    if (context.mounted) context.snack('${l.progReportFailed}: $e', kind: ToastKind.error);
   }
 }
 

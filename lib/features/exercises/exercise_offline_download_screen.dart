@@ -47,7 +47,7 @@ class _ExerciseOfflineDownloadScreenState extends ConsumerState<ExerciseOfflineD
     );
     if (ok == true) {
       await ref.read(exerciseMediaDownloaderProvider.notifier).clear();
-      if (mounted) context.snack(l.exOfflineCleared);
+      if (mounted) context.snack(l.exOfflineCleared, kind: ToastKind.success);
     }
   }
 

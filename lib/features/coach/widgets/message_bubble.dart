@@ -105,7 +105,7 @@ class MessageBubble extends StatelessWidget {
               ? null
               : () {
                   Clipboard.setData(ClipboardData(text: text));
-                  context.snack(context.l10n.coachCopied);
+                  context.snack(context.l10n.coachCopied, kind: ToastKind.success);
                 },
           child: Container(
             margin: const EdgeInsets.symmetric(vertical: 4),

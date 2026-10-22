@@ -46,10 +46,10 @@ class ExerciseDetailScreen extends ConsumerWidget {
     final deleted = await ref.read(exerciseRepositoryProvider).deleteCustom(e.id);
     if (!context.mounted) return;
     if (deleted) {
-      context.snack(l.exDeleted);
+      context.snack(l.exDeleted, kind: ToastKind.success);
       Navigator.of(context).pop();
     } else {
-      context.snack(l.exDeleteInUse);
+      context.snack(l.exDeleteInUse, kind: ToastKind.warning);
     }
   }
 

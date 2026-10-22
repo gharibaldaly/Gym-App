@@ -421,7 +421,7 @@ class MuscleTag extends StatelessWidget {
     final Color fg = neutral
         ? AppColors.textMuted
         : primary
-            ? Colors.white
+            ? AppColors.onPrimary
             : AppColors.primaryLight;
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Status-bar icon for meals notifications (Material Symbols Rounded, filled). Generated. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="24dp"
+    android:height="24dp"
+    android:viewportWidth="960"
+    android:viewportHeight="960">
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M276 356V120Q276 102 289.0 89.0Q302 76 320.0 76.0Q338 76 351.0 89.0Q364 102 364 120V356H404V120Q404 102 416.5 89.0Q429 76 447.5 76.0Q466 76 478.5 89.0Q491 102 491 120V356Q491 416 453.5 460.0Q416 504 364 518V840Q364 858 351.0 871.0Q338 884 320.0 884.0Q302 884 289.0 871.0Q276 858 276 840V518Q224 504 186.5 460.0Q149 416 149 356V120Q149 102 161.5 89.0Q174 76 192.5 76.0Q211 76 223.5 89.0Q236 102 236 120V356ZM687 564H613Q594 564 580.5 550.5Q567 537 567 518V280Q567 209 620.0 142.5Q673 76 728 76Q748 76 761.5 92.0Q775 108 775 130V840Q775 858 762.0 871.0Q749 884 731.0 884.0Q713 884 700.0 871.0Q687 858 687 840Z" />
+</vector>

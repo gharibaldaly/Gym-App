@@ -123,7 +123,7 @@ class _AddExerciseScreenState extends ConsumerState<AddExerciseScreen> {
     }
     if (!mounted) return;
     if (!_speechReady) {
-      context.snack(l.exVoiceUnavailable);
+      context.snack(l.exVoiceUnavailable, kind: ToastKind.warning);
       return;
     }
     final base = _desc.text.trim();
@@ -163,7 +163,7 @@ class _AddExerciseScreenState extends ConsumerState<AddExerciseScreen> {
       bytes ??= await x.readAsBytes();
       if (mounted) setState(() => _photo = bytes);
     } catch (_) {
-      if (mounted) context.snack(context.l10n.exPhotoError);
+      if (mounted) context.snack(context.l10n.exPhotoError, kind: ToastKind.error);
     }
   }
 
@@ -177,7 +177,7 @@ class _AddExerciseScreenState extends ConsumerState<AddExerciseScreen> {
   Future<void> _continue() async {
     final text = _desc.text.trim();
     if (text.isEmpty && _photo == null) {
-      context.snack(context.l10n.exDescribeFirst);
+      context.snack(context.l10n.exDescribeFirst, kind: ToastKind.warning);
       return;
     }
     if (_listening) await _speech.stop();
@@ -227,7 +227,7 @@ class _AddExerciseScreenState extends ConsumerState<AddExerciseScreen> {
     } catch (e) {
       if (!mounted) return;
       setState(() => _stage = _Stage.describe);
-      context.snack(aiErrorText(e, ar: isAr));
+      context.snack(aiErrorText(e, ar: isAr), kind: ToastKind.error);
     }
   }
 
@@ -286,7 +286,7 @@ class _AddExerciseScreenState extends ConsumerState<AddExerciseScreen> {
     final l = context.l10n;
     final d = _draft();
     if (!d.isValid) {
-      context.snack(l.exNeedNameAndMuscle);
+      context.snack(l.exNeedNameAndMuscle, kind: ToastKind.warning);
       return;
     }
     setState(() => _saving = true);
@@ -307,10 +307,10 @@ class _AddExerciseScreenState extends ConsumerState<AddExerciseScreen> {
       }
       await ref.read(exerciseRepositoryProvider).insertCustom(d.toCompanion(id, mediaPath: mediaPath));
       if (!mounted) return;
-      context.snack(l.exSaved);
+      context.snack(l.exSaved, kind: ToastKind.success);
       Navigator.of(context).pop(id);
     } catch (e) {
-      if (mounted) context.snack('${l.errorGeneric}: $e');
+      if (mounted) context.snack('${l.errorGeneric}: $e', kind: ToastKind.error);
     } finally {
       if (mounted) setState(() => _saving = false);
     }

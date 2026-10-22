@@ -67,7 +67,7 @@ class SupplementsScreen extends ConsumerWidget {
                   : OutlinedButton.icon(
                       onPressed: () async {
                         final n = await ref.read(trackingRepositoryProvider).importSupplementsFromProfile();
-                        if (context.mounted) context.snack(l.trkSuppImported(n));
+                        if (context.mounted) context.snack(l.trkSuppImported(n), kind: ToastKind.success);
                       },
                       icon: const Icon(Symbols.download_rounded),
                       label: Text(l.trkSuppImport),

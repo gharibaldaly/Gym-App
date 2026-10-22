@@ -3616,6 +3616,15 @@ class AppLocalizationsAr extends AppLocalizations {
   String get setWidgetAddCup => '+ كوباية';
 
   @override
+  String get setChannelRestLive => 'عداد الراحة';
+
+  @override
+  String get setNotifRestLiveTitle => 'وقت راحة';
+
+  @override
+  String get setNotifRestLiveBody => 'الست الجاي أول ما العداد يخلص';
+
+  @override
   String get todayCoachTitle => 'المدرب';
 
   @override
@@ -3693,6 +3702,15 @@ class AppLocalizationsAr extends AppLocalizations {
   String todayWeightAvg(String avg) {
     return 'متوسط ٧ أيام $avg';
   }
+
+  @override
+  String get todayGreetMorning => 'صباح الخير';
+
+  @override
+  String get todayGreetAfternoon => 'يومك عامل إيه؟';
+
+  @override
+  String get todayGreetEvening => 'مساء الخير';
 
   @override
   String get trkWaterTitle => 'المية';

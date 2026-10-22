@@ -34,5 +34,8 @@
         "type": "String"
       }
     }
-  }
+  },
+  "todayGreetMorning": "Good morning",
+  "todayGreetAfternoon": "Good afternoon",
+  "todayGreetEvening": "Good evening"
 }

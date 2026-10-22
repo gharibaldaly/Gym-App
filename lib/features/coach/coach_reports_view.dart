@@ -108,7 +108,7 @@ class _ReportCardState extends State<_ReportCard> {
                 icon: const Icon(Symbols.content_copy_rounded, size: 18),
                 onPressed: () {
                   Clipboard.setData(ClipboardData(text: m.content));
-                  context.snack(l.coachCopied);
+                  context.snack(l.coachCopied, kind: ToastKind.success);
                 },
               ),
             ],

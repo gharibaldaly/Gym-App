@@ -6697,6 +6697,24 @@ abstract class AppLocalizations {
   /// **'+ Cup'**
   String get setWidgetAddCup;
 
+  /// No description provided for @setChannelRestLive.
+  ///
+  /// In en, this message translates to:
+  /// **'Rest countdown'**
+  String get setChannelRestLive;
+
+  /// No description provided for @setNotifRestLiveTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Resting'**
+  String get setNotifRestLiveTitle;
+
+  /// No description provided for @setNotifRestLiveBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Next set when the countdown ends'**
+  String get setNotifRestLiveBody;
+
   /// No description provided for @todayCoachTitle.
   ///
   /// In en, this message translates to:
@@ -6828,6 +6846,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'7-day avg {avg}'**
   String todayWeightAvg(String avg);
+
+  /// No description provided for @todayGreetMorning.
+  ///
+  /// In en, this message translates to:
+  /// **'Good morning'**
+  String get todayGreetMorning;
+
+  /// No description provided for @todayGreetAfternoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Good afternoon'**
+  String get todayGreetAfternoon;
+
+  /// No description provided for @todayGreetEvening.
+  ///
+  /// In en, this message translates to:
+  /// **'Good evening'**
+  String get todayGreetEvening;
 
   /// No description provided for @trkWaterTitle.
   ///

@@ -60,7 +60,7 @@ class _FoodTextScreenState extends ConsumerState<FoodTextScreen> {
       }
     }
     if (!_speechReady) {
-      if (mounted) context.snack(l.nutSpeechUnavailable);
+      if (mounted) context.snack(l.nutSpeechUnavailable, kind: ToastKind.warning);
       return;
     }
     if (!mounted) return;
@@ -170,7 +170,7 @@ class _FoodTextScreenState extends ConsumerState<FoodTextScreen> {
                 iconSize: 40,
                 style: IconButton.styleFrom(
                   backgroundColor: _listening ? AppColors.danger : AppColors.primary,
-                  foregroundColor: _listening ? Colors.white : AppColors.onPrimary,
+                  foregroundColor: _listening ? AppColors.onDanger : AppColors.onPrimary,
                 ),
                 tooltip: _listening ? l.nutStopListening : l.nutSpeak,
                 onPressed: _busy ? null : _toggleMic,

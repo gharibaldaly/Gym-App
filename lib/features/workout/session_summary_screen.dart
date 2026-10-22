@@ -62,7 +62,7 @@ class _SessionSummaryScreenState extends ConsumerState<SessionSummaryScreen> {
     try {
       await ref.read(coachInitiativesProvider).onWorkoutFinished(widget.sessionId);
     } catch (e) {
-      if (mounted) context.snack(aiErrorText(e, ar: context.isAr));
+      if (mounted) context.snack(aiErrorText(e, ar: context.isAr), kind: ToastKind.error);
     }
   }
 

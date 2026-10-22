@@ -73,7 +73,7 @@ class CoachMemoryScreen extends ConsumerWidget {
                       ),
                       onDismissed: (_) {
                         ref.read(coachRepositoryProvider).deleteMemory(m.id);
-                        context.snack(l.coachMemoryDeleted);
+                        context.snack(l.coachMemoryDeleted, kind: ToastKind.success);
                       },
                       child: Card(
                         child: ListTile(

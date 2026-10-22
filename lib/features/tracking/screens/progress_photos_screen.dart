@@ -241,9 +241,9 @@ class _AddPhotosSheetState extends ConsumerState<_AddPhotosSheet> {
     try {
       final ok = await ProgressPhotoStorage.capture(ref.read(databaseProvider),
           date: widget.day, angle: angle, camera: camera);
-      if (ok && mounted) context.snack(l.trkPhotoSaved);
+      if (ok && mounted) context.snack(l.trkPhotoSaved, kind: ToastKind.success);
     } catch (e) {
-      if (mounted) context.snack(l.trkPhotoFailed);
+      if (mounted) context.snack(l.trkPhotoFailed, kind: ToastKind.error);
     } finally {
       if (mounted) setState(() => _busyAngle = null);
     }

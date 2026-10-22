@@ -271,7 +271,7 @@ class _PlannedMealTile extends ConsumerWidget {
 
   Future<void> _editLog(BuildContext context, MealLog log) async {
     final saved = await push<bool>(context, FoodReviewScreen.edit(log, context.lang));
-    if (saved == true && context.mounted) context.snack(context.l10n.nutSaved);
+    if (saved == true && context.mounted) context.snack(context.l10n.nutSaved, kind: ToastKind.success);
   }
 
   Future<void> _openMealSheet(BuildContext context, WidgetRef ref) async {
@@ -397,7 +397,7 @@ class MealLogTile extends ConsumerWidget {
               await _edit(context);
             case 'save':
               await repo.saveMyFood(pickBilingual(log.name, lang), decodeItems(log.itemsJson));
-              if (context.mounted) context.snack(l.nutSavedToMyFoods);
+              if (context.mounted) context.snack(l.nutSavedToMyFoods, kind: ToastKind.success);
             case 'analyze':
               await ref.read(aiQueueProvider).process();
             case 'delete':
@@ -428,7 +428,7 @@ class MealLogTile extends ConsumerWidget {
 
   Future<void> _edit(BuildContext context) async {
     final saved = await push<bool>(context, FoodReviewScreen.edit(log, context.lang));
-    if (saved == true && context.mounted) context.snack(context.l10n.nutSaved);
+    if (saved == true && context.mounted) context.snack(context.l10n.nutSaved, kind: ToastKind.success);
   }
 }
 

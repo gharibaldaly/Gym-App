@@ -86,7 +86,7 @@ Future<void> generatePlanWithAi(BuildContext context, WidgetRef ref, {bool confi
     final id = await runWithProgress(context, l.woGeneratingPlan, () => ref.read(workoutPlanGeneratorProvider).generateAndSave());
     if (context.mounted) await push(context, PlanReviewScreen(planId: id));
   } catch (e) {
-    if (context.mounted) context.snack(aiErrorText(e, ar: context.isAr));
+    if (context.mounted) context.snack(aiErrorText(e, ar: context.isAr), kind: ToastKind.error);
   }
 }
 
@@ -100,7 +100,7 @@ Future<void> buildTemplatePlan(BuildContext context, WidgetRef ref) async {
     final id = await ref.read(workoutPlanGeneratorProvider).buildTemplatePlan();
     if (context.mounted) await push(context, PlanReviewScreen(planId: id));
   } catch (e) {
-    if (context.mounted) context.snack('${l.errorGeneric}: $e');
+    if (context.mounted) context.snack('${l.errorGeneric}: $e', kind: ToastKind.error);
   }
 }
 
@@ -288,14 +288,17 @@ class _DayTile extends StatelessWidget {
     final l = context.l10n;
     final rest = day.isRest;
     final s = session;
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 3),
-      decoration: BoxDecoration(
+    // Material (not a decorated Container) so the ListTile's ink ripple is visible.
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 3),
+      child: Material(
         color: isToday ? AppColors.primary.withValues(alpha: 0.10) : AppColors.cardHigh,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: isToday ? AppColors.primary : Colors.transparent, width: 1.5),
-      ),
-      child: ListTile(
+        clipBehavior: Clip.antiAlias,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppRadius.md),
+          side: BorderSide(color: isToday ? AppColors.primary : AppColors.border, width: isToday ? 1.5 : 1),
+        ),
+        child: ListTile(
         onTap: () => push(context, PlanDayScreen(dayId: day.id)),
         leading: SizedBox(
           width: 44,
@@ -317,6 +320,7 @@ class _DayTile extends StatelessWidget {
         trailing: s != null
             ? Icon(sessionStatusIcon(s.status), color: sessionStatusColor(s.status))
             : (rest ? const Icon(Symbols.bedtime_rounded, color: AppColors.rest) : const Icon(Symbols.chevron_right_rounded)),
+        ),
       ),
     );
   }
