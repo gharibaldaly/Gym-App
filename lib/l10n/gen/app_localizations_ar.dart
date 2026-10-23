@@ -229,6 +229,105 @@ class AppLocalizationsAr extends AppLocalizations {
   String get coachNotifRecovery => 'الاستشفاء واطي النهارده';
 
   @override
+  String get coachPropScheduleTitle => 'تعديل جدول التمرين';
+
+  @override
+  String coachScheduleMove(String day, String from, String to) {
+    return '$day: $from ← $to';
+  }
+
+  @override
+  String get coachScheduleNone => 'من غير يوم';
+
+  @override
+  String get coachPropProfileTitle => 'تحديث بياناتك';
+
+  @override
+  String coachProfileLine(String field, String value) {
+    return '$field: $value';
+  }
+
+  @override
+  String get coachRecalcTargets =>
+      'وهحسب السعرات والماكروز من جديد على البيانات دي.';
+
+  @override
+  String get coachFieldWeight => 'الوزن';
+
+  @override
+  String get coachFieldTargetWeight => 'الوزن المستهدف';
+
+  @override
+  String get coachFieldGoal => 'الهدف';
+
+  @override
+  String get coachFieldLevel => 'المستوى';
+
+  @override
+  String get coachFieldSessionMinutes => 'مدة التمرينة';
+
+  @override
+  String get coachFieldTrainingTime => 'ميعاد التمرين';
+
+  @override
+  String get coachFieldWakeTime => 'ميعاد الصحيان';
+
+  @override
+  String get coachFieldSleepTime => 'ميعاد النوم';
+
+  @override
+  String get coachFieldMealTimes => 'مواعيد الوجبات';
+
+  @override
+  String get coachFieldLikedFoods => 'أكلات بتحبها';
+
+  @override
+  String get coachFieldDislikedFoods => 'أكلات مبتحبهاش';
+
+  @override
+  String get coachFieldAllergies => 'حساسية';
+
+  @override
+  String get coachFieldInjuries => 'إصابات';
+
+  @override
+  String get coachFieldWater => 'هدف الميه';
+
+  @override
+  String get coachFieldLocation => 'مكان التمرين';
+
+  @override
+  String coachMinutes(int n) {
+    return '$n دقيقة';
+  }
+
+  @override
+  String get coachPropNewWorkoutPlanTitle => 'خطة تمرين جديدة';
+
+  @override
+  String get coachPropNewMealPlanTitle => 'خطة أكل جديدة';
+
+  @override
+  String get coachNewWorkoutPlanNote =>
+      'لما توافق هبني الخطة الجديدة (ممكن تاخد دقيقة أو اتنين)، وهتراجعها قبل ما تتفعّل.';
+
+  @override
+  String get coachNewMealPlanNote =>
+      'لما توافق هبني خطة الأكل الجديدة (ممكن تاخد دقيقة) وهتتفعّل على طول.';
+
+  @override
+  String get coachBuildingPlan => 'بابني الخطة… تقدر تقفل الشاشة.';
+
+  @override
+  String get coachWorkoutPlanReady => 'الخطة الجديدة جاهزة. راجعها وفعّلها.';
+
+  @override
+  String get coachMealPlanReady => 'خطة الأكل الجديدة اتفعّلت.';
+
+  @override
+  String get coachFieldTrainingDays => 'أيام التمرين';
+
+  @override
   String get appName => 'IronMind';
 
   @override

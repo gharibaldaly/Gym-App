@@ -470,6 +470,186 @@ abstract class AppLocalizations {
   /// **'Low recovery today'**
   String get coachNotifRecovery;
 
+  /// No description provided for @coachPropScheduleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Change training schedule'**
+  String get coachPropScheduleTitle;
+
+  /// No description provided for @coachScheduleMove.
+  ///
+  /// In en, this message translates to:
+  /// **'{day}: {from} → {to}'**
+  String coachScheduleMove(String day, String from, String to);
+
+  /// No description provided for @coachScheduleNone.
+  ///
+  /// In en, this message translates to:
+  /// **'no day'**
+  String get coachScheduleNone;
+
+  /// No description provided for @coachPropProfileTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Update your profile'**
+  String get coachPropProfileTitle;
+
+  /// No description provided for @coachProfileLine.
+  ///
+  /// In en, this message translates to:
+  /// **'{field}: {value}'**
+  String coachProfileLine(String field, String value);
+
+  /// No description provided for @coachRecalcTargets.
+  ///
+  /// In en, this message translates to:
+  /// **'Calorie and macro targets will be recalculated from this.'**
+  String get coachRecalcTargets;
+
+  /// No description provided for @coachFieldWeight.
+  ///
+  /// In en, this message translates to:
+  /// **'Weight'**
+  String get coachFieldWeight;
+
+  /// No description provided for @coachFieldTargetWeight.
+  ///
+  /// In en, this message translates to:
+  /// **'Target weight'**
+  String get coachFieldTargetWeight;
+
+  /// No description provided for @coachFieldGoal.
+  ///
+  /// In en, this message translates to:
+  /// **'Goal'**
+  String get coachFieldGoal;
+
+  /// No description provided for @coachFieldLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'Level'**
+  String get coachFieldLevel;
+
+  /// No description provided for @coachFieldSessionMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'Session length'**
+  String get coachFieldSessionMinutes;
+
+  /// No description provided for @coachFieldTrainingTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Training time'**
+  String get coachFieldTrainingTime;
+
+  /// No description provided for @coachFieldWakeTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Wake-up time'**
+  String get coachFieldWakeTime;
+
+  /// No description provided for @coachFieldSleepTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Bedtime'**
+  String get coachFieldSleepTime;
+
+  /// No description provided for @coachFieldMealTimes.
+  ///
+  /// In en, this message translates to:
+  /// **'Meal times'**
+  String get coachFieldMealTimes;
+
+  /// No description provided for @coachFieldLikedFoods.
+  ///
+  /// In en, this message translates to:
+  /// **'Foods you like'**
+  String get coachFieldLikedFoods;
+
+  /// No description provided for @coachFieldDislikedFoods.
+  ///
+  /// In en, this message translates to:
+  /// **'Foods you dislike'**
+  String get coachFieldDislikedFoods;
+
+  /// No description provided for @coachFieldAllergies.
+  ///
+  /// In en, this message translates to:
+  /// **'Allergies'**
+  String get coachFieldAllergies;
+
+  /// No description provided for @coachFieldInjuries.
+  ///
+  /// In en, this message translates to:
+  /// **'Injuries'**
+  String get coachFieldInjuries;
+
+  /// No description provided for @coachFieldWater.
+  ///
+  /// In en, this message translates to:
+  /// **'Water goal'**
+  String get coachFieldWater;
+
+  /// No description provided for @coachFieldLocation.
+  ///
+  /// In en, this message translates to:
+  /// **'Training location'**
+  String get coachFieldLocation;
+
+  /// No description provided for @coachMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{n} min'**
+  String coachMinutes(int n);
+
+  /// No description provided for @coachPropNewWorkoutPlanTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New workout plan'**
+  String get coachPropNewWorkoutPlanTitle;
+
+  /// No description provided for @coachPropNewMealPlanTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New meal plan'**
+  String get coachPropNewMealPlanTitle;
+
+  /// No description provided for @coachNewWorkoutPlanNote.
+  ///
+  /// In en, this message translates to:
+  /// **'When you approve, the new plan is built (can take a minute or two) and you review it before it goes live.'**
+  String get coachNewWorkoutPlanNote;
+
+  /// No description provided for @coachNewMealPlanNote.
+  ///
+  /// In en, this message translates to:
+  /// **'When you approve, the new meal plan is built (can take a minute) and becomes active right away.'**
+  String get coachNewMealPlanNote;
+
+  /// No description provided for @coachBuildingPlan.
+  ///
+  /// In en, this message translates to:
+  /// **'Building the plan… you can lock the screen.'**
+  String get coachBuildingPlan;
+
+  /// No description provided for @coachWorkoutPlanReady.
+  ///
+  /// In en, this message translates to:
+  /// **'The new plan is ready. Review and activate it.'**
+  String get coachWorkoutPlanReady;
+
+  /// No description provided for @coachMealPlanReady.
+  ///
+  /// In en, this message translates to:
+  /// **'The new meal plan is active.'**
+  String get coachMealPlanReady;
+
+  /// No description provided for @coachFieldTrainingDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Training days'**
+  String get coachFieldTrainingDays;
+
   /// No description provided for @appName.
   ///
   /// In en, this message translates to:

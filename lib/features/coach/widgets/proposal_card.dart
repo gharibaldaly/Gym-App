@@ -3,9 +3,12 @@ import 'package:flutter/services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_symbols_icons/symbols.dart';
 
+import '../../../ai/ai_service.dart';
 import '../../../core/providers.dart';
 import '../../../core/theme/app_theme.dart';
 import '../../../core/utils/context_ext.dart';
+import '../../workout/plan_review_screen.dart';
+import '../coach_proposal_runner.dart';
 import '../coach_proposals.dart';
 import '../coach_repository.dart';
 import 'markdown_lite.dart';
@@ -18,6 +21,10 @@ IconData proposalIcon(String type) => switch (type) {
       ProposalTypes.adjustMacros => Symbols.pie_chart_rounded,
       ProposalTypes.recoveryAdjust => Symbols.battery_charging_full_rounded,
       ProposalTypes.deload => Symbols.trending_down_rounded,
+      ProposalTypes.changeSchedule => Symbols.calendar_month_rounded,
+      ProposalTypes.updateProfile => Symbols.person_rounded,
+      ProposalTypes.regenerateWorkoutPlan => Symbols.fitness_center_rounded,
+      ProposalTypes.regenerateMealPlan => Symbols.restaurant_menu_rounded,
       _ => Symbols.lightbulb_rounded,
     };
 
@@ -37,26 +44,39 @@ class _ProposalCardState extends ConsumerState<ProposalCard> {
   Future<void> _resolve(bool accept) async {
     setState(() => _busy = true);
     final l = context.l10n;
-    final messenger = ScaffoldMessenger.of(context);
+    final isAr = context.isAr;
+    final navigator = Navigator.of(context);
     try {
-      final applier = ref.read(proposalApplierProvider);
       if (accept) {
-        await applier.accept(widget.proposal.id);
+        final result = await ref.read(coachProposalRunnerProvider).accept(widget.proposal);
         HapticFeedback.mediumImpact();
+        final reviewId = result.reviewPlanId;
+        _toast(
+          reviewId != null
+              ? l.coachWorkoutPlanReady
+              : result.mealPlanActivated
+                  ? l.coachMealPlanReady
+                  : l.coachAppliedSnack,
+          ToastKind.success,
+        );
+        // A generated workout plan only goes live after the user reviews it.
+        if (reviewId != null && navigator.mounted) {
+          await navigator.push(MaterialPageRoute<void>(builder: (_) => PlanReviewScreen(planId: reviewId)));
+        }
       } else {
-        await applier.reject(widget.proposal.id);
+        await ref.read(proposalApplierProvider).reject(widget.proposal.id);
         HapticFeedback.selectionClick();
+        _toast(l.coachRejectedSnack, ToastKind.info);
       }
-      messenger
-        ..hideCurrentSnackBar()
-        ..showSnackBar(SnackBar(content: Text(accept ? l.coachAppliedSnack : l.coachRejectedSnack)));
     } catch (e) {
-      messenger
-        ..hideCurrentSnackBar()
-        ..showSnackBar(SnackBar(content: Text(l.coachApplyFailed('$e'))));
+      _toast(e is AiException ? aiErrorText(e, ar: isAr) : l.coachApplyFailed('$e'), ToastKind.error);
     } finally {
       if (mounted) setState(() => _busy = false);
     }
+  }
+
+  void _toast(String msg, ToastKind kind) {
+    if (mounted) context.snack(msg, kind: kind);
   }
 
   @override
@@ -116,7 +136,19 @@ class _ProposalCardState extends ConsumerState<ProposalCard> {
           if (pending) ...[
             const SizedBox(height: 12),
             if (_busy)
-              const Center(child: Padding(padding: EdgeInsets.all(8), child: CircularProgressIndicator()))
+              Padding(
+                padding: const EdgeInsets.all(8),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2.5)),
+                    if (ProposalTypes.generated.contains(p.type)) ...[
+                      const SizedBox(width: 12),
+                      Flexible(child: Text(l.coachBuildingPlan, style: context.text.bodySmall)),
+                    ],
+                  ],
+                ),
+              )
             else
               Row(
                 children: [

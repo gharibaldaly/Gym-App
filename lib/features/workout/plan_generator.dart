@@ -20,21 +20,31 @@ class WorkoutPlanGenerator {
 
   WorkoutRepository get _repo => ref.read(workoutRepositoryProvider);
 
-  /// Returns the new plan id.
-  Future<int> generateAndSave() async {
+  /// Returns the new plan id. [instructions] are extra requests (e.g. from the coach chat);
+  /// [trainingDays] overrides the profile's weekdays for this plan (saved to the profile
+  /// when the plan is approved).
+  Future<int> generateAndSave({String? instructions, List<int>? trainingDays}) async {
     final profile = await ref.read(profileRepositoryProvider).get();
     if (profile == null) throw StateError('No profile');
     final all = await ref.read(exerciseRepositoryProvider).all();
     final candidates = selectPlanCandidates(all, location: profile.location, level: profile.level);
     if (candidates.strength.isEmpty) throw StateError('Exercise library is empty');
     final knownIds = {...candidates.strength.map((e) => e.id), ...candidates.stretches.map((e) => e.id)};
-    final days = trainingDaysOf(profile);
+    final days = (trainingDays != null && trainingDays.isNotEmpty)
+        ? (trainingDays.where((d) => d >= 1 && d <= 7).toSet().toList()..sort())
+        : trainingDaysOf(profile);
     final lang = profile.language;
 
     final json = await ref.read(aiServiceProvider).structured(
           feature: AiFeature.initialPlan,
           system: AiService.systemBlocks(planSystemPrompt),
-          prompt: buildPlanPrompt(profile: profile, days: days, candidates: candidates, lang: lang),
+          prompt: buildPlanPrompt(
+            profile: profile,
+            days: days,
+            candidates: candidates,
+            lang: lang,
+            instructions: instructions,
+          ),
           schema: workoutPlanSchema,
           extraValidate: (j) => validatePlanJson(j, knownIds: knownIds, trainingDays: days),
           maxTokens: 20000,
@@ -264,6 +274,7 @@ String buildPlanPrompt({
   required List<int> days,
   required PlanCandidates candidates,
   required String lang,
+  String? instructions,
 }) {
   final language = lang == 'ar'
       ? 'Egyptian Arabic (friendly colloquial مصري); exercise names may stay in English'
@@ -287,8 +298,14 @@ String buildPlanPrompt({
     ..writeln('- Bodyweight: ${profile.weightKg ?? 'unknown'} kg, sex: ${profile.sex ?? 'unknown'}')
     ..writeln('- Write all human-readable text (name, notes, day names like "Push A", focus, warmup, cooldown, '
         'exercise notes) in $language.')
-    ..writeln()
-    ..writeln('STRENGTH CANDIDATES (id|name|primary|equipment):');
+    ..writeln();
+  if (instructions != null && instructions.trim().isNotEmpty) {
+    b
+      ..writeln('USER REQUEST (follow it unless it conflicts with the constraints above or with safety):')
+      ..writeln(instructions.trim())
+      ..writeln();
+  }
+  b.writeln('STRENGTH CANDIDATES (id|name|primary|equipment):');
   for (final e in candidates.strength) {
     b.writeln(PlanCandidates.line(e));
   }

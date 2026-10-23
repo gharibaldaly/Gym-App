@@ -233,6 +233,106 @@ class AppLocalizationsEn extends AppLocalizations {
   String get coachNotifRecovery => 'Low recovery today';
 
   @override
+  String get coachPropScheduleTitle => 'Change training schedule';
+
+  @override
+  String coachScheduleMove(String day, String from, String to) {
+    return '$day: $from → $to';
+  }
+
+  @override
+  String get coachScheduleNone => 'no day';
+
+  @override
+  String get coachPropProfileTitle => 'Update your profile';
+
+  @override
+  String coachProfileLine(String field, String value) {
+    return '$field: $value';
+  }
+
+  @override
+  String get coachRecalcTargets =>
+      'Calorie and macro targets will be recalculated from this.';
+
+  @override
+  String get coachFieldWeight => 'Weight';
+
+  @override
+  String get coachFieldTargetWeight => 'Target weight';
+
+  @override
+  String get coachFieldGoal => 'Goal';
+
+  @override
+  String get coachFieldLevel => 'Level';
+
+  @override
+  String get coachFieldSessionMinutes => 'Session length';
+
+  @override
+  String get coachFieldTrainingTime => 'Training time';
+
+  @override
+  String get coachFieldWakeTime => 'Wake-up time';
+
+  @override
+  String get coachFieldSleepTime => 'Bedtime';
+
+  @override
+  String get coachFieldMealTimes => 'Meal times';
+
+  @override
+  String get coachFieldLikedFoods => 'Foods you like';
+
+  @override
+  String get coachFieldDislikedFoods => 'Foods you dislike';
+
+  @override
+  String get coachFieldAllergies => 'Allergies';
+
+  @override
+  String get coachFieldInjuries => 'Injuries';
+
+  @override
+  String get coachFieldWater => 'Water goal';
+
+  @override
+  String get coachFieldLocation => 'Training location';
+
+  @override
+  String coachMinutes(int n) {
+    return '$n min';
+  }
+
+  @override
+  String get coachPropNewWorkoutPlanTitle => 'New workout plan';
+
+  @override
+  String get coachPropNewMealPlanTitle => 'New meal plan';
+
+  @override
+  String get coachNewWorkoutPlanNote =>
+      'When you approve, the new plan is built (can take a minute or two) and you review it before it goes live.';
+
+  @override
+  String get coachNewMealPlanNote =>
+      'When you approve, the new meal plan is built (can take a minute) and becomes active right away.';
+
+  @override
+  String get coachBuildingPlan => 'Building the plan… you can lock the screen.';
+
+  @override
+  String get coachWorkoutPlanReady =>
+      'The new plan is ready. Review and activate it.';
+
+  @override
+  String get coachMealPlanReady => 'The new meal plan is active.';
+
+  @override
+  String get coachFieldTrainingDays => 'Training days';
+
+  @override
   String get appName => 'IronMind';
 
   @override
