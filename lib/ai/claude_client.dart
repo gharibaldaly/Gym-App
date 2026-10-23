@@ -26,6 +26,21 @@ class AiOfflineException extends AiException {
   AiOfflineException() : super('No internet connection');
 }
 
+/// The connection failed or dropped mid-request (e.g. Android cut the network when the
+/// screen locked). Safe to retry: nothing was saved from the failed attempt.
+class AiNetworkException extends AiException {
+  AiNetworkException(super.message);
+}
+
+/// Maps transport-level errors to [AiNetworkException]; anything else is returned unchanged.
+Object _transportError(Object e) => switch (e) {
+      SocketException(:final message) => AiNetworkException('Connection failed: $message'),
+      HttpException(:final message) => AiNetworkException('Connection dropped: $message'),
+      http.ClientException(:final message) => AiNetworkException('Network error: $message'),
+      HandshakeException() || TlsException() => AiNetworkException('Secure connection failed: $e'),
+      _ => e,
+    };
+
 class ClaudeUsage {
   int inputTokens;
   int outputTokens;
@@ -71,13 +86,26 @@ class StreamDone extends ClaudeStreamEvent {
   StreamDone(this.response);
 }
 
+/// The connection dropped after some text arrived; the request is being retried.
+/// Discard the text streamed so far, the full answer streams again.
+class StreamReset extends ClaudeStreamEvent {
+  final AiException cause;
+  StreamReset(this.cause);
+}
+
 /// Thin raw-HTTP client for POST /v1/messages (no official Dart SDK exists).
 class ClaudeClient {
   final String apiKey;
   final http.Client _http;
   final Duration timeout;
 
-  ClaudeClient(this.apiKey, {http.Client? httpClient, this.timeout = const Duration(minutes: 5)})
+  /// Longest silence tolerated while streaming before the connection counts as dropped.
+  final Duration streamIdleTimeout;
+
+  ClaudeClient(this.apiKey,
+      {http.Client? httpClient,
+      this.timeout = const Duration(minutes: 5),
+      this.streamIdleTimeout = const Duration(seconds: 90)})
       : _http = httpClient ?? http.Client();
 
   Map<String, String> _headers(Map<String, dynamic> body) {
@@ -97,12 +125,10 @@ class ClaudeClient {
       res = await _http
           .post(Uri.parse(AiDefaults.apiUrl), headers: _headers(body), body: jsonEncode(body))
           .timeout(timeout);
-    } on SocketException {
-      throw AiOfflineException();
-    } on http.ClientException catch (e) {
-      throw AiException('Network error: ${e.message}');
     } on TimeoutException {
       throw AiException('Request timed out');
+    } catch (e) {
+      throw _transportError(e);
     }
     final decoded = _decode(res.bodyBytes);
     if (res.statusCode != 200) {
@@ -126,15 +152,18 @@ class ClaudeClient {
     http.StreamedResponse res;
     try {
       res = await _http.send(req).timeout(const Duration(seconds: 60));
-    } on SocketException {
-      throw AiOfflineException();
-    } on http.ClientException catch (e) {
-      throw AiException('Network error: ${e.message}');
     } on TimeoutException {
       throw AiException('Request timed out');
+    } catch (e) {
+      throw _transportError(e);
     }
     if (res.statusCode != 200) {
-      final bytes = await res.stream.toBytes();
+      final List<int> bytes;
+      try {
+        bytes = await res.stream.toBytes();
+      } catch (e) {
+        throw _transportError(e);
+      }
       throw AiException(_errorMessage(_decode(bytes)) ?? 'HTTP ${res.statusCode}', statusCode: res.statusCode);
     }
 
@@ -144,7 +173,16 @@ class ClaudeClient {
     String model = body['model'] as String;
     String? stopReason;
 
-    final lines = res.stream.transform(utf8.decoder).transform(const LineSplitter());
+    // A dropped connection mid-stream surfaces here as a socket/client error.
+    final lines = res.stream
+        .transform(utf8.decoder)
+        .transform(const LineSplitter())
+        .handleError((Object e) => throw _transportError(e), test: (e) => e is! AiException)
+        // The API sends pings while it works, so a long silence means the connection died quietly.
+        .timeout(streamIdleTimeout, onTimeout: (sink) {
+          sink.addError(AiNetworkException('Stream stalled'));
+          sink.close();
+        });
     await for (final line in lines) {
       if (!line.startsWith('data:')) continue;
       final data = line.substring(5).trim();

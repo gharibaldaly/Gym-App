@@ -136,4 +136,24 @@ void main() {
     expect(c.read(coachChatProvider).error, isNotNull);
     expect((await CoachRepository(f.db).recentMessages(10)).single.role, 'user');
   });
+
+  test('dropped connection mid-answer: partial text is discarded, only the retried answer is saved', () async {
+    final f = await seedCoachDb(withLogs: false);
+    addTearDown(f.db.close);
+    final (c, ai, _) = await coachContainer(f.db);
+    addTearDown(c.dispose);
+    ai.streams.add([
+      TextDelta('نص اتقطع'),
+      StreamReset(AiNetworkException('Connection closed while receiving data')),
+      TextDelta('الرد الكامل'),
+      StreamDone(response([
+        {'type': 'text', 'text': 'الرد الكامل'}
+      ], 'end_turn')),
+    ]);
+    await c.read(coachChatProvider.notifier).send('ازيك');
+    final messages = await CoachRepository(f.db).recentMessages(10);
+    expect(messages.map((m) => m.role), ['user', 'assistant']);
+    expect(messages.last.content, 'الرد الكامل');
+    expect(c.read(coachChatProvider).error, isNull);
+  });
 }

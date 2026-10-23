@@ -418,6 +418,20 @@ class AppLocalizationsEn extends AppLocalizations {
   String get comingSoon => 'Coming soon';
 
   @override
+  String get bgWorkChannel => 'Background work';
+
+  @override
+  String get bgWorkTitle => 'IronMind is finishing your request';
+
+  @override
+  String get bgWorkBody =>
+      'You can lock the screen or leave the app; it will keep going.';
+
+  @override
+  String get aiConnectionLost =>
+      'The connection dropped before the request finished. Try again.';
+
+  @override
   String get exLibraryTitle => 'Exercise library';
 
   @override
