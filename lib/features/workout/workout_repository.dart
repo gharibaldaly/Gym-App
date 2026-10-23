@@ -153,7 +153,8 @@ class WorkoutRepository {
         suggestedWeightKg: const Value(null),
       ));
 
-  /// Deactivates every other plan and activates [planId].
+  /// Deactivates every other plan and activates [planId]. The profile's training
+  /// days follow the plan, so reminders and future plans use the same weekdays.
   Future<void> approvePlan(int planId) => db.transaction(() async {
         await (db.update(db.workoutPlans)..where((t) => t.id.equals(planId).not()))
             .write(const WorkoutPlansCompanion(isActive: Value(false)));
@@ -161,6 +162,18 @@ class WorkoutRepository {
           isActive: const Value(true),
           activatedAt: Value(DateTime.now()),
         ));
+        final trainingDays = (await days(planId))
+            .where((d) => !d.isRest && d.weekday != null)
+            .map((d) => d.weekday!)
+            .toSet()
+            .toList()
+          ..sort();
+        if (trainingDays.isNotEmpty) {
+          await (db.update(db.userProfiles)..where((t) => t.id.equals(1))).write(UserProfilesCompanion(
+            trainingDaysJson: Value(jsonEncode(trainingDays)),
+            daysPerWeek: Value(trainingDays.length),
+          ));
+        }
       });
 
   Future<void> deletePlan(int planId) => db.transaction(() async {

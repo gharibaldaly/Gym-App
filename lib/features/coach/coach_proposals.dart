@@ -7,7 +7,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../../core/calc/strength_calc.dart';
 import '../../core/providers.dart';
 import '../../core/utils/context_ext.dart' show dayOf, ymd;
+import '../../data/repositories/profile_repository.dart';
+import '../tracking/tracking_repository.dart';
 import 'coach_repository.dart';
+import 'coach_tools.dart' show scheduleClash;
 
 /// coach_proposals.type values.
 class ProposalTypes {
@@ -18,6 +21,13 @@ class ProposalTypes {
   static const adjustMacros = 'adjust_macros';
   static const recoveryAdjust = 'recovery_adjust';
   static const deload = 'deload';
+  static const changeSchedule = 'change_schedule';
+  static const updateProfile = 'update_profile';
+  static const regenerateWorkoutPlan = 'regenerate_workout_plan';
+  static const regenerateMealPlan = 'regenerate_meal_plan';
+
+  /// Applied by running an AI generator (outside a DB transaction), see CoachProposalRunner.
+  static const generated = {regenerateWorkoutPlan, regenerateMealPlan};
 }
 
 /// SharedPreferences contracts read by the workout feature.
@@ -74,6 +84,10 @@ class ProposalApplier {
           await _applyLogSet(payload);
         case ProposalTypes.adjustMacros:
           await _applyMacros(payload);
+        case ProposalTypes.changeSchedule:
+          await _applySchedule(payload);
+        case ProposalTypes.updateProfile:
+          await _applyProfile(payload);
         case ProposalTypes.deload:
           await prefs.setString(CoachPrefKeys.deloadWeekStart, ymd(now()));
         case ProposalTypes.recoveryAdjust:
@@ -90,6 +104,12 @@ class ProposalApplier {
       }
       await _mark(id, 'accepted');
     });
+  }
+
+  /// Marks a proposal accepted after its change was applied elsewhere (AI-generated plans).
+  Future<void> markAccepted(int id) async {
+    await _load(id);
+    await _mark(id, 'accepted');
   }
 
   Future<void> _mark(int id, String status) => (db.update(db.coachProposals)..where((t) => t.id.equals(id)))
@@ -283,6 +303,74 @@ class ProposalApplier {
           : Value((p.restDayCarbsG! + carbDelta).clamp(0, 2000)),
       updatedAt: Value(now()),
     ));
+  }
+
+  // ------------------------------------------------------------ schedule
+
+  Future<void> _applySchedule(Map<String, dynamic> payload) async {
+    final planId = (payload['planId'] as num?)?.toInt();
+    final plan = planId == null
+        ? null
+        : await (db.select(db.workoutPlans)..where((t) => t.id.equals(planId))).getSingleOrNull();
+    if (plan == null || !plan.isActive) throw ProposalApplyException('The plan changed since this proposal');
+    final days = await (db.select(db.planDays)..where((t) => t.planId.equals(plan.id))).get();
+    final target = {for (final d in days) d.id: d.weekday};
+    for (final m in (payload['days'] as List? ?? const []).whereType<Map>()) {
+      final id = (m['planDayId'] as num?)?.toInt();
+      if (id == null || !target.containsKey(id)) throw ProposalApplyException('Plan day no longer exists');
+      target[id] = (m['weekday'] as num?)?.toInt();
+    }
+    if (scheduleClash(target) != null) throw ProposalApplyException('Two days would fall on the same weekday');
+    for (final d in days) {
+      if (target[d.id] == d.weekday) continue;
+      await (db.update(db.planDays)..where((t) => t.id.equals(d.id))).write(PlanDaysCompanion(weekday: Value(target[d.id])));
+    }
+    // The profile's training days drive reminders and future plans.
+    final trainingDays = [
+      for (final d in days)
+        if (!d.isRest && target[d.id] != null) target[d.id]!,
+    ]..sort();
+    await (db.update(db.userProfiles)..where((t) => t.id.equals(1))).write(UserProfilesCompanion(
+      trainingDaysJson: Value(jsonEncode(trainingDays)),
+      daysPerWeek: Value(trainingDays.length),
+      updatedAt: Value(now()),
+    ));
+  }
+
+  // ------------------------------------------------------------ profile
+
+  Future<void> _applyProfile(Map<String, dynamic> payload) async {
+    final c = (payload['changes'] as Map?)?.cast<String, dynamic>() ?? const {};
+    if (c.isEmpty) throw ProposalApplyException('Nothing to apply');
+    if (await ProfileRepository(db).get() == null) throw ProposalApplyException('No profile');
+    String? s(String k) => c[k] as String?;
+    final meals = (c['mealTimes'] as List?)?.cast<String>();
+    Value<T> v<T>(T? x) => x == null ? const Value.absent() : Value(x);
+    await (db.update(db.userProfiles)..where((t) => t.id.equals(1))).write(UserProfilesCompanion(
+      targetWeightKg: v((c['targetWeightKg'] as num?)?.toDouble()),
+      goal: v(s('goal')),
+      level: v(s('level')),
+      sessionMinutes: v((c['sessionMinutes'] as num?)?.toInt()),
+      trainingTime: v(s('trainingTime')),
+      wakeTime: v(s('wakeTime')),
+      sleepTime: v(s('sleepTime')),
+      mealTimesJson: v(meals == null ? null : jsonEncode(meals)),
+      mealsPerDay: v(meals?.length),
+      likedFoods: v(s('likedFoods')),
+      dislikedFoods: v(s('dislikedFoods')),
+      allergies: v(s('allergies')),
+      injuriesNote: v(s('injuriesNote')),
+      waterGoalMl: v((c['waterGoalMl'] as num?)?.toInt()),
+      location: v(s('location')),
+      updatedAt: Value(now()),
+    ));
+    final weight = (c['weightKg'] as num?)?.toDouble();
+    if (weight != null) {
+      // Logged as a weigh-in so the weight chart and the profile agree.
+      final day = DateTime.tryParse(payload['date'] as String? ?? '') ?? now();
+      await TrackingRepository(db).saveWeight(dayOf(day), weight);
+    }
+    if (payload['recalculateTargets'] == true) await ProfileRepository(db).recomputeTargets();
   }
 
   static Map<String, dynamic> _decodeMap(String? s) {

@@ -7,7 +7,9 @@ import '../../ai/json_schema.dart';
 import '../../core/providers.dart';
 import '../../core/utils/context_ext.dart' show dayOf, ymd, fmtNum;
 import '../../data/repositories/exercise_repository.dart';
+import '../../data/repositories/profile_repository.dart';
 import '../../l10n/gen/app_localizations.dart';
+import '../onboarding/onboarding_labels.dart';
 import 'coach_memory.dart';
 import 'coach_proposals.dart';
 
@@ -141,6 +143,99 @@ final List<Map<String, dynamic>> coachTools = [
     ['calories', 'protein', 'carbs', 'fat', 'reason'],
   ),
   _tool(
+    'change_schedule',
+    'Propose moving days of the active workout plan to other weekdays (e.g. "train Sunday instead of Monday", '
+        '"I can only train 4 days now"). Give the planDayId and its new weekday (1=Mon … 7=Sun, Saturday=6), or '
+        'null to take the day off the schedule. Days you do not list keep their weekday. Two days may not end up on '
+        'the same weekday. The profile\'s training days and the workout reminders follow. Needs user approval.',
+    {
+      'days': {
+        'type': 'array',
+        'items': {
+          'type': 'object',
+          'properties': {
+            'planDayId': {'type': 'integer'},
+            'weekday': _nullable('integer', 'New weekday 1-7, or null to unschedule the day.'),
+          },
+          'required': ['planDayId', 'weekday'],
+        },
+      },
+      'reason': {'type': 'string', 'description': 'Short reason shown to the user, in their language.'},
+    },
+    ['days', 'reason'],
+  ),
+  _tool(
+    'update_profile',
+    'Propose updating the user\'s profile: body weight, goal, level, session length, training / wake / sleep '
+        'times, meal times, food likes/dislikes, allergies, injuries, water goal, training location. Set every field '
+        'you do not change to null. Set recalculateTargets true when weight or goal changes so calories and macros '
+        'are recomputed. Reminders follow the new times. Needs user approval.',
+    {
+      'weightKg': _nullable('number', 'Current body weight in kg (also logged as today\'s weigh-in).'),
+      'targetWeightKg': _nullable('number', 'Goal body weight in kg.'),
+      'goal': {
+        'type': ['string', 'null'],
+        'enum': ['bulk', 'cut', 'recomp', 'strength', 'fitness', null],
+      },
+      'level': {
+        'type': ['string', 'null'],
+        'enum': ['beginner', 'intermediate', 'advanced', null],
+      },
+      'sessionMinutes': _nullable('integer', 'Planned session length in minutes.'),
+      'trainingTime': _nullable('string', 'Usual training time "HH:mm" (24h).'),
+      'wakeTime': _nullable('string', '"HH:mm" (24h).'),
+      'sleepTime': _nullable('string', '"HH:mm" (24h).'),
+      'mealTimes': {
+        'type': ['array', 'null'],
+        'items': {'type': 'string'},
+        'description': 'All meal times "HH:mm" in order; sets the number of meals per day.',
+      },
+      'likedFoods': _nullable('string', 'Free text.'),
+      'dislikedFoods': _nullable('string', 'Free text.'),
+      'allergies': _nullable('string', 'Free text.'),
+      'injuriesNote': _nullable('string', 'Current injuries / limitations, free text.'),
+      'waterGoalMl': _nullable('integer', 'Daily water goal in ml.'),
+      'location': {
+        'type': ['string', 'null'],
+        'enum': ['full_gym', 'limited_gym', 'home', null],
+      },
+      'recalculateTargets': {'type': 'boolean'},
+      'reason': {'type': 'string', 'description': 'Short reason shown to the user, in their language.'},
+    },
+    ['weightKg', 'targetWeightKg', 'goal', 'level', 'sessionMinutes', 'trainingTime', 'wakeTime', 'sleepTime',
+        'mealTimes', 'likedFoods', 'dislikedFoods', 'allergies', 'injuriesNote', 'waterGoalMl', 'location',
+        'recalculateTargets', 'reason'],
+  ),
+  _tool(
+    'regenerate_workout_plan',
+    'Propose building a brand-new workout plan, for big changes that propose_plan_change cannot express '
+        '(a different split, a new number of days, a full restart, a new focus). Put everything the user asked for '
+        'in instructions, and the weekdays in trainingDays if they change. Use update_profile first if goal or level change. After approval '
+        'the plan is generated and the user reviews it before it replaces the current one. Needs user approval.',
+    {
+      'instructions': {'type': 'string', 'description': 'What the new plan must do, in English, specific.'},
+      'trainingDays': {
+        'type': ['array', 'null'],
+        'items': {'type': 'integer'},
+        'description': 'Training weekdays for the new plan (1=Mon … 7=Sun, Saturday=6) when the days or the '
+            'number of days change, else null to keep the current ones.',
+      },
+      'reason': {'type': 'string', 'description': 'Short summary shown to the user, in their language.'},
+    },
+    ['instructions', 'trainingDays', 'reason'],
+  ),
+  _tool(
+    'regenerate_meal_plan',
+    'Propose building a new meal plan (different foods, budget, meal count, or after new macro targets). Put the '
+        'user\'s requests in instructions. After approval it is generated and becomes the active meal plan. '
+        'Needs user approval.',
+    {
+      'instructions': {'type': 'string', 'description': 'What the new meal plan must do, in English, specific.'},
+      'reason': {'type': 'string', 'description': 'Short summary shown to the user, in their language.'},
+    },
+    ['instructions', 'reason'],
+  ),
+  _tool(
     'save_memory',
     'Save one lasting fact about the user (injury, preference, constraint, circumstance) to long-term coach '
         'memory. Saved immediately. Do not save facts already listed in COACH MEMORY.',
@@ -194,6 +289,10 @@ class CoachToolExecutor {
         'log_meal' => await _logMeal(input),
         'log_set' => await _logSet(input),
         'adjust_macros' => await _macros(input),
+        'change_schedule' => await _schedule(input),
+        'update_profile' => await _profile(input),
+        'regenerate_workout_plan' => await _regenerate(ProposalTypes.regenerateWorkoutPlan, input),
+        'regenerate_meal_plan' => await _regenerate(ProposalTypes.regenerateMealPlan, input),
         'save_memory' => await _saveMemory(input),
         _ => ToolOutcome('Unknown tool "$name".', isError: true),
       };
@@ -402,6 +501,180 @@ class CoachToolExecutor {
     return ToolOutcome('Proposal #$id (new macro targets) created. $_approvalNote', proposalId: id);
   }
 
+  // ------------------------------------------------------------ schedule
+
+  String _weekday(int? wd) => switch (wd) {
+        1 => _l.weekdayMon,
+        2 => _l.weekdayTue,
+        3 => _l.weekdayWed,
+        4 => _l.weekdayThu,
+        5 => _l.weekdayFri,
+        6 => _l.weekdaySat,
+        7 => _l.weekdaySun,
+        _ => _l.coachScheduleNone,
+      };
+
+  Future<ToolOutcome> _schedule(Map<String, dynamic> input) async {
+    final plan = await (db.select(db.workoutPlans)..where((t) => t.isActive.equals(true))).getSingleOrNull();
+    if (plan == null) return const ToolOutcome('There is no active plan.', isError: true);
+    final days = await (db.select(db.planDays)..where((t) => t.planId.equals(plan.id))).get();
+    final moves = (input['days'] as List).cast<Map>().map((m) => m.cast<String, dynamic>()).toList();
+    if (moves.isEmpty) return const ToolOutcome('days is empty.', isError: true);
+    final target = {for (final d in days) d.id: d.weekday};
+    for (final m in moves) {
+      final id = (m['planDayId'] as num).toInt();
+      final wd = (m['weekday'] as num?)?.toInt();
+      if (!target.containsKey(id)) {
+        return ToolOutcome('planDayId $id is not in the active plan. Valid: ${days.map((d) => d.id).join(', ')}',
+            isError: true);
+      }
+      if (wd != null && (wd < 1 || wd > 7)) return ToolOutcome('weekday $wd must be 1-7 or null.', isError: true);
+      target[id] = wd;
+    }
+    final clash = scheduleClash(target);
+    if (clash != null) {
+      return ToolOutcome('Weekday ${clash.$1} would be used by planDayIds ${clash.$2.join(' and ')}. '
+          'Move or unschedule one of them in the same proposal.', isError: true);
+    }
+    final lines = <String>[];
+    for (final d in days) {
+      if (target[d.id] == d.weekday) continue;
+      lines.add(_l.coachScheduleMove(d.name, _weekday(d.weekday), _weekday(target[d.id])));
+    }
+    if (lines.isEmpty) return const ToolOutcome('That is already the schedule – nothing to change.', isError: true);
+    final reason = (input['reason'] as String).trim();
+    final id = await _createProposal(
+      ProposalTypes.changeSchedule,
+      _l.coachPropScheduleTitle,
+      [if (reason.isNotEmpty) reason, ...lines].join('\n'),
+      {
+        'planId': plan.id,
+        'days': [for (final m in moves) {'planDayId': (m['planDayId'] as num).toInt(), 'weekday': m['weekday']}],
+        'reason': reason,
+      },
+    );
+    return ToolOutcome('Proposal #$id (schedule change) created. $_approvalNote', proposalId: id);
+  }
+
+  // ------------------------------------------------------------ profile
+
+  static final _hm = RegExp(r'^([01]?\d|2[0-3]):[0-5]\d$');
+
+  Future<ToolOutcome> _profile(Map<String, dynamic> input) async {
+    final profile = await ProfileRepository(db).get();
+    if (profile == null) return const ToolOutcome('No profile yet.', isError: true);
+    num? n(String k) => input[k] as num?;
+    String? s(String k) {
+      final v = (input[k] as String?)?.trim();
+      return v == null || v.isEmpty ? null : v;
+    }
+
+    final changes = <String, dynamic>{};
+    final lines = <String>[];
+    void add(String key, Object value, String label, String shown) {
+      changes[key] = value;
+      lines.add(_l.coachProfileLine(label, shown));
+    }
+
+    final w = n('weightKg'), tw = n('targetWeightKg');
+    if (w != null) {
+      if (w < 30 || w > 300) return const ToolOutcome('weightKg must be 30-300.', isError: true);
+      add('weightKg', w.toDouble(), _l.coachFieldWeight, '${fmtNum(w)} ${_l.kg}');
+    }
+    if (tw != null) {
+      if (tw < 30 || tw > 300) return const ToolOutcome('targetWeightKg must be 30-300.', isError: true);
+      add('targetWeightKg', tw.toDouble(), _l.coachFieldTargetWeight, '${fmtNum(tw)} ${_l.kg}');
+    }
+    if (s('goal') != null) add('goal', s('goal')!, _l.coachFieldGoal, labelOf(goalOptions(_l), s('goal')) ?? s('goal')!);
+    if (s('level') != null) {
+      add('level', s('level')!, _l.coachFieldLevel, labelOf(levelOptions(_l), s('level')) ?? s('level')!);
+    }
+    final mins = n('sessionMinutes')?.toInt();
+    if (mins != null) {
+      if (mins < 15 || mins > 240) return const ToolOutcome('sessionMinutes must be 15-240.', isError: true);
+      add('sessionMinutes', mins, _l.coachFieldSessionMinutes, _l.coachMinutes(mins));
+    }
+    for (final (key, label) in [
+      ('trainingTime', _l.coachFieldTrainingTime),
+      ('wakeTime', _l.coachFieldWakeTime),
+      ('sleepTime', _l.coachFieldSleepTime),
+    ]) {
+      final v = s(key);
+      if (v == null) continue;
+      if (!_hm.hasMatch(v)) return ToolOutcome('$key must be "HH:mm".', isError: true);
+      add(key, _pad(v), label, _pad(v));
+    }
+    final meals = (input['mealTimes'] as List?)?.cast<String>().map((e) => e.trim()).toList();
+    if (meals != null) {
+      if (meals.isEmpty || meals.length > 8 || meals.any((m) => !_hm.hasMatch(m))) {
+        return const ToolOutcome('mealTimes must be 1-8 times "HH:mm".', isError: true);
+      }
+      final sorted = meals.map(_pad).toList()..sort();
+      add('mealTimes', sorted, _l.coachFieldMealTimes, sorted.join(lang == 'ar' ? '، ' : ', '));
+    }
+    for (final (key, label) in [
+      ('likedFoods', _l.coachFieldLikedFoods),
+      ('dislikedFoods', _l.coachFieldDislikedFoods),
+      ('allergies', _l.coachFieldAllergies),
+      ('injuriesNote', _l.coachFieldInjuries),
+    ]) {
+      final v = s(key);
+      if (v != null) add(key, v, label, v);
+    }
+    final water = n('waterGoalMl')?.toInt();
+    if (water != null) {
+      if (water < 1000 || water > 8000) return const ToolOutcome('waterGoalMl must be 1000-8000.', isError: true);
+      add('waterGoalMl', water, _l.coachFieldWater, '${fmtNum(water / 1000, maxDecimals: 2)} L');
+    }
+    if (s('location') != null) {
+      add('location', s('location')!, _l.coachFieldLocation,
+          labelOf(locationOptions(_l), s('location')) ?? s('location')!);
+    }
+    if (changes.isEmpty) return const ToolOutcome('No field changes – set at least one field.', isError: true);
+    final recalc = input['recalculateTargets'] == true;
+    final reason = (input['reason'] as String).trim();
+    final id = await _createProposal(
+      ProposalTypes.updateProfile,
+      _l.coachPropProfileTitle,
+      [if (reason.isNotEmpty) reason, ...lines, if (recalc) _l.coachRecalcTargets].join('\n'),
+      {'changes': changes, 'recalculateTargets': recalc, 'date': ymd(dayOf(now())), 'reason': reason},
+    );
+    return ToolOutcome('Proposal #$id (profile update) created. $_approvalNote', proposalId: id);
+  }
+
+  static String _pad(String hm) {
+    final p = hm.split(':');
+    return '${p[0].padLeft(2, '0')}:${p[1]}';
+  }
+
+  // ------------------------------------------------------------ regenerate plans
+
+  Future<ToolOutcome> _regenerate(String type, Map<String, dynamic> input) async {
+    final instructions = (input['instructions'] as String).trim();
+    if (instructions.isEmpty) return const ToolOutcome('instructions is empty.', isError: true);
+    final reason = (input['reason'] as String).trim();
+    final workout = type == ProposalTypes.regenerateWorkoutPlan;
+    final days = (input['trainingDays'] as List?)?.map((e) => (e as num).toInt()).toSet().toList();
+    if (days != null) {
+      if (days.isEmpty || days.any((d) => d < 1 || d > 7)) {
+        return const ToolOutcome('trainingDays must be weekdays 1-7 (or null).', isError: true);
+      }
+      days.sort();
+    }
+    final id = await _createProposal(
+      type,
+      workout ? _l.coachPropNewWorkoutPlanTitle : _l.coachPropNewMealPlanTitle,
+      [
+        if (reason.isNotEmpty) reason,
+        if (days != null) _l.coachProfileLine(_l.coachFieldTrainingDays, days.map(_weekday).join(lang == 'ar' ? '، ' : ', ')),
+        workout ? _l.coachNewWorkoutPlanNote : _l.coachNewMealPlanNote,
+      ].join('\n'),
+      {'instructions': instructions, 'trainingDays': ?days, 'reason': reason},
+    );
+    return ToolOutcome('Proposal #$id (${workout ? 'new workout plan' : 'new meal plan'}) created. $_approvalNote',
+        proposalId: id);
+  }
+
   // ------------------------------------------------------------ memory
 
   Future<ToolOutcome> _saveMemory(Map<String, dynamic> input) async {
@@ -410,4 +683,16 @@ class CoachToolExecutor {
     final inserted = await insertMemoriesDeduped(db, [fact], source: 'chat_tool');
     return ToolOutcome(inserted.isEmpty ? 'Already in memory – nothing saved.' : 'Saved to memory.');
   }
+}
+
+/// First weekday that two plan days would share (weekday, planDayIds), or null.
+(int, List<int>)? scheduleClash(Map<int, int?> dayToWeekday) {
+  final byWeekday = <int, List<int>>{};
+  for (final e in dayToWeekday.entries) {
+    if (e.value != null) byWeekday.putIfAbsent(e.value!, () => []).add(e.key);
+  }
+  for (final e in byWeekday.entries) {
+    if (e.value.length > 1) return (e.key, e.value..sort());
+  }
+  return null;
 }
