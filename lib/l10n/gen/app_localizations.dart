@@ -836,6 +836,30 @@ abstract class AppLocalizations {
   /// **'Coming soon'**
   String get comingSoon;
 
+  /// No description provided for @bgWorkChannel.
+  ///
+  /// In en, this message translates to:
+  /// **'Background work'**
+  String get bgWorkChannel;
+
+  /// No description provided for @bgWorkTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'IronMind is finishing your request'**
+  String get bgWorkTitle;
+
+  /// No description provided for @bgWorkBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You can lock the screen or leave the app; it will keep going.'**
+  String get bgWorkBody;
+
+  /// No description provided for @aiConnectionLost.
+  ///
+  /// In en, this message translates to:
+  /// **'The connection dropped before the request finished. Try again.'**
+  String get aiConnectionLost;
+
   /// No description provided for @exLibraryTitle.
   ///
   /// In en, this message translates to:

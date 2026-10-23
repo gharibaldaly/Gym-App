@@ -413,6 +413,19 @@ class AppLocalizationsAr extends AppLocalizations {
   String get comingSoon => 'قريبًا';
 
   @override
+  String get bgWorkChannel => 'شغل في الخلفية';
+
+  @override
+  String get bgWorkTitle => 'IronMind بيكمّل طلبك';
+
+  @override
+  String get bgWorkBody =>
+      'تقدر تقفل الشاشة أو تخرج من الأبلكيشن، الطلب هيكمل لوحده.';
+
+  @override
+  String get aiConnectionLost => 'الاتصال اتقطع قبل ما الطلب يخلص. جرّب تاني.';
+
+  @override
   String get exLibraryTitle => 'مكتبة التمارين';
 
   @override

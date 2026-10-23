@@ -59,5 +59,9 @@
   "weekdayFri": "Fri",
   "weekdaySat": "Sat",
   "weekdaySun": "Sun",
-  "comingSoon": "Coming soon"
+  "comingSoon": "Coming soon",
+  "bgWorkChannel": "Background work",
+  "bgWorkTitle": "IronMind is finishing your request",
+  "bgWorkBody": "You can lock the screen or leave the app; it will keep going.",
+  "aiConnectionLost": "The connection dropped before the request finished. Try again."
 }

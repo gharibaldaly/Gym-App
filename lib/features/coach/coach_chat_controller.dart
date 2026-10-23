@@ -142,12 +142,20 @@ class CoachChatController extends Notifier<CoachChatState> {
         )..['tool_choice'] = {'type': 'auto'};
 
         if (buffer.isNotEmpty && !buffer.toString().endsWith('\n')) buffer.write('\n\n');
+        final roundStart = buffer.length;
         ClaudeResponse? res;
         await for (final ev in ai.stream(AiFeature.chat, body)) {
           switch (ev) {
             case TextDelta(:final text):
               buffer.write(text);
               state = state.copyWith(streamingText: buffer.toString(), usingTools: false);
+            case StreamReset():
+              // Connection dropped mid-answer and the request is retried: drop this round's partial text.
+              final kept = buffer.toString().substring(0, roundStart);
+              buffer
+                ..clear()
+                ..write(kept);
+              state = state.copyWith(streamingText: kept);
             case StreamDone(:final response):
               res = response;
           }

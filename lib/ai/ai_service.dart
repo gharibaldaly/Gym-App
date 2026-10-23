@@ -3,10 +3,14 @@ import 'dart:convert';
 
 import 'package:drift/drift.dart' show Value;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/widgets.dart' show Locale;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 import '../core/providers.dart';
+import '../l10n/gen/app_localizations.dart';
+import '../services/background/keep_alive.dart';
 import 'ai_config.dart';
+import 'ai_retry.dart';
 import 'claude_client.dart';
 import 'json_schema.dart';
 
@@ -132,16 +136,51 @@ class AiService {
         ));
   }
 
+  late final AiRetry _retry = AiRetry(waitUntilUsable: _waitUntilUsable);
+
+  /// Before a retry: wait until the request can actually go out, i.e. the app is in the
+  /// foreground (or kept alive by the background service) and the phone is online.
+  Future<void> _waitUntilUsable() async {
+    final deadline = DateTime.now().add(const Duration(minutes: 15));
+    while (DateTime.now().isBefore(deadline)) {
+      if ((appInForeground() || KeepAlive.isRunning) && ref.read(isOnlineProvider)) return;
+      await Future<void>.delayed(const Duration(seconds: 1));
+    }
+  }
+
+  /// Keeps the app alive (screen locked / app in background) while a request runs.
+  Future<void> _holdAlive() {
+    final prefs = ref.read(sharedPrefsProvider);
+    final l = lookupAppLocalizations(Locale(prefs.getString(SettingsKeys.language) ?? 'ar'));
+    return KeepAlive.begin(title: l.bgWorkTitle, text: l.bgWorkBody, channel: l.bgWorkChannel);
+  }
+
+  /// After every retry failed: if the phone is offline, report it as offline so callers
+  /// fall back the usual way (queue for later, offline template, …).
+  AiException _finalError(AiException e) =>
+      e is AiNetworkException && !ref.read(isOnlineProvider) ? AiOfflineException() : e;
+
   /// Raw call with usage logging. Throws [AiException] on refusal.
+  /// Dropped connections and temporary server errors are retried (see [AiRetry]),
+  /// and the app is kept alive in the background until the call finishes.
   Future<ClaudeResponse> create(AiFeature feature, Map<String, dynamic> body) async {
-    final client = await _client();
+    await _holdAlive();
     try {
-      final res = await client.create(body);
+      final res = await _retry.run(() async {
+        final client = await _client();
+        try {
+          return await client.create(body);
+        } finally {
+          client.close();
+        }
+      });
       await _logUsage(feature, res.model, res.usage);
       if (res.isRefusal) throw AiException('The request was declined by the model.');
       return res;
+    } on AiException catch (e) {
+      throw _finalError(e);
     } finally {
-      client.close();
+      KeepAlive.end();
     }
   }
 
@@ -224,18 +263,36 @@ class AiService {
     throw AiException('unreachable');
   }
 
-  /// Streaming call (chat). Logs usage when the stream completes.
+  /// Streaming call (chat). Logs usage when the stream completes. A dropped
+  /// connection is retried; if text was already sent, a [StreamReset] comes first
+  /// so the caller discards the partial answer before the new one streams in.
   Stream<ClaudeStreamEvent> stream(AiFeature feature, Map<String, dynamic> body) async* {
-    final client = await _client();
+    await _holdAlive();
     try {
-      await for (final ev in client.stream(body)) {
-        if (ev is StreamDone) {
-          await _logUsage(feature, ev.response.model, ev.response.usage);
+      for (var attempt = 1;; attempt++) {
+        var sentText = false;
+        AiException? failure;
+        final client = await _client();
+        try {
+          await for (final ev in client.stream(body)) {
+            if (ev is StreamDone) {
+              await _logUsage(feature, ev.response.model, ev.response.usage);
+            }
+            if (ev is TextDelta) sentText = true;
+            yield ev;
+          }
+          return;
+        } on AiException catch (e) {
+          if (!AiRetry.shouldRetry(e) || attempt >= _retry.maxAttempts) throw _finalError(e);
+          failure = e;
+        } finally {
+          client.close();
         }
-        yield ev;
+        if (sentText) yield StreamReset(failure);
+        await _retry.pause(attempt);
       }
     } finally {
-      client.close();
+      KeepAlive.end();
     }
   }
 
@@ -274,6 +331,9 @@ String aiErrorText(Object e, {required bool ar}) {
   }
   if (e is AiOfflineException) {
     return ar ? 'مفيش نت دلوقتي.' : 'No internet connection.';
+  }
+  if (e is AiNetworkException) {
+    return lookupAppLocalizations(Locale(ar ? 'ar' : 'en')).aiConnectionLost;
   }
   if (e is AiException && e.isAuth) {
     return ar ? 'مفتاح الـ API غلط أو منتهي.' : 'Invalid or expired API key.';

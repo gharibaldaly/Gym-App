@@ -59,5 +59,9 @@
   "weekdayFri": "الجمعة",
   "weekdaySat": "السبت",
   "weekdaySun": "الحد",
-  "comingSoon": "قريبًا"
+  "comingSoon": "قريبًا",
+  "bgWorkChannel": "شغل في الخلفية",
+  "bgWorkTitle": "IronMind بيكمّل طلبك",
+  "bgWorkBody": "تقدر تقفل الشاشة أو تخرج من الأبلكيشن، الطلب هيكمل لوحده.",
+  "aiConnectionLost": "الاتصال اتقطع قبل ما الطلب يخلص. جرّب تاني."
 }
