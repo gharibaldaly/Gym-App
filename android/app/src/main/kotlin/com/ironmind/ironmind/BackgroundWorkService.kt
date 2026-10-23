@@ -59,7 +59,7 @@ class BackgroundWorkService : Service() {
     private fun buildNotification(title: String, text: String): Notification {
         val nm = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         if (nm.getNotificationChannel(CHANNEL_ID) == null) {
-            val name = channelName ?: "Background work"
+            val name = localizedChannelName ?: "Background work"
             nm.createNotificationChannel(
                 NotificationChannel(CHANNEL_ID, name, NotificationManager.IMPORTANCE_LOW).apply {
                     setShowBadge(false)
@@ -98,11 +98,11 @@ class BackgroundWorkService : Service() {
 
         /** Localized channel name, set by Dart before the first start. */
         @Volatile
-        var channelName: String? = null
+        private var localizedChannelName: String? = null
 
         /** Returns false when Android refuses (e.g. starting while the app is already in the background). */
         fun start(context: Context, title: String, text: String, channelName: String): Boolean {
-            channelName = channelName
+            localizedChannelName = channelName
             val intent = Intent(context, BackgroundWorkService::class.java)
                 .putExtra(EXTRA_TITLE, title)
                 .putExtra(EXTRA_TEXT, text)
