@@ -14,6 +14,7 @@ import 'package:ironmind/features/workout/workout_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'coach_fixtures.dart';
+import 'schema_shape.dart';
 
 /// Plan generator double: records the request and saves an empty inactive plan.
 class _FakePlanGenerator extends WorkoutPlanGenerator {
@@ -51,6 +52,12 @@ void main() {
   Future<CoachProposal> proposal(int id) =>
       (f.db.select(f.db.coachProposals)..where((p) => p.id.equals(id))).getSingle();
   Future<PlanDay> day(int id) => (f.db.select(f.db.planDays)..where((d) => d.id.equals(id))).getSingle();
+
+  test('tool schemas only use shapes the API accepts', () {
+    for (final t in coachTools) {
+      expectApiSafeSchema(t['input_schema'], t['name'] as String);
+    }
+  });
 
   group('change_schedule', () {
     test('moves a day to another weekday; profile training days follow on approval', () async {
@@ -113,19 +120,19 @@ void main() {
     Map<String, dynamic> input(Map<String, dynamic> changes) => {
           'weightKg': null,
           'targetWeightKg': null,
-          'goal': null,
-          'level': null,
+          'goal': 'unchanged',
+          'level': 'unchanged',
           'sessionMinutes': null,
           'trainingTime': null,
           'wakeTime': null,
           'sleepTime': null,
-          'mealTimes': null,
+          'mealTimes': <String>[],
           'likedFoods': null,
           'dislikedFoods': null,
           'allergies': null,
           'injuriesNote': null,
           'waterGoalMl': null,
-          'location': null,
+          'location': 'unchanged',
           'recalculateTargets': false,
           'reason': '',
           ...changes,
@@ -209,7 +216,7 @@ void main() {
     test('a failed generation leaves the proposal pending', () async {
       final out = await exec.execute('regenerate_workout_plan', {
         'instructions': 'x',
-        'trainingDays': null,
+        'trainingDays': <int>[],
         'reason': '',
       });
       c.read(workoutPlanGeneratorProvider);
