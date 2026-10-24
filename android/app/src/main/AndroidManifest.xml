@@ -52,6 +52,13 @@
             <intent-filter>
                 <action android:name="androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE"/>
             </intent-filter>
+            <!-- Sign-in deep link: Google sign-in, email confirmation and password reset return here -->
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="com.ironmind.ironmind" android:host="login-callback"/>
+            </intent-filter>
             <!-- Home widget tap opens the app -->
             <intent-filter>
                 <action android:name="es.antonborri.home_widget.action.LAUNCH"/>
@@ -118,6 +125,11 @@
         <package android:name="com.google.android.apps.healthdata"/>
         <intent>
             <action android:name="androidx.health.ACTION_SHOW_PERMISSIONS_RATIONALE"/>
+        </intent>
+        <!-- Opening the Google sign-in page in the browser -->
+        <intent>
+            <action android:name="android.intent.action.VIEW"/>
+            <data android:scheme="https"/>
         </intent>
         <!-- image_picker camera -->
         <intent>

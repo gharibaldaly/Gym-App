@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart' show Value;
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:intl/intl.dart' show DateFormat;
 import 'package:material_symbols_icons/symbols.dart';
 
 import '../../ai/ai_service.dart';
@@ -11,6 +12,7 @@ import '../../core/utils/context_ext.dart';
 import '../../core/widgets/common.dart';
 import '../../data/repositories/profile_repository.dart';
 import '../../services/backup/backup_service.dart';
+import '../../services/cloud/cloud_providers.dart';
 import '../../services/lock/app_lock.dart';
 import '../../services/notifications/notification_service.dart';
 import '../../services/widget/home_widget_service.dart';
@@ -51,6 +53,7 @@ class SettingsScreen extends ConsumerWidget {
       body: ListView(
         padding: const EdgeInsetsDirectional.fromSTEB(16, 8, 16, 32),
         children: [
+          const _AccountCard(),
           if (backupDue && profile?.onboardingComplete == true) const _BackupBanner(),
           _NavTile(
             icon: Symbols.person_rounded,
@@ -103,6 +106,113 @@ class SettingsScreen extends ConsumerWidget {
             title: l.setAbout,
             subtitle: l.setAboutSub,
             onTap: () => push(context, const AboutScreen()),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Signed-in account: email, last cloud backup, "save now" and sign out.
+class _AccountCard extends ConsumerStatefulWidget {
+  const _AccountCard();
+
+  @override
+  ConsumerState<_AccountCard> createState() => _AccountCardState();
+}
+
+class _AccountCardState extends ConsumerState<_AccountCard> {
+  bool _busy = false;
+
+  Future<bool> _upload(String uid) async {
+    final sync = ref.read(cloudSyncProvider);
+    if (sync == null) return false;
+    try {
+      await sync.upload(uid);
+      ref.read(cloudLastUploadProvider.notifier).refresh();
+      return true;
+    } catch (e) {
+      if (mounted) context.snack(context.l10n.authErrGeneric('$e'), kind: ToastKind.error);
+      return false;
+    }
+  }
+
+  Future<void> _backupNow(String uid) async {
+    setState(() => _busy = true);
+    final ok = await _upload(uid);
+    if (!mounted) return;
+    setState(() => _busy = false);
+    if (ok) context.snack(context.l10n.setAccountBackedUp, kind: ToastKind.success);
+  }
+
+  Future<void> _signOut(String uid) async {
+    final l = context.l10n;
+    final yes = await showDialog<bool>(
+      context: context,
+      builder: (c) => AlertDialog(
+        title: Text(l.setAccountSignOut),
+        content: Text(l.setAccountSignOutConfirm),
+        actions: [
+          TextButton(onPressed: () => Navigator.pop(c, false), child: Text(MaterialLocalizations.of(c).cancelButtonLabel)),
+          FilledButton(
+            style: FilledButton.styleFrom(backgroundColor: AppColors.danger, foregroundColor: AppColors.onDanger),
+            onPressed: () => Navigator.pop(c, true),
+            child: Text(l.setAccountSignOut),
+          ),
+        ],
+      ),
+    );
+    if (yes != true || !mounted) return;
+    setState(() => _busy = true);
+    // Save the latest data first; sign out even if that fails (it stays on the phone).
+    final sync = ref.read(cloudSyncProvider);
+    if (sync != null && sync.isDirty) await _upload(uid);
+    await CloudRuntime.auth.signOut();
+    if (!mounted) return;
+    setState(() => _busy = false);
+    Navigator.of(context).popUntil((r) => r.isFirst);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (!ref.watch(cloudEnabledProvider)) return const SizedBox.shrink();
+    final user = ref.watch(authUserProvider).value;
+    if (user == null) return const SizedBox.shrink();
+    final l = context.l10n;
+    final last = ref.watch(cloudLastUploadProvider);
+    return SectionCard(
+      title: l.setAccountTitle,
+      icon: Symbols.account_circle_rounded,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(user.email ?? '', textDirection: TextDirection.ltr, textAlign: TextAlign.start, style: context.text.titleSmall),
+          const SizedBox(height: 4),
+          Text(
+            last == null
+                ? l.setAccountNeverBackedUp
+                : l.setAccountLastBackup(DateFormat.yMMMd(context.lang).add_jm().format(last)),
+            style: context.text.bodySmall,
+          ),
+          const SizedBox(height: AppSpace.md),
+          Row(
+            children: [
+              Expanded(
+                child: OutlinedButton.icon(
+                  onPressed: _busy ? null : () => _backupNow(user.id),
+                  icon: _busy
+                      ? const SizedBox(width: 18, height: 18, child: CircularProgressIndicator(strokeWidth: 2))
+                      : const Icon(Symbols.cloud_upload_rounded),
+                  label: Text(l.setAccountBackupNow),
+                ),
+              ),
+              const SizedBox(width: AppSpace.sm),
+              IconButton(
+                tooltip: l.setAccountSignOut,
+                onPressed: _busy ? null : () => _signOut(user.id),
+                icon: const Icon(Symbols.logout_rounded, color: AppColors.danger),
+              ),
+            ],
           ),
         ],
       ),

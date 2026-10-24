@@ -1,0 +1,92 @@
+{
+  "authTagline": "Sign in so your data is saved to your account and comes back on any phone.",
+  "authSignIn": "Sign in",
+  "authSignUp": "Create account",
+  "authEmail": "Email",
+  "authPassword": "Password",
+  "authForgot": "Forgot password?",
+  "authOr": "or",
+  "authGoogle": "Continue with Google",
+  "authEmailInvalid": "Enter a valid email.",
+  "authPasswordShort": "Password must be at least 6 characters.",
+  "authCheckEmail": "We sent a confirmation link to {email}. Open it, then sign in here.",
+  "@authCheckEmail": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "authResetSent": "We sent a password reset link to {email}.",
+  "@authResetSent": {
+    "placeholders": {
+      "email": {
+        "type": "String"
+      }
+    }
+  },
+  "authEnterEmailFirst": "Enter your email first.",
+  "authErrInvalid": "Wrong email or password.",
+  "authErrNotConfirmed": "Your email isn't confirmed yet. Open the confirmation link we sent you.",
+  "authErrExists": "This email already has an account. Sign in instead.",
+  "authErrWeak": "That password is too weak. Try a longer one.",
+  "authErrRate": "Too many attempts. Wait a bit and try again.",
+  "authErrNetwork": "No connection. Check your internet and try again.",
+  "authErrGoogle": "Google sign-in isn't available right now. Use email instead.",
+  "authErrGeneric": "Something went wrong: {error}",
+  "@authErrGeneric": {
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "authNewPasswordTitle": "New password",
+  "authPasswordUpdated": "Password updated.",
+  "cloudChecking": "Looking for your data…",
+  "cloudRestoring": "Restoring your data… {percent}%",
+  "@cloudRestoring": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "cloudUploading": "Saving your data to your account… {percent}%",
+  "@cloudUploading": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
+  "cloudChooseTitle": "There's data on this phone and in your account",
+  "cloudChooseBody": "Which one do you want to keep? The other one will be replaced.",
+  "cloudUseCloud": "Account data (last saved {date})",
+  "@cloudUseCloud": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "cloudUseDevice": "This phone's data",
+  "cloudOfflineTitle": "Couldn't reach your account",
+  "cloudOfflineBody": "Check your internet so we can bring your data back.",
+  "cloudRetry": "Try again",
+  "cloudContinueOffline": "Continue without it for now",
+  "setAccountTitle": "Account",
+  "setAccountLastBackup": "Last saved to your account: {date}",
+  "@setAccountLastBackup": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "setAccountNeverBackedUp": "Not saved to your account yet.",
+  "setAccountBackupNow": "Save a copy now",
+  "setAccountBackedUp": "Your data is saved to your account.",
+  "setAccountSignOut": "Sign out",
+  "setAccountSignOutConfirm": "We'll save the latest copy of your data to your account, then sign you out. Your data stays on this phone too."
+}

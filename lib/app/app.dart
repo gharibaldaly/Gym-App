@@ -6,6 +6,7 @@ import '../core/providers.dart';
 import '../core/theme/app_theme.dart';
 import '../core/widgets/brand_mark.dart';
 import '../data/repositories/profile_repository.dart';
+import '../features/auth/auth_gate.dart';
 import '../features/onboarding/onboarding_flow.dart';
 import '../l10n/gen/app_localizations.dart';
 import '../services/lock/app_lock.dart';
@@ -37,7 +38,7 @@ class IronMindApp extends ConsumerWidget {
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
-      home: const AppLockGate(child: _AppGate()),
+      home: const AuthGate(child: AppLockGate(child: _AppGate())),
     );
   }
 }
