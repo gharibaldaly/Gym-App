@@ -25,10 +25,13 @@ Map<String, dynamic> _nullable(String type, String description) => {
       'description': description,
     };
 
+/// Tools are not sent with `strict: true`: the API compiles all strict tools into one
+/// grammar, and this set is too large for it ("The compiled grammar is too large").
+/// Inputs are checked by [CoachToolExecutor.execute] instead, which returns schema
+/// errors to the model so it can retry. The schemas stay closed and fully required.
 Map<String, dynamic> _tool(String name, String description, Map<String, dynamic> props, List<String> required) => {
       'name': name,
       'description': description,
-      'strict': true,
       'input_schema': strictSchema({
         'type': 'object',
         'properties': props,
@@ -280,6 +283,9 @@ class CoachToolExecutor {
   AppLocalizations get _l => lookupAppLocalizations(Locale(lang == 'ar' ? 'ar' : 'en'));
   ExerciseRepository get _ex => ExerciseRepository(db);
 
+  /// Tools whose 0 / "" / [] values mean "keep the current value".
+  static const _unchangedSentinelTools = {'update_profile', 'regenerate_workout_plan', 'regenerate_meal_plan'};
+
   static const _approvalNote =
       'The user now sees an approve/reject card for it; nothing has changed yet. Tell them briefly that it is waiting for their approval.';
 
@@ -287,6 +293,7 @@ class CoachToolExecutor {
     final schema = _schemas[name];
     if (schema == null) return ToolOutcome('Unknown tool "$name".', isError: true);
     if (input['_invalid_json'] == true) return const ToolOutcome('Tool input was not valid JSON.', isError: true);
+    if (_unchangedSentinelTools.contains(name)) input = withUnchangedDefaults(input, schema);
     final errors = validateJson(input, schema);
     if (errors.isNotEmpty) return ToolOutcome('Invalid input: ${errors.take(5).join('; ')}', isError: true);
     try {
@@ -707,4 +714,30 @@ class CoachToolExecutor {
     if (e.value.length > 1) return (e.key, e.value..sort());
   }
   return null;
+}
+
+/// Tools aren't strict, so the model may leave out (or send null for) a top-level
+/// field it doesn't want to change. Fills those with the "unchanged" value of their
+/// type (0, "", [], false, or the "unchanged" enum value) before validation; fields
+/// that are nullable or have no such value are left for the validator to report.
+Map<String, dynamic> withUnchangedDefaults(Map<String, dynamic> input, Map<String, dynamic> schema) {
+  final props = (schema['properties'] as Map?)?.cast<String, dynamic>() ?? const {};
+  final out = Map<String, dynamic>.of(input);
+  for (final e in props.entries) {
+    if (out[e.key] != null) continue;
+    final p = (e.value as Map).cast<String, dynamic>();
+    final type = p['type'];
+    if (type is! String) continue; // nullable: null is a valid value
+    final values = p['enum'];
+    final fallback = switch (type) {
+      'string' when values is List => values.contains(_unchanged) ? _unchanged : null,
+      'string' => '',
+      'number' || 'integer' => 0,
+      'array' => <Object?>[],
+      'boolean' => false,
+      _ => null,
+    };
+    if (fallback != null) out[e.key] = fallback;
+  }
+  return out;
 }

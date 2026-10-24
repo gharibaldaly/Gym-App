@@ -27,9 +27,10 @@ void main() {
   Future<CoachProposal> proposal(int id) =>
       (f.db.select(f.db.coachProposals)..where((p) => p.id.equals(id))).getSingle();
 
-  test('tool definitions are strict with closed objects', () {
+  test('tool definitions are closed objects and not strict', () {
     for (final t in coachTools) {
-      expect(t['strict'], isTrue, reason: t['name'] as String);
+      // Strict tools are compiled into one grammar the API rejects as too large for this set.
+      expect(t.containsKey('strict'), isFalse, reason: t['name'] as String);
       final schema = t['input_schema'] as Map;
       expect(schema['additionalProperties'], isFalse);
       expect((schema['required'] as List).toSet(), (schema['properties'] as Map).keys.toSet());

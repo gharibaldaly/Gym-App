@@ -167,6 +167,21 @@ void main() {
       expect(metrics.map((m) => m.weightKg), contains(90));
     });
 
+    test('missing or null fields count as unchanged (tools are not strict)', () async {
+      final out = await exec.execute('update_profile', {'sleepTime': '23:30', 'weightKg': null, 'reason': 'نوم'});
+      expect(out.isError, isFalse, reason: out.content);
+      await applier.accept(out.proposalId!);
+      final p = (await ProfileRepository(f.db).get())!;
+      expect(p.sleepTime, '23:30');
+      expect(p.weightKg, 82);
+      expect(p.goal, 'cut');
+    });
+
+    test('other tools still reject missing fields (no 0 kg set from a missing weight)', () async {
+      final out = await exec.execute('log_set', {'exerciseId': 'Barbell_Bench_Press', 'reps': 5, 'rpe': null});
+      expect(out.isError, isTrue);
+    });
+
     test('rejects bad values and empty updates', () async {
       expect((await exec.execute('update_profile', input({'wakeTime': '25:00'}))).isError, isTrue);
       expect((await exec.execute('update_profile', input({'weightKg': 5}))).isError, isTrue);
