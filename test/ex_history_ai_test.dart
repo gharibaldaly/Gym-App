@@ -84,7 +84,7 @@ void main() {
         'secondaryMuscles': ['triceps', 'shoulders'],
         'equipment': 'machine',
         'force': 'push',
-        'mechanic': null,
+        'mechanic': 'none',
         'category': 'strength',
         'instructionsEn': ['Sit', 'Push'],
         'instructionsAr': ['اقعد', 'ادفع'],
@@ -95,6 +95,26 @@ void main() {
       expect(validateJson(ok, schema), isEmpty);
       expect(validateJson({...ok, 'primaryMuscles': ['pecs']}, schema), isNotEmpty);
       expect(validateJson({...ok, 'equipment': 'smith'}, schema), isNotEmpty);
+    });
+
+    test('"none" for force / mechanic is stored as unknown', () {
+      final d = ExerciseDraft.fromAiJson({
+        'nameEn': 'Plank',
+        'nameAr': 'بلانك',
+        'primaryMuscles': ['abdominals'],
+        'secondaryMuscles': [],
+        'equipment': 'body only',
+        'force': 'none',
+        'mechanic': 'none',
+        'category': 'strength',
+        'instructionsEn': ['Hold'],
+        'instructionsAr': ['اثبت'],
+        'mistakesEn': [],
+        'mistakesAr': [],
+        'similarExistingIds': [],
+      });
+      expect(d.force, isNull);
+      expect(d.mechanic, isNull);
     });
 
     test('draft normalizes muscles and builds a custom companion', () {

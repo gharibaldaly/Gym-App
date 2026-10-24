@@ -13,6 +13,11 @@ import '../onboarding/onboarding_labels.dart';
 import 'coach_memory.dart';
 import 'coach_proposals.dart';
 
+/// Enum value meaning "keep the current value". The API rejects enums on nullable
+/// types, so optional enum fields use this instead of null.
+const _unchanged = 'unchanged';
+
+/// Only for scalar types: nullable arrays and nullable enums are rejected by the API.
 Map<String, dynamic> _nullable(String type, String description) => {
       'type': [type, 'null'],
       'description': description,
@@ -167,28 +172,28 @@ final List<Map<String, dynamic>> coachTools = [
   _tool(
     'update_profile',
     'Propose updating the user\'s profile: body weight, goal, level, session length, training / wake / sleep '
-        'times, meal times, food likes/dislikes, allergies, injuries, water goal, training location. Set every field '
-        'you do not change to null. Set recalculateTargets true when weight or goal changes so calories and macros '
+        'times, meal times, food likes/dislikes, allergies, injuries, water goal, training location. Fields you do '
+        'not change: null, "$_unchanged" for goal/level/location, [] for mealTimes. Set recalculateTargets true when weight or goal changes so calories and macros '
         'are recomputed. Reminders follow the new times. Needs user approval.',
     {
       'weightKg': _nullable('number', 'Current body weight in kg (also logged as today\'s weigh-in).'),
       'targetWeightKg': _nullable('number', 'Goal body weight in kg.'),
       'goal': {
-        'type': ['string', 'null'],
-        'enum': ['bulk', 'cut', 'recomp', 'strength', 'fitness', null],
+        'type': 'string',
+        'enum': [_unchanged, 'bulk', 'cut', 'recomp', 'strength', 'fitness'],
       },
       'level': {
-        'type': ['string', 'null'],
-        'enum': ['beginner', 'intermediate', 'advanced', null],
+        'type': 'string',
+        'enum': [_unchanged, 'beginner', 'intermediate', 'advanced'],
       },
       'sessionMinutes': _nullable('integer', 'Planned session length in minutes.'),
       'trainingTime': _nullable('string', 'Usual training time "HH:mm" (24h).'),
       'wakeTime': _nullable('string', '"HH:mm" (24h).'),
       'sleepTime': _nullable('string', '"HH:mm" (24h).'),
       'mealTimes': {
-        'type': ['array', 'null'],
+        'type': 'array',
         'items': {'type': 'string'},
-        'description': 'All meal times "HH:mm" in order; sets the number of meals per day.',
+        'description': 'All meal times "HH:mm"; sets the number of meals per day. Empty array = unchanged.',
       },
       'likedFoods': _nullable('string', 'Free text.'),
       'dislikedFoods': _nullable('string', 'Free text.'),
@@ -196,8 +201,8 @@ final List<Map<String, dynamic>> coachTools = [
       'injuriesNote': _nullable('string', 'Current injuries / limitations, free text.'),
       'waterGoalMl': _nullable('integer', 'Daily water goal in ml.'),
       'location': {
-        'type': ['string', 'null'],
-        'enum': ['full_gym', 'limited_gym', 'home', null],
+        'type': 'string',
+        'enum': [_unchanged, 'full_gym', 'limited_gym', 'home'],
       },
       'recalculateTargets': {'type': 'boolean'},
       'reason': {'type': 'string', 'description': 'Short reason shown to the user, in their language.'},
@@ -215,10 +220,10 @@ final List<Map<String, dynamic>> coachTools = [
     {
       'instructions': {'type': 'string', 'description': 'What the new plan must do, in English, specific.'},
       'trainingDays': {
-        'type': ['array', 'null'],
+        'type': 'array',
         'items': {'type': 'integer'},
         'description': 'Training weekdays for the new plan (1=Mon … 7=Sun, Saturday=6) when the days or the '
-            'number of days change, else null to keep the current ones.',
+            'number of days change; empty array keeps the current ones.',
       },
       'reason': {'type': 'string', 'description': 'Short summary shown to the user, in their language.'},
     },
@@ -566,7 +571,7 @@ class CoachToolExecutor {
     num? n(String k) => input[k] as num?;
     String? s(String k) {
       final v = (input[k] as String?)?.trim();
-      return v == null || v.isEmpty ? null : v;
+      return v == null || v.isEmpty || v == _unchanged ? null : v;
     }
 
     final changes = <String, dynamic>{};
@@ -605,8 +610,8 @@ class CoachToolExecutor {
       add(key, _pad(v), label, _pad(v));
     }
     final meals = (input['mealTimes'] as List?)?.cast<String>().map((e) => e.trim()).toList();
-    if (meals != null) {
-      if (meals.isEmpty || meals.length > 8 || meals.any((m) => !_hm.hasMatch(m))) {
+    if (meals != null && meals.isNotEmpty) {
+      if (meals.length > 8 || meals.any((m) => !_hm.hasMatch(m))) {
         return const ToolOutcome('mealTimes must be 1-8 times "HH:mm".', isError: true);
       }
       final sorted = meals.map(_pad).toList()..sort();
@@ -654,12 +659,10 @@ class CoachToolExecutor {
     if (instructions.isEmpty) return const ToolOutcome('instructions is empty.', isError: true);
     final reason = (input['reason'] as String).trim();
     final workout = type == ProposalTypes.regenerateWorkoutPlan;
-    final days = (input['trainingDays'] as List?)?.map((e) => (e as num).toInt()).toSet().toList();
-    if (days != null) {
-      if (days.isEmpty || days.any((d) => d < 1 || d > 7)) {
-        return const ToolOutcome('trainingDays must be weekdays 1-7 (or null).', isError: true);
-      }
-      days.sort();
+    final given = (input['trainingDays'] as List?)?.map((e) => (e as num).toInt()).toSet().toList() ?? [];
+    final days = given.isEmpty ? null : (given..sort());
+    if (days != null && days.any((d) => d < 1 || d > 7)) {
+      return const ToolOutcome('trainingDays must be weekdays 1-7 (or an empty array).', isError: true);
     }
     final id = await _createProposal(
       type,

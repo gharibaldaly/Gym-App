@@ -151,13 +151,14 @@ Map<String, dynamic> exerciseCreateSchema() {
         'items': {'type': 'string', 'enum': kMuscles},
       },
       'equipment': {'type': 'string', 'enum': kEquipment},
+      // "none" instead of null: the API rejects enums on nullable types.
       'force': {
-        'type': ['string', 'null'],
-        'enum': [...kForces, null],
+        'type': 'string',
+        'enum': [...kForces, 'none'],
       },
       'mechanic': {
-        'type': ['string', 'null'],
-        'enum': [...kMechanics, null],
+        'type': 'string',
+        'enum': [...kMechanics, 'none'],
       },
       'category': {'type': 'string', 'enum': kCategories},
       'instructionsEn': strList,
@@ -190,7 +191,7 @@ Turn the user's description (text and/or a photo of a gym machine) into ONE well
 Rules:
 - Use the standard gym name in English (e.g. "Seated Cable Row"). nameAr = the name Egyptian gym-goers
   actually use, in Arabic script (transliterated English is fine, e.g. "تي بار رو"), short.
-- primaryMuscles / secondaryMuscles / equipment / force / mechanic / category must use the given enums.
+- primaryMuscles / secondaryMuscles / equipment / force / mechanic / category must use the given enums ("none" when force or mechanic does not apply).
 - instructions: 4–8 short numbered-style steps (no numbering in the text). Arabic = friendly Egyptian colloquial.
 - mistakes: 3–5 common technique mistakes, same meaning in both languages.
 - similarExistingIds: ids from the candidate list that are the SAME exercise or a near-identical variant
