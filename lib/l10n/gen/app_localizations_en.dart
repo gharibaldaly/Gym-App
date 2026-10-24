@@ -10,6 +10,152 @@ class AppLocalizationsEn extends AppLocalizations {
   AppLocalizationsEn([String locale = 'en']) : super(locale);
 
   @override
+  String get authTagline =>
+      'Sign in so your data is saved to your account and comes back on any phone.';
+
+  @override
+  String get authSignIn => 'Sign in';
+
+  @override
+  String get authSignUp => 'Create account';
+
+  @override
+  String get authEmail => 'Email';
+
+  @override
+  String get authPassword => 'Password';
+
+  @override
+  String get authForgot => 'Forgot password?';
+
+  @override
+  String get authOr => 'or';
+
+  @override
+  String get authGoogle => 'Continue with Google';
+
+  @override
+  String get authEmailInvalid => 'Enter a valid email.';
+
+  @override
+  String get authPasswordShort => 'Password must be at least 6 characters.';
+
+  @override
+  String authCheckEmail(String email) {
+    return 'We sent a confirmation link to $email. Open it, then sign in here.';
+  }
+
+  @override
+  String authResetSent(String email) {
+    return 'We sent a password reset link to $email.';
+  }
+
+  @override
+  String get authEnterEmailFirst => 'Enter your email first.';
+
+  @override
+  String get authErrInvalid => 'Wrong email or password.';
+
+  @override
+  String get authErrNotConfirmed =>
+      'Your email isn\'t confirmed yet. Open the confirmation link we sent you.';
+
+  @override
+  String get authErrExists =>
+      'This email already has an account. Sign in instead.';
+
+  @override
+  String get authErrWeak => 'That password is too weak. Try a longer one.';
+
+  @override
+  String get authErrRate => 'Too many attempts. Wait a bit and try again.';
+
+  @override
+  String get authErrNetwork =>
+      'No connection. Check your internet and try again.';
+
+  @override
+  String get authErrGoogle =>
+      'Google sign-in isn\'t available right now. Use email instead.';
+
+  @override
+  String authErrGeneric(String error) {
+    return 'Something went wrong: $error';
+  }
+
+  @override
+  String get authNewPasswordTitle => 'New password';
+
+  @override
+  String get authPasswordUpdated => 'Password updated.';
+
+  @override
+  String get cloudChecking => 'Looking for your data…';
+
+  @override
+  String cloudRestoring(int percent) {
+    return 'Restoring your data… $percent%';
+  }
+
+  @override
+  String cloudUploading(int percent) {
+    return 'Saving your data to your account… $percent%';
+  }
+
+  @override
+  String get cloudChooseTitle =>
+      'There\'s data on this phone and in your account';
+
+  @override
+  String get cloudChooseBody =>
+      'Which one do you want to keep? The other one will be replaced.';
+
+  @override
+  String cloudUseCloud(String date) {
+    return 'Account data (last saved $date)';
+  }
+
+  @override
+  String get cloudUseDevice => 'This phone\'s data';
+
+  @override
+  String get cloudOfflineTitle => 'Couldn\'t reach your account';
+
+  @override
+  String get cloudOfflineBody =>
+      'Check your internet so we can bring your data back.';
+
+  @override
+  String get cloudRetry => 'Try again';
+
+  @override
+  String get cloudContinueOffline => 'Continue without it for now';
+
+  @override
+  String get setAccountTitle => 'Account';
+
+  @override
+  String setAccountLastBackup(String date) {
+    return 'Last saved to your account: $date';
+  }
+
+  @override
+  String get setAccountNeverBackedUp => 'Not saved to your account yet.';
+
+  @override
+  String get setAccountBackupNow => 'Save a copy now';
+
+  @override
+  String get setAccountBackedUp => 'Your data is saved to your account.';
+
+  @override
+  String get setAccountSignOut => 'Sign out';
+
+  @override
+  String get setAccountSignOutConfirm =>
+      'We\'ll save the latest copy of your data to your account, then sign you out. Your data stays on this phone too.';
+
+  @override
   String get coachTabChat => 'Chat';
 
   @override

@@ -98,6 +98,252 @@ abstract class AppLocalizations {
     Locale('en'),
   ];
 
+  /// No description provided for @authTagline.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in so your data is saved to your account and comes back on any phone.'**
+  String get authTagline;
+
+  /// No description provided for @authSignIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in'**
+  String get authSignIn;
+
+  /// No description provided for @authSignUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Create account'**
+  String get authSignUp;
+
+  /// No description provided for @authEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get authEmail;
+
+  /// No description provided for @authPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get authPassword;
+
+  /// No description provided for @authForgot.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot password?'**
+  String get authForgot;
+
+  /// No description provided for @authOr.
+  ///
+  /// In en, this message translates to:
+  /// **'or'**
+  String get authOr;
+
+  /// No description provided for @authGoogle.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue with Google'**
+  String get authGoogle;
+
+  /// No description provided for @authEmailInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid email.'**
+  String get authEmailInvalid;
+
+  /// No description provided for @authPasswordShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Password must be at least 6 characters.'**
+  String get authPasswordShort;
+
+  /// No description provided for @authCheckEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'We sent a confirmation link to {email}. Open it, then sign in here.'**
+  String authCheckEmail(String email);
+
+  /// No description provided for @authResetSent.
+  ///
+  /// In en, this message translates to:
+  /// **'We sent a password reset link to {email}.'**
+  String authResetSent(String email);
+
+  /// No description provided for @authEnterEmailFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter your email first.'**
+  String get authEnterEmailFirst;
+
+  /// No description provided for @authErrInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Wrong email or password.'**
+  String get authErrInvalid;
+
+  /// No description provided for @authErrNotConfirmed.
+  ///
+  /// In en, this message translates to:
+  /// **'Your email isn\'t confirmed yet. Open the confirmation link we sent you.'**
+  String get authErrNotConfirmed;
+
+  /// No description provided for @authErrExists.
+  ///
+  /// In en, this message translates to:
+  /// **'This email already has an account. Sign in instead.'**
+  String get authErrExists;
+
+  /// No description provided for @authErrWeak.
+  ///
+  /// In en, this message translates to:
+  /// **'That password is too weak. Try a longer one.'**
+  String get authErrWeak;
+
+  /// No description provided for @authErrRate.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many attempts. Wait a bit and try again.'**
+  String get authErrRate;
+
+  /// No description provided for @authErrNetwork.
+  ///
+  /// In en, this message translates to:
+  /// **'No connection. Check your internet and try again.'**
+  String get authErrNetwork;
+
+  /// No description provided for @authErrGoogle.
+  ///
+  /// In en, this message translates to:
+  /// **'Google sign-in isn\'t available right now. Use email instead.'**
+  String get authErrGoogle;
+
+  /// No description provided for @authErrGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'Something went wrong: {error}'**
+  String authErrGeneric(String error);
+
+  /// No description provided for @authNewPasswordTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New password'**
+  String get authNewPasswordTitle;
+
+  /// No description provided for @authPasswordUpdated.
+  ///
+  /// In en, this message translates to:
+  /// **'Password updated.'**
+  String get authPasswordUpdated;
+
+  /// No description provided for @cloudChecking.
+  ///
+  /// In en, this message translates to:
+  /// **'Looking for your data…'**
+  String get cloudChecking;
+
+  /// No description provided for @cloudRestoring.
+  ///
+  /// In en, this message translates to:
+  /// **'Restoring your data… {percent}%'**
+  String cloudRestoring(int percent);
+
+  /// No description provided for @cloudUploading.
+  ///
+  /// In en, this message translates to:
+  /// **'Saving your data to your account… {percent}%'**
+  String cloudUploading(int percent);
+
+  /// No description provided for @cloudChooseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'There\'s data on this phone and in your account'**
+  String get cloudChooseTitle;
+
+  /// No description provided for @cloudChooseBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Which one do you want to keep? The other one will be replaced.'**
+  String get cloudChooseBody;
+
+  /// No description provided for @cloudUseCloud.
+  ///
+  /// In en, this message translates to:
+  /// **'Account data (last saved {date})'**
+  String cloudUseCloud(String date);
+
+  /// No description provided for @cloudUseDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'This phone\'s data'**
+  String get cloudUseDevice;
+
+  /// No description provided for @cloudOfflineTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t reach your account'**
+  String get cloudOfflineTitle;
+
+  /// No description provided for @cloudOfflineBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Check your internet so we can bring your data back.'**
+  String get cloudOfflineBody;
+
+  /// No description provided for @cloudRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Try again'**
+  String get cloudRetry;
+
+  /// No description provided for @cloudContinueOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue without it for now'**
+  String get cloudContinueOffline;
+
+  /// No description provided for @setAccountTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get setAccountTitle;
+
+  /// No description provided for @setAccountLastBackup.
+  ///
+  /// In en, this message translates to:
+  /// **'Last saved to your account: {date}'**
+  String setAccountLastBackup(String date);
+
+  /// No description provided for @setAccountNeverBackedUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Not saved to your account yet.'**
+  String get setAccountNeverBackedUp;
+
+  /// No description provided for @setAccountBackupNow.
+  ///
+  /// In en, this message translates to:
+  /// **'Save a copy now'**
+  String get setAccountBackupNow;
+
+  /// No description provided for @setAccountBackedUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Your data is saved to your account.'**
+  String get setAccountBackedUp;
+
+  /// No description provided for @setAccountSignOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out'**
+  String get setAccountSignOut;
+
+  /// No description provided for @setAccountSignOutConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'We\'ll save the latest copy of your data to your account, then sign you out. Your data stays on this phone too.'**
+  String get setAccountSignOutConfirm;
+
   /// No description provided for @coachTabChat.
   ///
   /// In en, this message translates to:

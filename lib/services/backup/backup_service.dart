@@ -64,6 +64,10 @@ class BackupService {
     NotificationPrefs.backupReminderShownKey,
   };
 
+  /// Keys owned by the device, never written to or read from a backup: the
+  /// sign-in session ("sb-…", supabase_flutter) and the cloud sync's state ("cloud_…").
+  static bool isDeviceOnlyKey(String key) => key.startsWith('sb-') || key.startsWith('cloud_');
+
   static String get dbFileName => '${AppDatabase.dbName}.sqlite';
 
   static bool _isDbFile(String name) {
@@ -97,6 +101,7 @@ class BackupService {
   Map<String, Object> _prefsSnapshot() {
     final out = <String, Object>{};
     for (final k in prefs.getKeys()) {
+      if (isDeviceOnlyKey(k)) continue;
       final v = prefs.get(k);
       if (v is String || v is bool || v is int || v is double) {
         out[k] = v!;
@@ -107,8 +112,9 @@ class BackupService {
     return out;
   }
 
-  /// Builds the backup zip in the temp folder and returns it.
-  Future<File> createBackup() async {
+  /// Builds the backup zip in the temp folder and returns it. Without [includeFiles]
+  /// it holds only the database and settings (the cloud backup uploads files separately).
+  Future<File> createBackup({bool includeFiles = true}) async {
     final docs = (await getApplicationDocumentsDirectory()).path;
     final tmpRoot = Directory(p.join((await getTemporaryDirectory()).path, 'backup_tmp'));
     if (tmpRoot.existsSync()) await tmpRoot.delete(recursive: true);
@@ -119,7 +125,7 @@ class BackupService {
     await db.customStatement("VACUUM INTO '${snap.replaceAll("'", "''")}'");
 
     final info = await _packageInfo();
-    final files = collectFiles(docs);
+    final files = includeFiles ? collectFiles(docs) : const <String>[];
     final now = DateTime.now();
     final manifest = BackupManifest(
       appVersion: info.$1,
@@ -324,7 +330,7 @@ class BackupService {
   /// Writes backed-up settings into [prefs] (skips device-specific keys).
   static Future<void> restorePrefs(SharedPreferences prefs, Map<String, dynamic> m) async {
     for (final e in m.entries) {
-      if (_prefsNotRestored.contains(e.key)) continue;
+      if (_prefsNotRestored.contains(e.key) || isDeviceOnlyKey(e.key)) continue;
       final v = e.value;
       if (v is bool) {
         await prefs.setBool(e.key, v);

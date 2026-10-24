@@ -9,7 +9,8 @@ export 'settings/app_settings.dart';
 /// Single database instance for the whole app. Overridden in tests with an in-memory DB.
 final databaseProvider = Provider<AppDatabase>((ref) {
   final db = AppDatabase();
-  ref.onDispose(db.close);
+  // Closing twice (a restore already closed it) must not surface as an error.
+  ref.onDispose(() => db.close().catchError((_) {}));
   return db;
 });
 

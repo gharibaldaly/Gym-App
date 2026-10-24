@@ -10,6 +10,146 @@ class AppLocalizationsAr extends AppLocalizations {
   AppLocalizationsAr([String locale = 'ar']) : super(locale);
 
   @override
+  String get authTagline =>
+      'سجّل دخولك عشان بياناتك تتحفظ على حسابك وترجعلك على أي موبايل.';
+
+  @override
+  String get authSignIn => 'تسجيل الدخول';
+
+  @override
+  String get authSignUp => 'حساب جديد';
+
+  @override
+  String get authEmail => 'الإيميل';
+
+  @override
+  String get authPassword => 'الباسورد';
+
+  @override
+  String get authForgot => 'نسيت الباسورد؟';
+
+  @override
+  String get authOr => 'أو';
+
+  @override
+  String get authGoogle => 'الدخول بجوجل';
+
+  @override
+  String get authEmailInvalid => 'اكتب إيميل صحيح.';
+
+  @override
+  String get authPasswordShort => 'الباسورد لازم يبقى 6 حروف على الأقل.';
+
+  @override
+  String authCheckEmail(String email) {
+    return 'بعتنالك لينك تأكيد على $email. افتحه، وبعدين سجّل دخولك هنا.';
+  }
+
+  @override
+  String authResetSent(String email) {
+    return 'بعتنالك لينك تغيير الباسورد على $email.';
+  }
+
+  @override
+  String get authEnterEmailFirst => 'اكتب إيميلك الأول.';
+
+  @override
+  String get authErrInvalid => 'الإيميل أو الباسورد غلط.';
+
+  @override
+  String get authErrNotConfirmed =>
+      'لسه مأكدتش الإيميل. افتح لينك التأكيد اللي بعتناهولك.';
+
+  @override
+  String get authErrExists => 'الإيميل ده عليه حساب بالفعل. سجّل دخول بيه.';
+
+  @override
+  String get authErrWeak => 'الباسورد ضعيف، جرّب واحد أطول.';
+
+  @override
+  String get authErrRate => 'محاولات كتير ورا بعض. استنى شوية وجرّب تاني.';
+
+  @override
+  String get authErrNetwork => 'مفيش نت. اتأكد من الاتصال وجرّب تاني.';
+
+  @override
+  String get authErrGoogle => 'الدخول بجوجل مش متاح دلوقتي. جرّب بالإيميل.';
+
+  @override
+  String authErrGeneric(String error) {
+    return 'حصلت مشكلة: $error';
+  }
+
+  @override
+  String get authNewPasswordTitle => 'باسورد جديد';
+
+  @override
+  String get authPasswordUpdated => 'اتغيّر الباسورد.';
+
+  @override
+  String get cloudChecking => 'بندوّر على بياناتك…';
+
+  @override
+  String cloudRestoring(int percent) {
+    return 'بنرجّع بياناتك… $percent%';
+  }
+
+  @override
+  String cloudUploading(int percent) {
+    return 'بنرفع بياناتك على حسابك… $percent%';
+  }
+
+  @override
+  String get cloudChooseTitle => 'فيه بيانات على الموبايل ده وفي حسابك';
+
+  @override
+  String get cloudChooseBody => 'تحب تكمّل بأنهي واحدة؟ التانية هيتكتب فوقها.';
+
+  @override
+  String cloudUseCloud(String date) {
+    return 'بيانات الحساب (آخر نسخة $date)';
+  }
+
+  @override
+  String get cloudUseDevice => 'بيانات الموبايل ده';
+
+  @override
+  String get cloudOfflineTitle => 'مقدرناش نوصل لحسابك';
+
+  @override
+  String get cloudOfflineBody => 'اتأكد من النت عشان نرجّعلك بياناتك.';
+
+  @override
+  String get cloudRetry => 'حاول تاني';
+
+  @override
+  String get cloudContinueOffline => 'كمّل دلوقتي من غيرها';
+
+  @override
+  String get setAccountTitle => 'الحساب';
+
+  @override
+  String setAccountLastBackup(String date) {
+    return 'آخر نسخة على حسابك: $date';
+  }
+
+  @override
+  String get setAccountNeverBackedUp => 'لسه متعملتش نسخة على حسابك.';
+
+  @override
+  String get setAccountBackupNow => 'احفظ نسخة دلوقتي';
+
+  @override
+  String get setAccountBackedUp => 'بياناتك اتحفظت على حسابك.';
+
+  @override
+  String get setAccountSignOut => 'تسجيل الخروج';
+
+  @override
+  String get setAccountSignOutConfirm =>
+      'هنحفظ آخر نسخة من بياناتك على حسابك وبعدين تخرج. بياناتك هتفضل على الموبايل كمان.';
+
+  @override
   String get coachTabChat => 'الشات';
 
   @override
