@@ -22,4 +22,19 @@ void main() {
       expectApiSafeSchema(strictSchema((e.value as Map).cast<String, dynamic>()), e.key);
     }
   });
+
+  test('union-typed parameters stay within the API limit', () {
+    // All coach tools go out with every chat message, so their total counts.
+    final tools = unionParamCount(coachTools.map((t) => t['input_schema']));
+    expect(tools, lessThanOrEqualTo(maxUnionParams), reason: 'coach tools have $tools nullable parameters');
+    for (final e in {
+      'exerciseCreate': exerciseCreateSchema(),
+      'workoutPlan': workoutPlanSchema,
+      'mealPlan': mealPlanSchema,
+      'foodAnalysis': foodAnalysisSchema,
+      'mealSwap': mealSwapSchema,
+    }.entries) {
+      expect(unionParamCount([e.value]), lessThanOrEqualTo(maxUnionParams), reason: e.key);
+    }
+  });
 }
