@@ -17,7 +17,9 @@ import 'coach_proposals.dart';
 /// types, so optional enum fields use this instead of null.
 const _unchanged = 'unchanged';
 
-/// Only for scalar types: nullable arrays and nullable enums are rejected by the API.
+/// Only for scalar types: nullable arrays and nullable enums are rejected by the API,
+/// and all tools together may have at most 16 nullable parameters (see
+/// test/ai_schema_shape_test.dart); prefer 0 / "" sentinels for optional fields.
 Map<String, dynamic> _nullable(String type, String description) => {
       'type': [type, 'null'],
       'description': description,
@@ -173,11 +175,12 @@ final List<Map<String, dynamic>> coachTools = [
     'update_profile',
     'Propose updating the user\'s profile: body weight, goal, level, session length, training / wake / sleep '
         'times, meal times, food likes/dislikes, allergies, injuries, water goal, training location. Fields you do '
-        'not change: null, "$_unchanged" for goal/level/location, [] for mealTimes. Set recalculateTargets true when weight or goal changes so calories and macros '
+        'not change: 0 for numbers, "" for text, "$_unchanged" for goal/level/location, [] for mealTimes. Set '
+        'recalculateTargets true when weight or goal changes so calories and macros '
         'are recomputed. Reminders follow the new times. Needs user approval.',
     {
-      'weightKg': _nullable('number', 'Current body weight in kg (also logged as today\'s weigh-in).'),
-      'targetWeightKg': _nullable('number', 'Goal body weight in kg.'),
+      'weightKg': {'type': 'number', 'description': 'Current body weight in kg (also logged as today\'s weigh-in); 0 = unchanged.'},
+      'targetWeightKg': {'type': 'number', 'description': 'Goal body weight in kg; 0 = unchanged.'},
       'goal': {
         'type': 'string',
         'enum': [_unchanged, 'bulk', 'cut', 'recomp', 'strength', 'fitness'],
@@ -186,20 +189,20 @@ final List<Map<String, dynamic>> coachTools = [
         'type': 'string',
         'enum': [_unchanged, 'beginner', 'intermediate', 'advanced'],
       },
-      'sessionMinutes': _nullable('integer', 'Planned session length in minutes.'),
-      'trainingTime': _nullable('string', 'Usual training time "HH:mm" (24h).'),
-      'wakeTime': _nullable('string', '"HH:mm" (24h).'),
-      'sleepTime': _nullable('string', '"HH:mm" (24h).'),
+      'sessionMinutes': {'type': 'integer', 'description': 'Planned session length in minutes; 0 = unchanged.'},
+      'trainingTime': {'type': 'string', 'description': 'Usual training time "HH:mm" (24h); "" = unchanged.'},
+      'wakeTime': {'type': 'string', 'description': '"HH:mm" (24h); "" = unchanged.'},
+      'sleepTime': {'type': 'string', 'description': '"HH:mm" (24h); "" = unchanged.'},
       'mealTimes': {
         'type': 'array',
         'items': {'type': 'string'},
         'description': 'All meal times "HH:mm"; sets the number of meals per day. Empty array = unchanged.',
       },
-      'likedFoods': _nullable('string', 'Free text.'),
-      'dislikedFoods': _nullable('string', 'Free text.'),
-      'allergies': _nullable('string', 'Free text.'),
-      'injuriesNote': _nullable('string', 'Current injuries / limitations, free text.'),
-      'waterGoalMl': _nullable('integer', 'Daily water goal in ml.'),
+      'likedFoods': {'type': 'string', 'description': 'Free text; "" = unchanged.'},
+      'dislikedFoods': {'type': 'string', 'description': 'Free text; "" = unchanged.'},
+      'allergies': {'type': 'string', 'description': 'Free text; "" = unchanged.'},
+      'injuriesNote': {'type': 'string', 'description': 'Current injuries / limitations, free text; "" = unchanged.'},
+      'waterGoalMl': {'type': 'integer', 'description': 'Daily water goal in ml; 0 = unchanged.'},
       'location': {
         'type': 'string',
         'enum': [_unchanged, 'full_gym', 'limited_gym', 'home'],
@@ -568,7 +571,13 @@ class CoachToolExecutor {
   Future<ToolOutcome> _profile(Map<String, dynamic> input) async {
     final profile = await ProfileRepository(db).get();
     if (profile == null) return const ToolOutcome('No profile yet.', isError: true);
-    num? n(String k) => input[k] as num?;
+    // 0 / "" / "unchanged" mean "keep the current value" (nullable fields would push the
+    // tool set over the API's limit of 16 union-typed parameters).
+    num? n(String k) {
+      final v = input[k] as num?;
+      return v == null || v == 0 ? null : v;
+    }
+
     String? s(String k) {
       final v = (input[k] as String?)?.trim();
       return v == null || v.isEmpty || v == _unchanged ? null : v;

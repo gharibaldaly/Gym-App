@@ -27,3 +27,22 @@ void expectApiSafeSchema(Object? schema, String name) {
 
   walk(schema, name);
 }
+
+/// Number of union-typed parameters ("type": [...] or anyOf) in [schemas]. The API
+/// rejects a request whose tools / output schema have more than 16 of them in total.
+int unionParamCount(Iterable<Object?> schemas) {
+  var n = 0;
+  void walk(Object? node) {
+    if (node is Map) {
+      if (node['type'] is List || node.containsKey('anyOf')) n++;
+      node.values.forEach(walk);
+    } else if (node is List) {
+      node.forEach(walk);
+    }
+  }
+
+  schemas.forEach(walk);
+  return n;
+}
+
+const maxUnionParams = 16;
